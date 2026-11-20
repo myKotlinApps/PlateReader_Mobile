@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-dim": "#cbdbf5", "on-error": "#ffffff", "surface": "#f8f9ff", "primary-container": "#1e3a8a", "background": "#f8f9ff", "inverse-surface": "#213145", "surface-container-lowest": "#ffffff", "surface-container-high": "#dce9ff", "outline": "#757682", "on-secondary-container": "#00714e", "surface-container": "#e5eeff", "secondary-container": "#82f5c1", "outline-variant": "#c5c5d3", "on-secondary-fixed": "#002114", "on-primary-fixed": "#00164e", "primary": "#00236f", "on-error-container": "#93000a", "on-tertiary-fixed-variant": "#930013", "on-tertiary-container": "#ff8a83", "tertiary-fixed": "#ffdad7", "secondary": "#006c4a", "on-secondary": "#ffffff", "on-surface": "#0b1c30", "on-tertiary-fixed": "#410004", "secondary-fixed-dim": "#68dba9", "inverse-on-surface": "#eaf1ff", "tertiary": "#5c0008", "tertiary-fixed-dim": "#ffb3ad", "surface-tint": "#4059aa", "primary-fixed-dim": "#b6c4ff", "on-background": "#0b1c30", "on-primary-container": "#90a8ff", "on-primary": "#ffffff", "primary-fixed": "#dce1ff", "surface-bright": "#f8f9ff", "on-primary-fixed-variant": "#264191", "secondary-fixed": "#85f8c4", "error-container": "#ffdad6", "on-surface-variant": "#444651", "surface-container-highest": "#d3e4fe", "tertiary-container": "#860011", "inverse-primary": "#b6c4ff", "on-tertiary": "#ffffff", "surface-variant": "#d3e4fe", "on-secondary-fixed-variant": "#005137", "surface-container-low": "#eff4ff", "error": "#ba1a1a" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-md": "1rem", "space-xl": "2rem", "margin": "1.25rem", "gutter-mobile": "0.75rem", "margin-mobile": "1rem", "gutter": "1rem", "space-lg": "1.5rem", "space-sm": "0.5rem" }, "fontFamily": { "headline-sm": ["Vazirmatn"], "label-sm": ["Vazirmatn"], "label-md": ["Vazirmatn"], "headline-lg": ["Vazirmatn"], "headline-md": ["Vazirmatn"], "body-sm": ["Vazirmatn"], "body-md": ["Vazirmatn"], "body-lg": ["Vazirmatn"], "headline-lg-mobile": ["Vazirmatn"], "display-lg": ["Vazirmatn"], "numeric-stat": ["Vazirmatn"], "label-lg": ["Vazirmatn"] }, "fontSize": { "headline-sm": ["17px", { "lineHeight": "26px", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }], "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "headline-lg": ["28px", { "lineHeight": "38px", "fontWeight": "700" }], "headline-md": ["20px", { "lineHeight": "30px", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "headline-lg-mobile": ["22px", { "lineHeight": "32px", "fontWeight": "700" }], "display-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "numeric-stat": ["24px", { "lineHeight": "32px", "fontWeight": "700" }], "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;font-family:Vazirmatn,sans-serif;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin-mobile flex items-center justify-between"><div class="flex items-center gap-space-sm"><button aria-label="بازگشت" class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface hover:bg-surface-container transition-colors" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_forward</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Letter Details</h1></div><div class="flex items-center gap-space-xs"><button aria-label="اشتراک‌گذاری" class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">share</span></button><button aria-label="خروجی پی‌دی‌اف و چاپ" class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">print</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center mr-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 bg-surface px-margin-mobile pb-safe flex-1"><div class="flex flex-col w-full pb-8 space-y-space-md">
+<!-- Status & Priority Banner -->
+<div class="flex flex-wrap items-center justify-between gap-space-xs bg-surface-container-low p-space-sm rounded-xl">
+<div class="flex items-center gap-space-xs">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-fixed text-label-sm font-label-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+        موافقت شده و در حال اجرای مالی
+      </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed text-label-sm font-label-sm">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span>
+        خیلی فوری
+      </span>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant text-label-sm font-label-sm">
+<span class="px-2 py-0.5 rounded-lg bg-surface-container text-on-surface">فنی و تاسیساتی</span>
+<span class="px-2 py-0.5 rounded-lg bg-surface-container-lowest text-on-surface-variant shadow-sm">عادی</span>
+</div>
+</div>
+<!-- Letter Header & Metadata Card -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md space-y-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="space-y-1">
+<span class="text-label-sm font-label-sm text-outline">شماره پرونده: NL-B-1402</span>
+<h2 class="font-headline-md text-headline-md text-on-surface leading-tight">
+          درخواست اورهال فوری و تامین قطعات پمپ آبرسانی فشار قوی بلوک B
+        </h2>
+</div>
+<div class="w-10 h-10 shrink-0 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">mark_email_read</span>
+</div>
+</div>
+<!-- Tracking Badges -->
+<div class="grid grid-cols-2 gap-space-xs pt-space-xs">
+<div class="bg-surface-container-low rounded-lg p-2.5 flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-[18px]">pin</span>
+<div class="min-w-0">
+<p class="text-label-sm font-label-sm text-outline">کد رهگیری دبیرخانه</p>
+<p class="text-label-md font-label-md text-on-surface font-semibold truncate">۹۸۴۲-ات</p>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-2.5 flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-[18px]">calendar_month</span>
+<div class="min-w-0">
+<p class="text-label-sm font-label-sm text-outline">تاریخ ثبت مکاتبه</p>
+<p class="text-label-md font-label-md text-on-surface font-semibold truncate">۲۴ دی ۱۴۰۳ - ۱۰:۱۵</p>
+</div>
+</div>
+</div>
+<!-- Parties Involved -->
+<div class="bg-surface-container-high/40 rounded-xl p-3 space-y-2 mt-2">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">person_outline</span>
+          فرستنده:
+        </span>
+<span class="font-label-lg text-label-lg text-on-surface">مهندس سهراب کاویانی (مدیر بلوک B)</span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+          گیرنده اصلی:
+        </span>
+<span class="font-label-lg text-label-lg text-on-surface">دکتر کیوان رادفر (مدیر عالی شهرک)</span>
+</div>
+<div class="flex items-start justify-between text-body-sm font-body-sm pt-1 border-t border-surface-container">
+<span class="text-on-surface-variant flex items-center gap-1.5 shrink-0">
+<span class="material-symbols-outlined text-[16px] text-outline">forward_to_inbox</span>
+          رونوشت:
+        </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant text-left">
+          م. صابری (ناظر فنی) • ع. شمس‌آبادی (مالی و تنخواه)
+        </span>
+</div>
+</div>
+</section>
+<!-- Workflow Progress Stepper -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md space-y-3">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary">alt_route</span>
+        چرخه گردش کار و موافقت‌ها
+      </h3>
+<span class="text-label-sm font-label-sm text-secondary font-semibold bg-secondary-container/40 px-2 py-0.5 rounded-full">
+        مرحله ۳ از ۴ تکمیل شده
+      </span>
+</div>
+<!-- Stepper Line -->
+<div class="relative pl-1 pr-3 pt-2 pb-1 space-y-4">
+<!-- Vertical connecting line -->
+<div class="absolute right-[19px] top-4 bottom-6 w-0.5 bg-surface-container-highest"></div>
+<div class="absolute right-[19px] top-4 h-[68%] w-0.5 bg-secondary"></div>
+<!-- Step 1 -->
+<div class="relative flex items-start gap-3">
+<div class="w-4 h-4 rounded-full bg-secondary flex items-center justify-center text-on-secondary z-10 shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[12px] font-bold">check</span>
+</div>
+<div class="min-w-0 flex-1 flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">ثبت نامه اداری</p>
+<p class="text-body-sm font-body-sm text-on-surface-variant">توسط مدیر بلوک B پردیس</p>
+</div>
+<span class="text-label-sm font-label-sm text-outline shrink-0">۲۴ دی - ۱۰:۱۵</span>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative flex items-start gap-3">
+<div class="w-4 h-4 rounded-full bg-secondary flex items-center justify-center text-on-secondary z-10 shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[12px] font-bold">check</span>
+</div>
+<div class="min-w-0 flex-1 flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">بررسی و تایید کارشناسی فنی</p>
+<p class="text-body-sm font-body-sm text-on-surface-variant">مهندس صابری (ناظر تاسیسات)</p>
+</div>
+<span class="text-label-sm font-label-sm text-outline shrink-0">۲۴ دی - ۱۱:۳۰</span>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative flex items-start gap-3">
+<div class="w-4 h-4 rounded-full bg-secondary flex items-center justify-center text-on-secondary z-10 shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[12px] font-bold">check</span>
+</div>
+<div class="min-w-0 flex-1 flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">پاراف و دستور تخصیص اعتبار</p>
+<p class="text-body-sm font-body-sm text-on-surface-variant">دکتر رادفر (مدیر عالی شهرک)</p>
+</div>
+<span class="text-label-sm font-label-sm text-outline shrink-0">۲۴ دی - ۱۳:۴۵</span>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="relative flex items-start gap-3">
+<div class="w-4 h-4 rounded-full bg-surface-container-high border-2 border-primary flex items-center justify-center z-10 shrink-0 mt-0.5">
+<div class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
+</div>
+<div class="min-w-0 flex-1 flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-primary font-bold">صدور حواله و پرداخت تنخواه</p>
+<p class="text-body-sm font-body-sm text-on-surface-variant">امور مالی و خزانه‌داری شهرک</p>
+</div>
+<span class="text-label-sm font-label-sm text-primary font-medium shrink-0">در حال انجام</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Original Letter Card -->
+<article class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md space-y-space-md">
+<!-- Letterhead styling -->
+<div class="flex items-center justify-between pb-space-xs border-b border-surface-container-high">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">description</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">متن رسمی درخواست</span>
+</div>
+<span class="text-label-sm font-label-sm bg-surface-container px-2 py-1 rounded text-on-surface-variant">نسخه اصلی دبیرخانه</span>
+</div>
+<!-- Letter Body -->
+<p class="font-body-md text-body-md text-on-surface leading-relaxed text-justify">
+      احتراماً به استحضار می‌رساند پمپ آبرسانی شماره ۲ بوسترپمپ بلوک B به علت نقص فنی بلبرینگ و فرسودگی پروانه اصلی از مدار خارج شده و فشار آب طبقات سوم و چهارم دچار افت شدید گردیده است. با توجه به بررسی کارشناس مقیم تاسیسات، هزینه اورهال قطعات و تعویض پروانه بر اساس پیش‌فاکتور ضمیمه مبلغ ۱۸,۵۰۰,۰۰۰ تومان برآورد گردیده است. مستدعی است دستور فرمایید اقدام مقتضی و صدور تنخواه به قید فوریت مبذول گردد.
+    </p>
+<!-- Attachments Section -->
+<div class="space-y-2 pt-2">
+<h4 class="font-label-lg text-label-lg text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-outline">attachment</span>
+        پیوست‌ها و ضمائم رسمی (۲ فایل)
+      </h4>
+<div class="space-y-2">
+<!-- Attachment 1: PDF -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-lg bg-error-container text-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">پیش‌فاکتور شرکت آبرسان پایتخت.pdf</p>
+<p class="text-label-sm font-label-sm text-outline">۱.۲ مگابایت • تایید شده</p>
+</div>
+</div>
+<button aria-label="دانلود پی‌دی‌اف" class="w-8 h-8 rounded-lg flex items-center justify-center text-primary hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+<!-- Attachment 2: JPG with thumb -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-lg overflow-hidden shrink-0 relative bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Close-up photograph of an industrial water booster pump brass impeller with visible wear and mechanical bearing defect inside a residential building utility room, natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClckh5w8Jp2ODTNuQNw5QfdPhvuFxL-a4C6bsAJnu6rm-Fu6KtuFroQWheqWJnN2OP67-R6WOYdu-5DKoFln_Ix7pQ8Lk0_OAV4GlFNLrFpaqnjOXQnWYU5ZRwTyB8nKvkQX1aijMkMK4RQHXEaWYa2vwftbTNWVPziEmjneOUZupEppe8y8ZnBSZGWI0NSPJlpjmxYBXZd5yV1KCYNrXiJ1t_h1z1B_t2Npiu1pw"/>
+</div>
+<div class="min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">گزارش بازدید ناظر فنی تاسیسات.jpg</p>
+<p class="text-label-sm font-label-sm text-outline">۷۵۰ کیلوبایت • تصویر میدانی</p>
+</div>
+</div>
+<button aria-label="مشاهده تصویر" class="w-8 h-8 rounded-lg flex items-center justify-center text-primary hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Official Endorsement & Response Thread -->
+<section class="space-y-space-sm">
+<div class="flex items-center justify-between px-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary">forum</span>
+        تاریخچه پاسخ‌ها و پاراف‌های اداری
+      </h3>
+<span class="text-label-sm font-label-sm text-outline">۳ مورد ثبت شده</span>
+</div>
+<!-- Timeline Entries -->
+<div class="space-y-3">
+<!-- Item 1: Supervisor Endorsement -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-primary font-bold text-label-md">
+              ب‌ص
+            </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">مهندس بهنام صابری</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">ناظر عالی تاسیسات شهرک</p>
+</div>
+</div>
+<span class="text-label-sm font-label-sm text-outline">۲۴ دی • ۱۱:۳۰</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-primary font-label-sm text-label-sm">
+            تاییدیه فنی کارشناس
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed text-justify">
+          با سلام. نقص فنی پمپ شماره ۲ در بازدید میدانی تایید شد. پیش‌فاکتور ارائه شده از نظر قیمت قطعات متعارف و دارای صرفه و صلاح مجتمع است. پیشنهاد می‌گردد فوراً با شرکت مذکور هماهنگ شود.
+        </p>
+</div>
+<!-- Item 2: Complex Director Decision (Prominent Card) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md space-y-2 border-r-4 border-secondary">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-secondary-container text-on-secondary-fixed flex items-center justify-center font-bold text-label-md">
+              ک‌ر
+            </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">دکتر کیوان رادفر</p>
+<p class="text-label-sm font-label-sm text-secondary font-medium">مدیر عالی شهرک مسکونی نیلوفر</p>
+</div>
+</div>
+<span class="text-label-sm font-label-sm text-outline">۲۴ دی • ۱۳:۴۵</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+            موافقت و دستور اقدام
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed text-justify">
+          جناب آقای شمس‌آبادی (امور مالی)؛ با توجه به اضطرار موضوع و جلوگیری از قطعی آب ساکنین بلوک B، مبلغ ۱۸۵ میلیون ریال از محل صندوق اندوخته تاسیسات شهرک پرداخت و کار با نظارت مهندس صابری تا فردا پایان یابد.
+        </p>
+<!-- Digital Signature Seal -->
+<div class="flex items-center justify-between pt-2 mt-1 border-t border-surface-container-high/60 text-label-sm font-label-sm text-secondary">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>امضای دیجیتال معتبر شهرک (شناسه: SIG-98420-E)</span>
+</div>
+<span class="text-outline">رمزنگاری SHA-256</span>
+</div>
+</div>
+<!-- Item 3: Block Manager Update -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-primary font-bold text-label-md">
+              س‌ک
+            </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">مهندس سهراب کاویانی</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">مدیر بلوک B</p>
+</div>
+</div>
+<span class="text-label-sm font-label-sm text-outline">۲۵ دی • ۰۹:۰۰</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-md bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+            گزارش پیگیری میدانی
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed text-justify">
+          ضمن تشکر از دستور مساعدت، هماهنگی با تکنسین شرکت انجام شد و قطعه پمپ ساعت ۱۰ وارد شهرک می‌گردد. مجوز تردد خودرو پیمانکار در سیستم انتظامات ثبت گردید.
+        </p>
+</div>
+</div>
+</section>
+<!-- Quick Reply / Endorsement Action Area -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md space-y-3">
+<div class="flex items-center justify-between">
+<label class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2" for="responseInput">
+<span class="material-symbols-outlined text-[20px] text-primary">edit_note</span>
+        ثبت پاسخ یا گزارش تکمیلی
+      </label>
+<span class="text-label-sm font-label-sm text-outline">مکاتبه باز است</span>
+</div>
+<div class="relative">
+<textarea class="w-full bg-surface-container-low text-on-surface placeholder:text-outline text-body-md font-body-md p-3 rounded-xl resize-none outline-none focus:bg-surface-container transition-all" id="responseInput" placeholder="پاسخ اداری، گزارش پیشرفت یا ارسال پیام جدید..." rows="3"></textarea>
+</div>
+<!-- Actions inside input bar -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-1">
+<button aria-label="الصاق فایل" class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">attach_file</span>
+</button>
+<button aria-label="ضبط صدای توضیحات" class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">mic</span>
+</button>
+<button aria-label="افزودن امضا" class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">draw</span>
+</button>
+</div>
+<button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg hover:bg-primary-container transition-colors shadow-sm" type="button">
+<span>ارسال پاسخ اداری</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</section>
+<!-- Quick Action & Utility Toolbar -->
+<div class="grid grid-cols-3 gap-space-xs pt-1">
+<button class="flex flex-col items-center justify-center gap-1 p-3 rounded-xl bg-surface-container-lowest shadow-sm hover:bg-surface-container transition-colors text-on-surface" type="button">
+<span class="material-symbols-outlined text-primary text-[22px]">print</span>
+<span class="font-label-sm text-label-sm">چاپ نسخه رسمی</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-1 p-3 rounded-xl bg-surface-container-lowest shadow-sm hover:bg-surface-container transition-colors text-on-surface" type="button">
+<span class="material-symbols-outlined text-secondary text-[22px]">move_to_inbox</span>
+<span class="font-label-sm text-label-sm">ارجاع نامه</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-1 p-3 rounded-xl bg-surface-container-lowest shadow-sm hover:bg-surface-container transition-colors text-on-surface" type="button">
+<span class="material-symbols-outlined text-primary text-[22px]">share</span>
+<span class="font-label-sm text-label-sm">اشتراک در کارتابل</span>
+</button>
+</div>
+</div>
+<script>
+  // Dynamic micro-interaction for quick reply form
+  const inputEl = document.getElementById('responseInput');
+  if (inputEl) {
+    inputEl.addEventListener('focus', () => {
+      inputEl.classList.add('bg-surface-container-lowest', 'shadow-inner');
+    });
+    inputEl.addEventListener('blur', () => {
+      if (!inputEl.value) {
+        inputEl.classList.remove('bg-surface-container-lowest', 'shadow-inner');
+      }
+    });
+  }
+</script></main></body></html>

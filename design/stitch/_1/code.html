@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>سامانه جامع مدیریت مجتمع مسکونی نیلوفر</title>
+<!-- Google Fonts: Vazirmatn -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-fixed": "#dce1ff",
+            "secondary-fixed-dim": "#68dba9",
+            "inverse-on-surface": "#eaf1ff",
+            "primary": "#00236f",
+            "on-tertiary-container": "#ff8a83",
+            "tertiary-fixed": "#ffdad7",
+            "tertiary-fixed-dim": "#ffb3ad",
+            "surface-bright": "#f8f9ff",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-fixed-variant": "#264191",
+            "outline": "#757682",
+            "outline-variant": "#c5c5d3",
+            "on-primary": "#ffffff",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "surface": "#f8f9ff",
+            "surface-container-high": "#dce9ff",
+            "on-surface-variant": "#444651",
+            "inverse-surface": "#213145",
+            "surface-dim": "#cbdbf5",
+            "primary-fixed-dim": "#b6c4ff",
+            "on-primary-fixed": "#00164e",
+            "on-tertiary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "background": "#f8f9ff",
+            "surface-variant": "#d3e4fe",
+            "tertiary": "#5c0008",
+            "on-secondary-container": "#00714e",
+            "surface-container": "#e5eeff",
+            "on-tertiary-fixed-variant": "#930013",
+            "on-tertiary-fixed": "#410004",
+            "surface-container-low": "#eff4ff",
+            "inverse-primary": "#b6c4ff",
+            "secondary": "#006c4a",
+            "secondary-fixed": "#85f8c4",
+            "surface-container-highest": "#d3e4fe",
+            "on-secondary-fixed-variant": "#005137",
+            "on-background": "#0b1c30",
+            "on-surface": "#0b1c30",
+            "primary-container": "#1e3a8a",
+            "surface-tint": "#4059aa",
+            "tertiary-container": "#860011",
+            "on-secondary-fixed": "#002114",
+            "on-primary-container": "#90a8ff",
+            "on-error-container": "#93000a",
+            "secondary-container": "#82f5c1",
+            "on-error": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "1rem",
+            "space-md": "1rem",
+            "margin": "1.25rem",
+            "margin-mobile": "1rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "gutter-mobile": "0.75rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Vazirmatn"],
+            "headline-lg-mobile": ["Vazirmatn"],
+            "headline-md": ["Vazirmatn"],
+            "display-lg": ["Vazirmatn"],
+            "headline-sm": ["Vazirmatn"],
+            "headline-lg": ["Vazirmatn"],
+            "label-md": ["Vazirmatn"],
+            "label-sm": ["Vazirmatn"],
+            "body-md": ["Vazirmatn"],
+            "numeric-stat": ["Vazirmatn"],
+            "label-lg": ["Vazirmatn"],
+            "body-sm": ["Vazirmatn"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+            "headline-lg-mobile": ["22px", { "lineHeight": "32px", "fontWeight": "700" }],
+            "headline-md": ["20px", { "lineHeight": "30px", "fontWeight": "700" }],
+            "display-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "headline-sm": ["17px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "headline-lg": ["28px", { "lineHeight": "38px", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "numeric-stat": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    .material-symbols-fill {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen antialiased flex flex-col font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- هدر ناوبری اصلی (Top Header) -->
+<header class="bg-surface-container-lowest border-b border-outline-variant/40 sticky top-0 z-40 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+<!-- لوگو و مشخصات مجتمع -->
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-primary text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-3xl">apartment</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h1 class="font-headline-sm text-primary tracking-tight">مجتمع مسکونی باغ نیلوفر</h1>
+<span class="bg-secondary-fixed/50 text-on-secondary-fixed-variant text-label-sm px-2.5 py-0.5 rounded-full font-label-md">دوره فعال: شهریور ۱۴۰۳</span>
+</div>
+<p class="text-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-sm text-outline">location_on</span>
+            منطقه ۱، بلوار اندرزگو، خیابان سلیمی شمالی
+          </p>
+</div>
+</div>
+<!-- کنترل‌های سمت چپ هدر -->
+<div class="flex items-center gap-3">
+<!-- اعلان‌ها -->
+<button class="relative p-2.5 rounded-xl border border-outline-variant/60 hover:bg-surface-container-low transition text-on-surface-variant" title="اعلان‌ها">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 left-2 w-2.5 h-2.5 bg-error rounded-full ring-2 ring-surface-container-lowest"></span>
+</button>
+<!-- پیام‌های ساکنین -->
+<button class="p-2.5 rounded-xl border border-outline-variant/60 hover:bg-surface-container-low transition text-on-surface-variant relative" title="درخواست‌های جدید">
+<span class="material-symbols-outlined">mark_email_unread</span>
+<span class="absolute -top-1 -right-1 bg-tertiary-container text-on-tertiary text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">۲</span>
+</button>
+<div class="h-8 w-px bg-outline-variant/50 mx-1"></div>
+<!-- پروفایل مدیر مجتمع -->
+<div class="flex items-center gap-3 pr-2">
+<div class="text-left hidden sm:block">
+<p class="font-headline-sm text-xs text-on-surface leading-tight">مهندس آرش کاظمی</p>
+<p class="text-[11px] text-on-surface-variant font-medium">رئیس هیئت مدیره</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-sm ring-2 ring-primary/20">
+            آ.ک
+          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- محتوای اصلی داشبورد -->
+<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+<!-- بخش ۱: کارت وضعیت مالی صندوق + دسترسی‌های فوری -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+<!-- ۱. وضعیت کلی صندوق و موجودی کل -->
+<div class="lg:col-span-8 bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-6 sm:p-7 shadow-sm relative overflow-hidden flex flex-col justify-between">
+<!-- تزئین پس‌زمینه لطیف -->
+<div class="absolute -left-12 -top-12 w-48 h-48 bg-primary-fixed/30 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -right-10 -bottom-10 w-44 h-44 bg-secondary-fixed/30 rounded-full blur-2xl pointer-events-none"></div>
+<div class="relative z-10">
+<div class="flex flex-wrap items-center justify-between gap-4 pb-5 border-b border-outline-variant/30">
+<div>
+<span class="text-label-md text-on-surface-variant font-label-md uppercase tracking-wider block">خلاصه حسابرسی دوره ۳۱</span>
+<h2 class="font-headline-md text-primary mt-1">تراز مالی و صندوق مرکزی مجتمع</h2>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/40">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="text-body-sm font-medium text-on-surface">وضعیت حساب: کاملاً مثبت</span>
+</div>
+</div>
+<!-- ارقام مالی برجسته -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+<!-- موجودی نقد صندوق -->
+<div class="bg-surface-container-low/70 border border-outline-variant/40 rounded-xl p-4">
+<span class="text-body-sm text-on-surface-variant flex items-center gap-1.5 mb-1.5">
+<span class="material-symbols-outlined text-primary text-lg">account_balance_wallet</span>
+                موجودی کل صندوق
+              </span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-display-lg text-primary text-3xl font-extrabold tracking-tight">۱۸۴,۵۰۰,۰۰۰</span>
+<span class="text-body-sm text-on-surface-variant font-bold">تومان</span>
+</div>
+<p class="text-[12px] text-secondary font-medium mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                ۱۲٪ افزایش نسبت به ماه گذشته
+              </p>
+</div>
+<!-- نرخ وصول شارژ ماه جاری -->
+<div class="bg-surface-container-low/70 border border-outline-variant/40 rounded-xl p-4">
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-body-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-lg">verified</span>
+                  نرخ وصول شارژ جاری
+                </span>
+<span class="text-headline-sm font-bold text-secondary">۹۲٪</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2.5 mt-3 overflow-hidden">
+<div class="bg-secondary h-2.5 rounded-full transition-all duration-500" style="width: 92%"></div>
+</div>
+<p class="text-[12px] text-on-surface-variant mt-2">
+                ۴۲ واحد از مجموع ۴۸ واحد پرداخت کرده‌اند
+              </p>
+</div>
+<!-- مطالبات معوق کل -->
+<div class="bg-surface-container-low/70 border border-outline-variant/40 rounded-xl p-4">
+<span class="text-body-sm text-on-surface-variant flex items-center gap-1.5 mb-1.5">
+<span class="material-symbols-outlined text-tertiary-container text-lg">pending_actions</span>
+                مجموع معوقات و بدهی
+              </span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-display-lg text-tertiary-container text-3xl font-extrabold tracking-tight">۱۴,۸۰۰,۰۰۰</span>
+<span class="text-body-sm text-on-surface-variant font-bold">تومان</span>
+</div>
+<p class="text-[12px] text-on-tertiary-fixed-variant font-medium mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">warning</span>
+                مربوط به ۶ واحد دارای تاخیر
+              </p>
+</div>
+</div>
+</div>
+<!-- نوار وضعیت کف کارت -->
+<div class="pt-4 border-t border-outline-variant/30 flex flex-wrap items-center justify-between text-body-sm text-on-surface-variant gap-2 relative z-10">
+<div class="flex items-center gap-4">
+<span>شماره شبا بانک ملت: <strong class="text-on-surface font-mono tracking-wider">IR84-0120-0000-0000-4589-2101</strong></span>
+</div>
+<button class="text-primary hover:text-primary-container font-label-lg flex items-center gap-1 transition text-xs sm:text-sm">
+<span>دریافت صورت‌حساب جامع و تراز آزمایشی</span>
+<span class="material-symbols-outlined text-sm">arrow_left</span>
+</button>
+</div>
+</div>
+<!-- ۲. دسترسی‌های سریع عملیاتی (Quick Actions) -->
+<div class="lg:col-span-4 bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-6 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-4 border-b border-outline-variant/30 mb-5">
+<h3 class="font-headline-sm text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">bolt</span>
+              عملیات و دسترسی‌های سریع
+            </h3>
+<span class="text-label-sm text-outline">کلیدهای میانبر</span>
+</div>
+<div class="grid grid-cols-2 gap-3.5">
+<!-- ثبت هزینه جدید -->
+<button class="group p-4 bg-surface-container-low hover:bg-surface-container hover:shadow-md transition-all rounded-xl border border-outline-variant/40 flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center mb-2.5 group-hover:scale-105 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-2xl">receipt_long</span>
+</div>
+<span class="font-label-lg text-on-surface group-hover:text-primary transition-colors text-sm">ثبت هزینه جدید</span>
+<span class="text-label-sm text-on-surface-variant mt-0.5">فاکتور و تعمیرات</span>
+</button>
+<!-- صدور قبض شارژ -->
+<button class="group p-4 bg-surface-container-low hover:bg-surface-container hover:shadow-md transition-all rounded-xl border border-outline-variant/40 flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed text-on-primary-fixed flex items-center justify-center mb-2.5 group-hover:scale-105 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-2xl">request_quote</span>
+</div>
+<span class="font-label-lg text-on-surface group-hover:text-primary transition-colors text-sm">صدور قبض شارژ</span>
+<span class="text-label-sm text-on-surface-variant mt-0.5">محاسبه دسته‌جمعی</span>
+</button>
+<!-- ثبت واریزی -->
+<button class="group p-4 bg-surface-container-low hover:bg-surface-container hover:shadow-md transition-all rounded-xl border border-outline-variant/40 flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center mb-2.5 group-hover:scale-105 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-2xl">add_card</span>
+</div>
+<span class="font-label-lg text-on-surface group-hover:text-primary transition-colors text-sm">ثبت واریزی ساکن</span>
+<span class="text-label-sm text-on-surface-variant mt-0.5">فیش بانکی و کارتخوان</span>
+</button>
+<!-- ارسال پیامک به ساکنین -->
+<button class="group p-4 bg-surface-container-low hover:bg-surface-container hover:shadow-md transition-all rounded-xl border border-outline-variant/40 flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-xl bg-surface-variant text-on-primary-fixed-variant flex items-center justify-center mb-2.5 group-hover:scale-105 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-2xl">sms</span>
+</div>
+<span class="font-label-lg text-on-surface group-hover:text-primary transition-colors text-sm">ارسال پیامک</span>
+<span class="text-label-sm text-on-surface-variant mt-0.5">یادآوری و اعلانات</span>
+</button>
+</div>
+</div>
+<!-- کادر کمکی کوچک -->
+<div class="mt-4 pt-3.5 border-t border-outline-variant/30 flex items-center justify-between text-xs text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-sm">check_circle</span>
+            سامانه پیامکی متصل است (اعتبار: ۴,۵۲۰ پیامک)
+          </span>
+</div>
+</div>
+</div>
+<!-- بخش ۳: آمار تفکیکی واحدها و وضعیت تسویه‌ها -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-md text-primary">وضعیت وصولی بلوک‌ها و ساکنین</h3>
+<p class="text-body-sm text-on-surface-variant">گزارش لحظه‌ای پراکندگی پرداخت‌ها به تفکیک واحدها</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="bg-surface-container-lowest border border-outline-variant/60 text-on-surface-variant px-3.5 py-1.5 rounded-lg text-label-md hover:bg-surface-container-low transition">
+            فیلتر بر اساس بلوک
+          </button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+<!-- کارت ۱: کل واحدها -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-5 shadow-sm hover:border-primary/40 transition">
+<div class="flex items-center justify-between">
+<span class="text-body-md text-on-surface-variant">تعداد کل واحدها</span>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">domain</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-numeric-stat text-3xl font-extrabold text-on-surface">۴۸ <span class="text-sm font-normal text-on-surface-variant">واحد</span></span>
+<span class="text-label-md bg-surface-container text-on-primary-fixed-variant px-2 py-0.5 rounded-md font-medium">۳ بلوک (A, B, C)</span>
+</div>
+<p class="text-body-sm text-on-surface-variant mt-2">میانگین متراژ: ۱۴۵ مترمربع</p>
+</div>
+<!-- کارت ۲: واحدهای تسویه شده -->
+<div class="bg-surface-container-lowest border border-secondary/30 rounded-xl p-5 shadow-sm hover:border-secondary transition">
+<div class="flex items-center justify-between">
+<span class="text-body-md text-on-surface-variant">واحدهای تسویه شده</span>
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed/50 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">task_alt</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-numeric-stat text-3xl font-extrabold text-secondary">۴۲ <span class="text-sm font-normal text-on-surface-variant">واحد</span></span>
+<span class="text-label-md text-secondary font-bold">۸۷.۵٪ تسویه قطعی</span>
+</div>
+<p class="text-body-sm text-secondary font-medium mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">thumb_up</span>
+            انضباط مالی مطلوب بلوک‌های A و C
+          </p>
+</div>
+<!-- کارت ۳: بدهی معوق (هشدار) -->
+<div class="bg-surface-container-lowest border border-error/30 rounded-xl p-5 shadow-sm hover:border-error transition">
+<div class="flex items-center justify-between">
+<span class="text-body-md text-on-surface-variant">واحدهای بدهکار معوق</span>
+<div class="w-10 h-10 rounded-lg bg-error-container text-error flex items-center justify-center">
+<span class="material-symbols-outlined">error_outline</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-numeric-stat text-3xl font-extrabold text-error">۶ <span class="text-sm font-normal text-on-surface-variant">واحد</span></span>
+<span class="text-label-sm bg-error-container text-on-error-container px-2 py-0.5 rounded-md font-bold">اخطار مرحله ۲</span>
+</div>
+<p class="text-body-sm text-error mt-2 flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-xs">notifications_active</span>
+            ارسال اخطاریه قطع خدمات عمومی
+          </p>
+</div>
+<!-- کارت ۴: موجودی صندوق اندوخته اضطراری -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-5 shadow-sm hover:border-primary/40 transition">
+<div class="flex items-center justify-between">
+<span class="text-body-md text-on-surface-variant">اندوخته تعمیرات عمرانی</span>
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">savings</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-numeric-stat text-2xl font-bold text-on-surface">۵۲,۳۰۰,۰۰۰</span>
+<span class="text-xs text-on-surface-variant font-medium">تومان</span>
+</div>
+<p class="text-body-sm text-outline mt-2">ذخیره ویژه نوسازی و موتورخانه</p>
+</div>
+</div>
+</section>
+<!-- بخش ۴ و ۵: دو ستون شامل (تراکنش‌های مالی اخیر) + (اطلاعیه‌ها و درخواست‌های ساکنین) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- ۵. لیست تراکنش‌های مالی اخیر (۸ ستون) -->
+<div class="lg:col-span-8 bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-6 shadow-sm">
+<div class="flex flex-wrap items-center justify-between gap-4 pb-5 border-b border-outline-variant/30">
+<div>
+<h3 class="font-headline-sm text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">swap_horiz</span>
+              آخرین گردش حساب و تراکنش‌های مالی
+            </h3>
+<p class="text-body-sm text-on-surface-variant mt-0.5">واریزی شارژ ساکنین و مخارج تایید شده مجتمع</p>
+</div>
+<button class="text-primary hover:text-primary-container text-body-sm font-label-lg flex items-center gap-1">
+            مشاهده دفتر مالی کامل
+            <span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+</div>
+<!-- جدول تراکنش‌ها -->
+<div class="overflow-x-auto mt-4">
+<table class="w-full text-right border-collapse">
+<thead>
+<tr class="text-label-sm text-on-surface-variant border-b border-outline-variant/30 pb-3">
+<th class="py-3 px-3 font-semibold">طرف حساب / شرح سند</th>
+<th class="py-3 px-3 font-semibold">بابت / دسته‌بندی</th>
+<th class="py-3 px-3 font-semibold">تاریخ و ساعت</th>
+<th class="py-3 px-3 font-semibold">نوع عملیات</th>
+<th class="py-3 px-3 font-semibold text-left">مبلغ (تومان)</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20 text-body-sm">
+<!-- ردیف ۱: شارژ دریافتی -->
+<tr class="hover:bg-surface-container-low/50 transition">
+<td class="py-3.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed/60 text-secondary flex items-center justify-center font-bold text-xs">
+                      ۲۰۴
+                    </div>
+<div>
+<p class="font-medium text-on-surface">آقای صادقیان (واحد ۲۰۴ - بلوک B)</p>
+<span class="text-[11px] text-outline">درگاه پرداخت شتاب</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-3">
+<span class="bg-surface-container px-2 py-0.5 rounded text-xs text-on-surface-variant">شارژ ماهیانه شهریور</span>
+</td>
+<td class="py-3.5 px-3 text-on-surface-variant text-xs font-mono">۱۴۰۳/۰۶/۲۸ - ۱۰:۱۵</td>
+<td class="py-3.5 px-3">
+<span class="inline-flex items-center gap-1 text-secondary text-xs font-semibold bg-secondary-fixed/40 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-xs">arrow_downward</span>
+                    واریز به صندوق
+                  </span>
+</td>
+<td class="py-3.5 px-3 text-left font-bold text-secondary font-mono text-sm">+ ۲,۴۰۰,۰۰۰</td>
+</tr>
+<!-- ردیف ۲: هزینه پمپ آب موتورخانه -->
+<tr class="hover:bg-surface-container-low/50 transition">
+<td class="py-3.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-error-container text-error flex items-center justify-center">
+<span class="material-symbols-outlined text-base">build</span>
+</div>
+<div>
+<p class="font-medium text-on-surface">شرکت تأسیساتی آب‌بند پایتخت</p>
+<span class="text-[11px] text-outline">فاکتور رسمی شماره ۹۸۲۳</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-3">
+<span class="bg-surface-container px-2 py-0.5 rounded text-xs text-on-surface-variant">خرید پمپ آب ثانویه موتورخانه</span>
+</td>
+<td class="py-3.5 px-3 text-on-surface-variant text-xs font-mono">۱۴۰۳/۰۶/۲۷ - ۱۷:۴۰</td>
+<td class="py-3.5 px-3">
+<span class="inline-flex items-center gap-1 text-error text-xs font-semibold bg-error-container/60 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-xs">arrow_upward</span>
+                    هزینه عمرانی
+                  </span>
+</td>
+<td class="py-3.5 px-3 text-left font-bold text-error font-mono text-sm">- ۱۸,۶۰۰,۰۰۰</td>
+</tr>
+<!-- ردیف ۳: شارژ دریافتی دیگر -->
+<tr class="hover:bg-surface-container-low/50 transition">
+<td class="py-3.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed/60 text-secondary flex items-center justify-center font-bold text-xs">
+                      ۱۰۱
+                    </div>
+<div>
+<p class="font-medium text-on-surface">خانم دکتر انصاری (واحد ۱۰۱ - بلوک A)</p>
+<span class="text-[11px] text-outline">کارت به کارت بانک ملت</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-3">
+<span class="bg-surface-container px-2 py-0.5 rounded text-xs text-on-surface-variant">شارژ ماه شهریور + پارکینگ اضافه</span>
+</td>
+<td class="py-3.5 px-3 text-on-surface-variant text-xs font-mono">۱۴۰۳/۰۶/۲۷ - ۱۲:۳۰</td>
+<td class="py-3.5 px-3">
+<span class="inline-flex items-center gap-1 text-secondary text-xs font-semibold bg-secondary-fixed/40 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-xs">arrow_downward</span>
+                    واریز به صندوق
+                  </span>
+</td>
+<td class="py-3.5 px-3 text-left font-bold text-secondary font-mono text-sm">+ ۳,۱۰۰,۰۰۰</td>
+</tr>
+<!-- ردیف ۴: هزینه باغبان و فضای سبز -->
+<tr class="hover:bg-surface-container-low/50 transition">
+<td class="py-3.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-base">yard</span>
+</div>
+<div>
+<p class="font-medium text-on-surface">پیمانکار فضای سبز (استاد مرادی)</p>
+<span class="text-[11px] text-outline">دستمزد دوره شهریور</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-3">
+<span class="bg-surface-container px-2 py-0.5 rounded text-xs text-on-surface-variant">نگهداری محوطه و هرس درختان</span>
+</td>
+<td class="py-3.5 px-3 text-on-surface-variant text-xs font-mono">۱۴۰۳/۰۶/۲۵ - ۰۹:۰۰</td>
+<td class="py-3.5 px-3">
+<span class="inline-flex items-center gap-1 text-error text-xs font-semibold bg-error-container/60 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-xs">arrow_upward</span>
+                    هزینه جاری
+                  </span>
+</td>
+<td class="py-3.5 px-3 text-left font-bold text-error font-mono text-sm">- ۴,۵۰۰,۰۰۰</td>
+</tr>
+<!-- ردیف ۵: شارژ معوقه واریزی -->
+<tr class="hover:bg-surface-container-low/50 transition">
+<td class="py-3.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed/60 text-secondary flex items-center justify-center font-bold text-xs">
+                      ۳۰۳
+                    </div>
+<div>
+<p class="font-medium text-on-surface">آقای حسینی (واحد ۳۰۳ - بلوک C)</p>
+<span class="text-[11px] text-outline">تسویه معوقات ۳ ماهه</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-3">
+<span class="bg-surface-container px-2 py-0.5 rounded text-xs text-on-surface-variant">شارژ تیر، مرداد و شهریور</span>
+</td>
+<td class="py-3.5 px-3 text-on-surface-variant text-xs font-mono">۱۴۰۳/۰۶/۲۴ - ۱۸:۲۰</td>
+<td class="py-3.5 px-3">
+<span class="inline-flex items-center gap-1 text-secondary text-xs font-semibold bg-secondary-fixed/40 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-xs">arrow_downward</span>
+                    واریز به صندوق
+                  </span>
+</td>
+<td class="py-3.5 px-3 text-left font-bold text-secondary font-mono text-sm">+ ۷,۲۰۰,۰۰۰</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/30 flex items-center justify-between text-xs text-on-surface-variant">
+<span>نمایش ۵ تراکنش آخر از مجموع ۱۲۴ عملیات مالی ماه جاری</span>
+<span class="font-medium text-primary">تایید شده توسط بازرس مالی مجتمع</span>
+</div>
+</div>
+<!-- ۴. آخرین اطلاعیه‌های ساختمان و درخواست‌های ساکنین (۴ ستون) -->
+<div class="lg:col-span-4 space-y-6">
+<!-- کادر اطلاعیه‌های هیئت مدیره -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-5 shadow-sm">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30 mb-4">
+<h3 class="font-headline-sm text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">campaign</span>
+              تابلوی اعلانات مجتمع
+            </h3>
+<button class="text-xs text-primary font-semibold hover:underline">افزودن اعلان</button>
+</div>
+<div class="space-y-3.5">
+<!-- اطلاعیه ۱: جلسه مجمع -->
+<div class="p-3.5 bg-primary-fixed/20 border-r-4 border-primary rounded-lg">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-bold text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">event</span>
+                  جلسه مجمع عمومی سالیانه
+                </span>
+<span class="text-[11px] text-on-surface-variant font-mono">جمعه ۶ مهر</span>
+</div>
+<p class="text-body-sm text-on-surface leading-snug">
+                بررسی بیلان مالی سال گذشته و انتخاب بازرسان جدید در لابی بلوک A راس ساعت ۱۹. حضور سرپرستان واحدها الزامی است.
+              </p>
+</div>
+<!-- اطلاعیه ۲: نظافت و ضدعفونی -->
+<div class="p-3.5 bg-surface-container-low border-r-4 border-secondary rounded-lg">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-bold text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">cleaning_services</span>
+                  برنامه سم‌پاشی و نظافت پارکینگ منفی ۲
+                </span>
+<span class="text-[11px] text-on-surface-variant font-mono">دوشنبه ۲ مهر</span>
+</div>
+<p class="text-body-sm text-on-surface leading-snug">
+                خواهشمند است خودروها از ساعت ۹ الی ۱۴ از محوطه پارکینگ منفی دو خارج شوند.
+              </p>
+</div>
+</div>
+</div>
+<!-- کادر درخواست‌ها و تیکت‌های تعمیراتی ساکنین -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-5 shadow-sm">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30 mb-4">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-primary">درخواست‌های ساکنین</h3>
+<span class="bg-tertiary-container text-on-tertiary text-xs px-2 py-0.5 rounded-full font-bold">۲ اقدام فوری</span>
+</div>
+<a class="text-xs text-primary font-semibold hover:underline" href="#">همه تیکت‌ها</a>
+</div>
+<div class="space-y-3">
+<!-- تیکت ۱: آسانسور بلوک ب -->
+<div class="p-3.5 rounded-xl border border-error/30 bg-error-container/20 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+<span class="text-body-sm font-bold text-error">تعمیر آسانسور بلوک ب</span>
+</div>
+<span class="text-[11px] bg-error-container text-on-error-container px-2 py-0.5 rounded font-medium">اورژانسی</span>
+</div>
+<p class="text-xs text-on-surface leading-relaxed">
+                واحد ۳۰۲: صدای غیرعادی در توقف طبقه سوم و گیر کردن گاه‌به‌گاه درب طبقه.
+              </p>
+<div class="flex items-center justify-between pt-1 border-t border-error/20 text-[11px] text-on-surface-variant">
+<span>تکنسین آسانسور اعزام شد (ساعت ۱۵:۰۰)</span>
+<button class="text-error font-bold hover:underline">پیگیری</button>
+</div>
+</div>
+<!-- تیکت ۲: روشنایی راهرو -->
+<div class="p-3.5 rounded-xl border border-outline-variant/40 bg-surface-container-low flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="text-body-sm font-bold text-on-surface">سوختن لامپ سنسوردار بلوک A طبقه ۴</span>
+<span class="text-[11px] bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded">در دست بررسی</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                واحد ۴۰۴: سنسور حرکتی پاگرد دچار اتصالی شده و لامپ روشن نمی‌ماند.
+              </p>
+<div class="flex items-center justify-between pt-1 border-t border-outline-variant/30 text-[11px] text-on-surface-variant">
+<span>ارجاع به نگهبان شیفت شب</span>
+<button class="text-primary font-bold hover:underline">ثبت اقدام</button>
+</div>
+</div>
+</div>
+</div>
+<!-- کارت نما و اطلاعات نگهبانی و سرایداری -->
+<div class="bg-surface-container-high/40 rounded-xl p-4 border border-outline-variant/40 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-xl">shield_person</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface">نگهبانی شیفت روز: آقای قنبری</p>
+<p class="text-[11px] text-on-surface-variant">داخلی لابی: ۱۰۱ | همراه: ۰۹۱۲۳۴۵۶۷۸۹</p>
+</div>
+</div>
+<button class="p-2 rounded-lg bg-surface-container-lowest text-primary hover:bg-surface-container transition" title="تماس مستقیم">
+<span class="material-symbols-outlined text-lg">call</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- پاورقی سامانه -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant/40 mt-12 py-6 text-on-surface-variant text-xs">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span>سامانه مدیریت هوشمند برج‌ها و شهرک‌های مسکونی نیلوفر © ۱۴۰۳</span>
+</div>
+<div class="flex items-center gap-6 text-body-sm">
+<a class="hover:text-primary transition" href="#">قوانین و آیین‌نامه داخلی مجتمع</a>
+<a class="hover:text-primary transition" href="#">تعرفه و فرمول مصوب شارژ</a>
+<a class="hover:text-primary transition" href="#">پشتیبانی فنی نرم‌افزار</a>
+</div>
+</div>
+</footer>
+</body></html>

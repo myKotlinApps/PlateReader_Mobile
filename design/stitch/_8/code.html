@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#f8f9ff;font-family:'Vazirmatn',sans-serif;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "outline": "#757682", "on-tertiary-fixed-variant": "#930013", "inverse-on-surface": "#eaf1ff", "background": "#f8f9ff", "on-secondary-fixed-variant": "#005137", "on-secondary-fixed": "#002114", "secondary": "#006c4a", "on-primary": "#ffffff", "on-tertiary-container": "#ff8a83", "on-secondary-container": "#00714e", "surface-container": "#e5eeff", "tertiary-container": "#860011", "secondary-fixed-dim": "#68dba9", "primary-container": "#1e3a8a", "inverse-surface": "#213145", "primary-fixed-dim": "#b6c4ff", "secondary-container": "#82f5c1", "surface-container-highest": "#d3e4fe", "surface-bright": "#f8f9ff", "on-tertiary-fixed": "#410004", "tertiary-fixed": "#ffdad7", "on-secondary": "#ffffff", "tertiary": "#5c0008", "on-tertiary": "#ffffff", "inverse-primary": "#b6c4ff", "primary": "#00236f", "on-surface-variant": "#444651", "surface": "#f8f9ff", "on-error": "#ffffff", "error-container": "#ffdad6", "on-error-container": "#93000a", "surface-tint": "#4059aa", "surface-variant": "#d3e4fe", "primary-fixed": "#dce1ff", "secondary-fixed": "#85f8c4", "on-surface": "#0b1c30", "on-primary-fixed": "#00164e", "surface-container-high": "#dce9ff", "on-background": "#0b1c30", "surface-container-lowest": "#ffffff", "on-primary-fixed-variant": "#264191", "surface-dim": "#cbdbf5", "error": "#ba1a1a", "on-primary-container": "#90a8ff", "tertiary-fixed-dim": "#ffb3ad", "surface-container-low": "#eff4ff", "outline-variant": "#c5c5d3" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "gutter-mobile": "0.75rem", "space-sm": "0.5rem", "space-xl": "2rem", "space-lg": "1.5rem", "gutter": "1rem", "margin-mobile": "1rem", "space-xs": "0.25rem", "space-md": "1rem", "margin": "1.25rem" }, fontFamily: { "headline-sm": ["Vazirmatn"], "numeric-stat": ["Vazirmatn"], "headline-lg-mobile": ["Vazirmatn"], "display-lg": ["Vazirmatn"], "label-sm": ["Vazirmatn"], "body-lg": ["Vazirmatn"], "headline-lg": ["Vazirmatn"], "body-md": ["Vazirmatn"], "label-md": ["Vazirmatn"], "label-lg": ["Vazirmatn"], "body-sm": ["Vazirmatn"], "headline-md": ["Vazirmatn"] }, fontSize: { "headline-sm": ["17px", { lineHeight: "26px", fontWeight: "600" }], "numeric-stat": ["24px", { lineHeight: "32px", fontWeight: "700" }], "headline-lg-mobile": ["22px", { lineHeight: "32px", fontWeight: "700" }], "display-lg": ["36px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "800" }], "label-sm": ["11px", { lineHeight: "14px", fontWeight: "500" }], "body-lg": ["16px", { lineHeight: "26px", fontWeight: "400" }], "headline-lg": ["28px", { lineHeight: "38px", fontWeight: "700" }], "body-md": ["14px", { lineHeight: "22px", fontWeight: "400" }], "label-md": ["12px", { lineHeight: "16px", fontWeight: "500" }], "label-lg": ["14px", { lineHeight: "20px", fontWeight: "600" }], "body-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }], "headline-md": ["20px", { lineHeight: "30px", fontWeight: "700" }] } } } };</script></head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><button aria-label="بازگشت" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_forward</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Joziyat Mosavabeh</h1></div><div class="flex items-center gap-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-safe bg-surface min-h-screen"><div class="flex flex-col w-full pb-10">
+<!-- Status & Context Hero Banner -->
+<div class="px-margin-mobile pt-space-md">
+<div class="bg-gradient-to-br from-primary via-primary-container to-primary text-on-primary rounded-xl p-space-md shadow-lg relative overflow-hidden">
+<div class="absolute -left-6 -bottom-6 w-32 h-32 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between relative z-10">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-white/10 backdrop-blur-md flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">gavel</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-primary-fixed-dim">دبیرخانه هیئت مدیره مجتمع</div>
+<div class="font-headline-sm text-headline-sm text-on-primary">تنظیم و صدور مصوبه قانونی</div>
+</div>
+</div>
+<div class="px-space-sm py-1 bg-secondary-container/20 border-0 rounded-full flex items-center gap-1.5 backdrop-blur-md">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed"></span>
+<span class="font-label-sm text-label-sm text-secondary-fixed font-semibold">رسمی - لازم‌الاجرا</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm border-t border-white/10 flex items-center justify-between text-primary-fixed font-body-sm text-body-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">account_balance</span>
+          استناد به ماده ۶ قانون تملک آپارتمان‌ها
+        </span>
+<span class="text-white/60">کد رهگیری: RES-1403-038</span>
+</div>
+</div>
+</div>
+<form class="flex flex-col gap-space-lg px-margin-mobile mt-space-md" id="resolutionForm" onsubmit="event.preventDefault();">
+<!-- بخش ۱: شناسه و بستر جلسه -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[20px]">meeting_room</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">مشخصات جلسه رسمی</h2>
+</div>
+<div class="grid grid-cols-1 gap-space-sm">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant font-medium">شماره و دوره صورتجلسه</label>
+<div class="relative">
+<select class="w-full h-12 bg-surface-container-low text-on-surface rounded-lg px-space-md pr-10 font-body-md text-body-md appearance-none focus:outline-none focus:ring-0 focus:bg-surface-container transition-all">
+<option>جلسه رسمی شماره ۳۸ - سال ۱۴۰۳ (دوره هفتم)</option>
+<option>جلسه فوق‌العاده شماره ۳۷ - سال ۱۴۰۳</option>
+<option>جلسه عادی شماره ۳۶ - سال ۱۴۰۳</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline pointer-events-none text-[20px]">format_list_numbered</span>
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant font-medium">تاریخ برگزاری</label>
+<div class="relative">
+<input class="w-full h-12 bg-surface-container-low text-on-surface rounded-lg px-space-md pr-10 font-body-md text-body-md focus:outline-none focus:bg-surface-container transition-all" type="text" value="۱۴۰۳/۱۱/۱۵"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline text-[20px]">calendar_today</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant font-medium">محل تشکیل جلسه</label>
+<div class="relative">
+<select class="w-full h-12 bg-surface-container-low text-on-surface rounded-lg px-space-md pr-10 font-body-md text-body-md appearance-none focus:outline-none focus:bg-surface-container transition-all">
+<option>دفتر مدیریت برج</option>
+<option>سالن اجتماعات مرکزی</option>
+<option>برخط (پلتفرم هیئت مدیره)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline pointer-events-none text-[20px]">apartment</span>
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- بخش ۲: عنوان و طبقه‌بندی مصوبه -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[20px]">label</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">موضوع و حوزه مصوبه</h2>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant font-medium">عنوان کامل و شفاف مصوبه</label>
+<textarea class="w-full p-space-md bg-surface-container-low text-on-surface rounded-lg font-body-md text-body-md focus:outline-none focus:bg-surface-container transition-all" placeholder="عنوان مصوبه را دقیق درج نمایید..." rows="2">تصویب قرارداد هوشمندسازی سیستم پلاک‌خوان و تعویض دوربین‌های نظارتی پیرامونی مجتمع</textarea>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant font-medium">طبقه‌بندی موضوعی</label>
+<div class="flex flex-wrap gap-2" id="categoryChips">
+<button class="category-chip px-3 py-2 rounded-lg font-label-md text-label-md flex items-center gap-1.5 transition-all bg-primary text-on-primary" data-selected="true" type="button">
+<span class="material-symbols-outlined text-[16px]">handyman</span>
+            عمرانی و بهسازی
+          </button>
+<button class="category-chip px-3 py-2 rounded-lg font-label-md text-label-md flex items-center gap-1.5 transition-all bg-surface-container text-on-surface-variant" data-selected="false" type="button">
+<span class="material-symbols-outlined text-[16px]">payments</span>
+            مالی و شارژ
+          </button>
+<button class="category-chip px-3 py-2 rounded-lg font-label-md text-label-md flex items-center gap-1.5 transition-all bg-surface-container text-on-surface-variant" data-selected="false" type="button">
+<span class="material-symbols-outlined text-[16px]">rule</span>
+            انضباطی و رفاهی
+          </button>
+<button class="category-chip px-3 py-2 rounded-lg font-label-md text-label-md flex items-center gap-1.5 transition-all bg-surface-container text-on-surface-variant" data-selected="false" type="button">
+<span class="material-symbols-outlined text-[16px]">description</span>
+            قراردادهای پیمانکاری
+          </button>
+<button class="category-chip px-3 py-2 rounded-lg font-label-md text-label-md flex items-center gap-1.5 transition-all bg-surface-container text-on-surface-variant" data-selected="false" type="button">
+<span class="material-symbols-outlined text-[16px]">policy</span>
+            حقوقی و ثبت
+          </button>
+</div>
+</div>
+</div>
+<!-- بخش ۳: بار مالی و ردیف بودجه -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">بار مالی و ردیف اعتباری</h2>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="budgetToggle" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+<span class="mr-2 font-label-md text-label-md text-on-surface font-medium">مستلزم بودجه</span>
+</label>
+</div>
+<div class="flex flex-col gap-space-md pt-2" id="budgetSection">
+<div class="p-space-sm bg-surface-container-low rounded-xl flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline">اعتبار مصوب مورد نیاز</span>
+<div class="flex items-baseline gap-1">
+<span class="font-numeric-stat text-numeric-stat text-primary font-bold">۱۲۵,۰۰۰,۰۰۰</span>
+<span class="font-label-md text-label-md text-on-surface-variant">تومان</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">trending_up</span>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-space-sm">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant font-medium">سرفصل و ردیف بودجه</label>
+<div class="relative">
+<select class="w-full h-12 bg-surface-container-low text-on-surface rounded-lg px-space-md pr-10 font-body-md text-body-md appearance-none focus:outline-none focus:bg-surface-container">
+<option>صندوق اندوخته و ذخیره سرمایه‌ای (کد ۴۰۲)</option>
+<option>تنخواه‌گردان جاری نگهداری و تاسیسات (کد ۱۰۱)</option>
+<option>سرفصل هزینه‌های اضطراری و حوادث</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline pointer-events-none text-[20px]">account_tree</span>
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant font-medium">شیوه تامین منابع</label>
+<div class="relative">
+<select class="w-full h-12 bg-surface-container-low text-on-surface rounded-lg px-space-md pr-10 font-body-md text-body-md appearance-none focus:outline-none focus:bg-surface-container">
+<option>برداشت مستقیم از موجودی صندوق ذخیره برج</option>
+<option>فراخوان واریز شارژ ویژه به تفکیک متراژ واحدها</option>
+<option>تسهیم مساوی بر اساس تعداد واحدهای مستقر</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline pointer-events-none text-[20px]">price_change</span>
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- بخش ۴: شرح مفاد و متن رسمی مصوبه -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[20px]">history_edu</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">متن و مفاد مصوبه</h2>
+</div>
+<button class="px-2.5 py-1 bg-surface-container-high text-primary rounded-lg font-label-sm text-label-sm flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+          الگوی استاندارد حقوقی
+        </button>
+</div>
+<div class="flex flex-col gap-1.5">
+<textarea class="w-full p-space-md bg-surface-container-low text-on-surface rounded-lg font-body-md text-body-md leading-relaxed focus:outline-none focus:bg-surface-container transition-all" placeholder="مفاد ماده واحده و بندهای الزامی مصوبه را مرقوم بفرمایید..." rows="6">ماده واحده: پیرو استعلامات کتبی قیمت و لزوم ارتقای امنیت ورودی‌های اصلی، هیئت مدیره با اکثریت آرا انعقاد قرارداد با شرکت فنی مهندسی «ایمن‌پرداز آریا» به مبلغ قطعی یکصد و بیست و پنج میلیون تومان را تصویب نمود.
+بند ۱: شرکت موظف است ظرف مدت حداکثر ۱۵ روز کاری نسبت به نصب دوربین‌های پلاک‌خوان و اتصال به سیستم جامع راهبند اقدام نماید.
+بند ۲: کلیه هزینه‌ها پس از تایید نهایی کارشناس فنی و ناظر ساختمان، از محل اندوخته ذخیره واریز خواهد شد.</textarea>
+</div>
+<div class="flex items-center gap-1.5 text-outline font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">info</span>
+<span>این متن پس از تایید نهایی در کارتابل رسمی مالکین غیرقابل ویرایش خواهد بود.</span>
+</div>
+</div>
+<!-- بخش ۵: رای‌گیری و امضای اعضای هیئت مدیره -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[20px]">how_to_vote</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">صورت رای‌گیری و امضای هیئت</h2>
+</div>
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm rounded-full font-bold">۴ موافق | ۰ مخالف</span>
+</div>
+<div class="flex flex-col gap-space-sm divide-y-0" id="boardMembersList">
+<!-- عضو ۱ -->
+<div class="p-space-sm bg-surface-container-low rounded-xl flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-[13px]">
+                ر.ف
+              </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">دکتر کیوان رادفر</span>
+<span class="font-label-sm text-label-sm text-outline">رئیس هیئت مدیره - واحد ۴۰۲</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+              امضای دیجیتال
+            </div>
+</div>
+<div class="flex items-center justify-end gap-1.5 pt-1">
+<span class="px-2.5 py-1 bg-secondary text-on-secondary rounded-lg font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">thumb_up</span>
+              موافق
+            </span>
+</div>
+</div>
+<!-- عضو ۲ -->
+<div class="p-space-sm bg-surface-container-low rounded-xl flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest text-primary flex items-center justify-center font-bold text-[13px]">
+                م.ک
+              </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">مهندس سهراب کاویانی</span>
+<span class="font-label-sm text-label-sm text-outline">نایب‌رئیس هیئت مدیره - واحد ۲۰۵</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+              امضای دیجیتال
+            </div>
+</div>
+<div class="flex items-center justify-end gap-1.5 pt-1">
+<span class="px-2.5 py-1 bg-secondary text-on-secondary rounded-lg font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">thumb_up</span>
+              موافق
+            </span>
+</div>
+</div>
+<!-- عضو ۳ -->
+<div class="p-space-sm bg-surface-container-low rounded-xl flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest text-primary flex items-center justify-center font-bold text-[13px]">
+                ع.ش
+              </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">علیرضا شمس‌آبادی</span>
+<span class="font-label-sm text-label-sm text-outline">خزانه‌دار و مسئول مالی - واحد ۱۰۱</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+              امضای دیجیتال
+            </div>
+</div>
+<div class="flex items-center justify-end gap-1.5 pt-1">
+<span class="px-2.5 py-1 bg-secondary text-on-secondary rounded-lg font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">thumb_up</span>
+              موافق
+            </span>
+</div>
+</div>
+<!-- عضو ۴ -->
+<div class="p-space-sm bg-surface-container-low rounded-xl flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest text-primary flex items-center justify-center font-bold text-[13px]">
+                پ.ف
+              </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">مهندس پیمان فرهمند</span>
+<span class="font-label-sm text-label-sm text-outline">منشی و هماهنگ‌کننده جلسه - واحد ۳۰۳</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+              امضای دیجیتال
+            </div>
+</div>
+<div class="flex items-center justify-end gap-1.5 pt-1">
+<span class="px-2.5 py-1 bg-secondary text-on-secondary rounded-lg font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">thumb_up</span>
+              موافق
+            </span>
+</div>
+</div>
+<!-- بازرس رسمی -->
+<div class="p-space-sm bg-surface-container-low rounded-xl flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold text-[13px]">
+                ب.ص
+              </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">مهندس بهنام صابری</span>
+<span class="font-label-sm text-label-sm text-outline">بازرس قانونی مجتمع (ناظر بدون حق رای)</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]">pending_actions</span>
+              رویت و تطبیق مقررات
+            </div>
+</div>
+<div class="flex items-center justify-end gap-1.5 pt-1">
+<span class="px-2.5 py-1 bg-surface-container-high text-on-surface rounded-lg font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check</span>
+              تایید انطباق اساسنامه
+            </span>
+</div>
+</div>
+</div>
+</div>
+<!-- بخش ۶: مسئول اجرا و مهلت اقدام -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[20px]">person_check</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">مجری و زمان‌بندی اقدام</h2>
+</div>
+<div class="grid grid-cols-1 gap-space-sm">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant font-medium">مسئول مستقیم پیگیری و اجرا</label>
+<div class="relative">
+<select class="w-full h-12 bg-surface-container-low text-on-surface rounded-lg px-space-md pr-10 font-body-md text-body-md appearance-none focus:outline-none focus:bg-surface-container">
+<option>مدیر اجرایی مجتمع (آقای اسماعیلی) به همراه پیمانکار</option>
+<option>نایب‌رئیس هیئت مدیره (کمیته فنی)</option>
+<option>واحد حراست و انتظامات شهرک</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline pointer-events-none text-[20px]">badge</span>
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant font-medium">ضرب‌الاجل تحویل نهایی</label>
+<div class="relative">
+<input class="w-full h-12 bg-surface-container-low text-on-surface rounded-lg px-space-md pr-10 font-body-md text-body-md focus:outline-none focus:bg-surface-container" type="text" value="۱۴۰۳/۱۱/۳۰"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline text-[20px]">event_busy</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant font-medium">شاخص پذیرش کار</label>
+<div class="relative">
+<input class="w-full h-12 bg-surface-container-low text-on-surface rounded-lg px-space-md pr-10 font-body-md text-body-md focus:outline-none focus:bg-surface-container" type="text" value="تست کامل پلاک‌خوان در شب"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline text-[20px]">fact_check</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- بخش ۷: پیوست مستندات و استعلام‌ها -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[20px]">attach_file</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">پیوست‌ها و استعلام‌های ۳‌گانه</h2>
+</div>
+<span class="font-label-sm text-label-sm text-outline">۳ سند ضمیمه شده</span>
+</div>
+<!-- File items -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">جدول مقایسه استعلام قیمت ۳ پیمانکار.pdf</span>
+<span class="font-label-sm text-label-sm text-outline">۱.۴ مگابایت • تایید شده خزانه‌دار</span>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-outline hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">contract</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">پیش‌نویس قرارداد شرکت ایمن‌پرداز.pdf</span>
+<span class="font-label-sm text-label-sm text-outline">۲.۸ مگابایت • ماده‌های حقوقی کامل</span>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-outline hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Upload Trigger Area -->
+<div class="p-space-md bg-surface-container-low rounded-xl flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-primary text-[28px]">cloud_upload</span>
+<span class="font-label-md text-label-md text-on-surface font-medium">بارگذاری تصویر صورتجلسه فیزیکی یا اسناد تکمیلی</span>
+<span class="font-label-sm text-label-sm text-outline">حداکثر حجم مجاز: ۱۵ مگابایت (PDF, JPG)</span>
+</div>
+</div>
+<!-- بخش ۸: تنظیمات اطلاع‌رسانی و انتشار -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[20px]">campaign</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">تنظیمات انتشار و ابلاغ</h2>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Switch 1 -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-outline text-[20px]">sms</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-medium">ارسال پیامک خلاصه مصوبه</span>
+<span class="font-label-sm text-label-sm text-outline">پیامک اطلاع‌رسانی به شماره همراه ثبت‌شده مالکان</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Switch 2 -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-outline text-[20px]">dashboard</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-medium">درج در تابلوی اعلانات دیجیتال</span>
+<span class="font-label-sm text-label-sm text-outline">نمایش عمومی در صفحه اصلی اپلیکیشن کلیه ساکنان</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Switch 3 -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-outline text-[20px]">verified_user</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-medium">ارسال رونوشت به بازرس قانونی</span>
+<span class="font-label-sm text-label-sm text-outline">ثبت رسمی در کارتابل نظارتی مجمع عمومی</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- دکمه‌های اقدام نهایی (Action Bar) -->
+<div class="flex flex-col gap-2.5 pt-2">
+<button class="w-full h-13 py-3.5 bg-primary hover:bg-primary-container text-on-primary rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-md active:scale-[0.99] transition-all" id="submitBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">send</span>
+<span>ثبت نهایی و ابلاغ رسمی مصوبه</span>
+</button>
+<button class="w-full h-12 py-3 bg-surface-container-lowest text-primary hover:bg-surface-container-high rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+<span>ذخیره موقت به عنوان پیش‌نویس</span>
+</button>
+</div>
+</form>
+<!-- Interactive Feedback Toast (Hidden by default) -->
+<div class="fixed bottom-6 inset-x-margin-mobile z-50 bg-inverse-surface text-inverse-on-surface p-space-md rounded-xl shadow-2xl flex items-center justify-between opacity-0 pointer-events-none transform translate-y-4 transition-all duration-300" id="actionToast">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-fixed text-[24px]">task_alt</span>
+<span class="font-body-md text-body-md">مصوبه شماره ۳۸ با موفقیت ثبت و به ساکنان ابلاغ گردید.</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">شماره: ۴۸۲۹</span>
+</div>
+</div>
+<script>
+  // Category chip interaction
+  const chips = document.querySelectorAll('.category-chip');
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => {
+        c.classList.remove('bg-primary', 'text-on-primary');
+        c.classList.add('bg-surface-container', 'text-on-surface-variant');
+      });
+      chip.classList.remove('bg-surface-container', 'text-on-surface-variant');
+      chip.classList.add('bg-primary', 'text-on-primary');
+    });
+  });
+
+  // Budget toggle logic
+  const budgetToggle = document.getElementById('budgetToggle');
+  const budgetSection = document.getElementById('budgetSection');
+  budgetToggle.addEventListener('change', () => {
+    if (budgetToggle.checked) {
+      budgetSection.style.display = 'flex';
+    } else {
+      budgetSection.style.display = 'none';
+    }
+  });
+
+  // Action toast submission feedback
+  const submitBtn = document.getElementById('submitBtn');
+  const actionToast = document.getElementById('actionToast');
+  submitBtn.addEventListener('click', () => {
+    actionToast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+    actionToast.classList.add('opacity-100', 'translate-y-0');
+    
+    setTimeout(() => {
+      actionToast.classList.remove('opacity-100', 'translate-y-0');
+      actionToast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+    }, 3800);
+  });
+</script></main></body></html>

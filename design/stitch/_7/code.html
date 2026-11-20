@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>پنل مدیریت عالی شهرک مسکونی نیلوفر</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&amp;family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "error-container": "#ffdad6",
+            "outline-variant": "#c5c5d3",
+            "surface-dim": "#cbdbf5",
+            "on-tertiary": "#ffffff",
+            "on-error-container": "#93000a",
+            "on-surface": "#0b1c30",
+            "primary-fixed": "#dce1ff",
+            "tertiary-container": "#860011",
+            "on-secondary-fixed": "#002114",
+            "primary-container": "#1e3a8a",
+            "inverse-surface": "#213145",
+            "surface-tint": "#4059aa",
+            "surface-bright": "#f8f9ff",
+            "on-tertiary-fixed-variant": "#930013",
+            "on-primary-fixed-variant": "#264191",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-container": "#00714e",
+            "on-tertiary-container": "#ff8a83",
+            "surface-container-highest": "#d3e4fe",
+            "on-tertiary-fixed": "#410004",
+            "tertiary-fixed": "#ffdad7",
+            "background": "#f8f9ff",
+            "surface-container": "#e5eeff",
+            "secondary-container": "#82f5c1",
+            "primary": "#00236f",
+            "primary-fixed-dim": "#b6c4ff",
+            "error": "#ba1a1a",
+            "on-primary-fixed": "#00164e",
+            "on-secondary": "#ffffff",
+            "secondary-fixed-dim": "#68dba9",
+            "on-surface-variant": "#444651",
+            "tertiary": "#5c0008",
+            "secondary": "#006c4a",
+            "on-primary": "#ffffff",
+            "surface-container-high": "#dce9ff",
+            "on-secondary-fixed-variant": "#005137",
+            "on-error": "#ffffff",
+            "inverse-primary": "#b6c4ff",
+            "surface": "#f8f9ff",
+            "on-primary-container": "#90a8ff",
+            "surface-variant": "#d3e4fe",
+            "outline": "#757682",
+            "tertiary-fixed-dim": "#ffb3ad",
+            "on-background": "#0b1c30",
+            "secondary-fixed": "#85f8c4",
+            "surface-container-low": "#eff4ff",
+            "inverse-on-surface": "#eaf1ff"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            sans: ["Vazirmatn", "Public Sans", "sans-serif"],
+            "headline-lg": ["Vazirmatn"],
+            "headline-md": ["Vazirmatn"],
+            "headline-sm": ["Vazirmatn"],
+            "body-lg": ["Vazirmatn"],
+            "body-md": ["Vazirmatn"],
+            "body-sm": ["Vazirmatn"],
+            "label-lg": ["Vazirmatn"],
+            "label-md": ["Vazirmatn"],
+            "numeric-stat": ["Vazirmatn"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased font-sans pb-16">
+<!-- Header / Strategic Command Bar -->
+<header class="sticky top-0 z-30 bg-surface-container-lowest/90 backdrop-blur-md border-b border-outline-variant/30 px-4 lg:px-8 py-3.5">
+<div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">apartment</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h1 class="text-base lg:text-lg font-bold text-on-surface leading-tight">پنل مدیریت عالی شهرک مسکونی نیلوفر</h1>
+<span class="text-[11px] font-semibold bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full">وضعیت پایدار</span>
+</div>
+<p class="text-xs text-on-surface-variant font-medium">شورای راهبردی و سامانه فرماندهی مجتمع • فاز ۱ و ۲</p>
+</div>
+</div>
+<!-- Quick Action Controls -->
+<div class="flex items-center gap-2.5">
+<button class="relative p-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1.5 left-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span>
+</button>
+<button class="hidden sm:flex items-center gap-1.5 px-3.5 py-2 bg-surface-container-low hover:bg-surface-container text-primary font-semibold text-xs rounded-lg border border-outline-variant/30 transition-all">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>امضای دیجیتال مدیر فعال</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-on-primary font-semibold text-xs rounded-lg shadow-sm transition-all">
+<span class="material-symbols-outlined text-[18px]">campaign</span>
+<span>ابلاغ مصوبه فوری</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-4 lg:px-8 pt-6 space-y-6">
+<!-- 1. Township Overview Hero (کارت وضعیت کلان و تراز مالی) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-5 bg-surface-container-lowest p-5 lg:p-7 rounded-2xl border border-outline-variant/30 shadow-[0_2px_12px_rgba(0,35,111,0.04)]">
+<!-- Image & General Info -->
+<div class="lg:col-span-4 flex flex-col justify-between gap-4">
+<div class="relative overflow-hidden rounded-xl h-48 lg:h-52 w-full group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An expansive, sunlit aerial view of an upscale residential complex Niloufar surrounded by manicured green parks and pristine asphalt driveways in bright daylight. The architectural layout shows 8 modern apartment towers with clean glass balconies and contemporary stone facades under a clear azure sky. The atmosphere is peaceful, pristine, and strategically organized with crisp high-key lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHOsTeTLJdPoOBXthHNT1SFmEYdEWYClgpb-GlC51sxZ4pcSRr7v0a3_He8D3ZCq2taMrFiVkF2EWIGihinL99U9Aons3gS73wIXs_dH8QCILpCGELG7EZGyIS9KIy8qJL4MgMDhhDqqfVCFTc567E65183jIMXZybJsISeGH_ccRo_3d_1RvuJrVX6gPhcQz2_W_rDpBLEujPfRx3fUKAidWj-7kb-bZMyHXZRO8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent"></div>
+<div class="absolute bottom-3 right-3 left-3 text-on-primary">
+<span class="text-[11px] font-medium bg-on-primary/20 backdrop-blur-md px-2.5 py-0.5 rounded-full inline-block mb-1">کد ثبتی شهرک: NL-4029</span>
+<p class="text-sm font-bold">مجموعه ویلایی و برج‌های نیلوفر</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2.5 text-xs">
+<div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/20">
+<span class="text-on-surface-variant block mb-1">مساحت عرصه</span>
+<span class="font-bold text-on-surface text-sm">۲۵,۰۰۰ مترمربع</span>
+</div>
+<div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/20">
+<span class="text-on-surface-variant block mb-1">ساختار واحدها</span>
+<span class="font-bold text-on-surface text-sm">۸ بلوک • ۱۶۰ واحد</span>
+</div>
+</div>
+</div>
+<!-- Key Performance Indicators & Reserve Fund -->
+<div class="lg:col-span-8 flex flex-col justify-between gap-5">
+<div class="flex flex-wrap items-center justify-between gap-2 border-b border-outline-variant/20 pb-4">
+<div>
+<span class="text-xs font-semibold text-secondary flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+              پایش بلادرنگ مانیتورینگ هیئت مدیره
+            </span>
+<h2 class="text-xl font-bold text-on-surface mt-0.5">وضعیت راهبردی و تراز مالی ذخیره شهرک</h2>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-primary font-bold text-xs rounded-lg transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">account_balance_wallet</span>
+<span>مشاهده تراز مالی جامع</span>
+</button>
+<button class="px-3.5 py-1.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-bold text-xs rounded-lg transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">print</span>
+<span>خروجی PDF</span>
+</button>
+</div>
+</div>
+<!-- Metric Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+<!-- Metric 1: Fund -->
+<div class="p-4 rounded-xl bg-surface-container border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="text-xs font-medium">صندوق ذخیره عمرانی</span>
+<span class="material-symbols-outlined text-primary text-[20px]">savings</span>
+</div>
+<div class="space-y-1">
+<p class="text-lg lg:text-xl font-bold text-on-surface">۵۴۰,۰۰۰,۰۰۰ <span class="text-xs font-normal">تومان</span></p>
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-secondary">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                +۱۲.۴٪ نسبت به فصل پیش
+              </span>
+</div>
+</div>
+<!-- Metric 2: Occupancy -->
+<div class="p-4 rounded-xl bg-surface-container border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="text-xs font-medium">ضریب سکونت شهرک</span>
+<span class="material-symbols-outlined text-primary text-[20px]">home</span>
+</div>
+<div class="space-y-1">
+<p class="text-lg lg:text-xl font-bold text-on-surface">۹۲٪ <span class="text-xs font-normal text-on-surface-variant">(۱۴۷ واحد)</span></p>
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-on-surface-variant">
+                ۱۳ واحد خالی از سکنه
+              </span>
+</div>
+</div>
+<!-- Metric 3: Resident Satisfaction -->
+<div class="p-4 rounded-xl bg-surface-container border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="text-xs font-medium">رضایت ساکنین</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">sentiment_satisfied</span>
+</div>
+<div class="space-y-1">
+<p class="text-lg lg:text-xl font-bold text-on-surface">۹۴٪</p>
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-secondary">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                +۳.۲٪ بهبود خدمات حراست
+              </span>
+</div>
+</div>
+<!-- Metric 4: Infrastructure Health -->
+<div class="p-4 rounded-xl bg-surface-container border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="text-xs font-medium">سلامت تاسیسات</span>
+<span class="material-symbols-outlined text-primary text-[20px]">precision_manufacturing</span>
+</div>
+<div class="space-y-1">
+<p class="text-lg lg:text-xl font-bold text-on-surface">۹۸.۲٪</p>
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-secondary">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                کلیه پمپ‌ها در مدار
+              </span>
+</div>
+</div>
+</div>
+<!-- Executive Mini Summary Bar -->
+<div class="p-3.5 bg-surface-container-low rounded-xl border border-outline-variant/20 flex flex-wrap items-center justify-between gap-3 text-xs">
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1.5 font-semibold text-primary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+              وضعیت شارژ ماه جاری:
+            </span>
+<span class="text-on-surface">۹۶.۵٪ وصول موفق (۱۳۲,۰۰۰,۰۰۰ تومان از مجموع ۱۳۷,۰۰۰,۰۰۰ تومان)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-error font-medium">۵ واحد دارای اخطار معوقه</span>
+<a class="text-primary underline font-bold hover:text-primary/80" href="#">ارسال اخطاریه قانونی</a>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Actions & Projects Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Pending Approvals & Executive Actions (نیازمند تایید مدیر) -->
+<section class="lg:col-span-7 bg-surface-container-lowest p-5 lg:p-6 rounded-2xl border border-outline-variant/30 shadow-[0_2px_8px_rgba(0,0,0,0.03)] space-y-4">
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-3.5">
+<div class="flex items-center gap-2">
+<span class="p-2 rounded-lg bg-tertiary-container/10 text-tertiary">
+<span class="material-symbols-outlined text-[20px]">pending_actions</span>
+</span>
+<div>
+<h3 class="text-base font-bold text-on-surface">اقدامات فوری و تاییدیه‌های مدیریت عالی</h3>
+<p class="text-xs text-on-surface-variant">۳ پرونده نیازمند بررسی و امضای مجاز نهایی</p>
+</div>
+</div>
+<span class="px-2.5 py-1 text-xs font-bold bg-error-container text-on-error-container rounded-full">
+            ۳ مورد معلق
+          </span>
+</div>
+<div class="space-y-3.5">
+<!-- Approval 1: Contractor Quote -->
+<div class="p-4 rounded-xl bg-surface-container-low border border-outline-variant/25 hover:border-primary/40 transition-colors space-y-3">
+<div class="flex items-start justify-between gap-2">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed">عمرانی و ابنیه</span>
+<h4 class="text-sm font-bold text-on-surface">پیش‌فاکتور پیمانکار بهسازی آسفالت و روشنایی رینگ غربی</h4>
+</div>
+<p class="text-xs text-on-surface-variant">شرکت راهسازان پارس • مبلغ: ۴۸,۵۰۰,۰۰۰ تومان از محل صندوق ذخیره</p>
+</div>
+<span class="text-xs text-on-surface-variant font-medium whitespace-nowrap">مهلت: ۲ روز</span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container text-xs text-on-surface flex items-center justify-between">
+<span>استعلام قیمت از ۳ پیمانکار تکمیل و به تایید بازرس شهرک رسیده است.</span>
+<a class="text-primary font-bold hover:underline flex items-center gap-0.5" href="#">
+                ضمائم
+                <span class="material-symbols-outlined text-[14px]">attach_file</span>
+</a>
+</div>
+<div class="flex items-center justify-end gap-2 pt-1">
+<button class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-error hover:bg-error-container transition-colors">
+                رد یا اصلاح
+              </button>
+<button class="px-4 py-1.5 rounded-lg text-xs font-bold bg-primary text-on-primary hover:bg-primary/90 flex items-center gap-1 shadow-sm transition-all">
+<span class="material-symbols-outlined text-[16px]">edit_document</span>
+                امضا و تایید پرداخت
+              </button>
+</div>
+</div>
+<!-- Approval 2: Night Security Lobbyist -->
+<div class="p-4 rounded-xl bg-surface-container-low border border-outline-variant/25 hover:border-primary/40 transition-colors space-y-3">
+<div class="flex items-start justify-between gap-2">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container">منابع انسانی</span>
+<h4 class="text-sm font-bold text-on-surface">تایید قرارداد لابی‌من جدید شیفت شب بلوک‌های D و E</h4>
+</div>
+<p class="text-xs text-on-surface-variant">آقای رحمان یزدانی • استعلام سوءپیشینه و طب کار تایید شد</p>
+</div>
+<span class="text-xs text-on-surface-variant font-medium whitespace-nowrap">ثبت: امروز</span>
+</div>
+<div class="flex items-center justify-end gap-2 pt-1">
+<button class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-on-surface-variant hover:bg-surface-container transition-colors">
+                درخواست مصاحبه حضوری
+              </button>
+<button class="px-4 py-1.5 rounded-lg text-xs font-bold bg-secondary text-on-secondary hover:bg-secondary/90 flex items-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[16px]">check</span>
+                تایید صدور کارت تردد
+              </button>
+</div>
+</div>
+<!-- Approval 3: Renovation Permit Unit 204 -->
+<div class="p-4 rounded-xl bg-surface-container-low border border-outline-variant/25 hover:border-primary/40 transition-colors space-y-3">
+<div class="flex items-start justify-between gap-2">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold px-2 py-0.5 rounded bg-surface-container-highest text-on-surface">مجوز ساختمانی</span>
+<h4 class="text-sm font-bold text-on-surface">درخواست بازسازی داخلی و تخریب تیغه آشپزخانه (واحد ۲۰۴ - بلوک B)</h4>
+</div>
+<p class="text-xs text-on-surface-variant">مالک: دکتر علوی • واریز ودیعه تضمین حسن کار (۲۰,۰۰۰,۰۰۰ تومان به حساب امانی)</p>
+</div>
+<span class="text-xs text-on-surface-variant font-medium whitespace-nowrap">مهلت: ۲۴ ساعت</span>
+</div>
+<div class="flex items-center justify-end gap-2 pt-1">
+<button class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-error hover:bg-error-container transition-colors">
+                مشروط به تایید مهندس ناظر
+              </button>
+<button class="px-4 py-1.5 rounded-lg text-xs font-bold bg-primary text-on-primary hover:bg-primary/90 flex items-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[16px]">done_all</span>
+                صدور مجوز ورود مصالح
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Estate Projects & Infrastructure Monitoring -->
+<section class="lg:col-span-5 bg-surface-container-lowest p-5 lg:p-6 rounded-2xl border border-outline-variant/30 shadow-[0_2px_8px_rgba(0,0,0,0.03)] space-y-4">
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-3.5">
+<div class="flex items-center gap-2">
+<span class="p-2 rounded-lg bg-primary-fixed text-primary">
+<span class="material-symbols-outlined text-[20px]">engineering</span>
+</span>
+<div>
+<h3 class="text-base font-bold text-on-surface">پروژه‌های کلان و عمرانی</h3>
+<p class="text-xs text-on-surface-variant">کنترل پیشرفت فیزیکی و زمان‌بندی</p>
+</div>
+</div>
+<button class="text-primary hover:underline text-xs font-bold flex items-center gap-1">
+<span>ثبت پروژه جدید</span>
+<span class="material-symbols-outlined text-[16px]">add_circle</span>
+</button>
+</div>
+<div class="space-y-4">
+<!-- Project 1: ANPR Gate -->
+<div class="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20 space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">camera_outdoor</span>
+<h4 class="text-xs font-bold text-on-surface">هوشمندسازی گیت ورودی شمالی (دوربین پلاک‌خوان OCR)</h4>
+</div>
+<span class="text-xs font-bold text-primary">۷۵٪</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-2 rounded-full" style="width: 75%"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] text-on-surface-variant">
+<span>نصب دکل‌ها انجام شد • تست کابل فیبر نوری</span>
+<span class="text-secondary font-medium">تحویل: ۳۰ دی‌ماه</span>
+</div>
+</div>
+<!-- Project 2: Central Chiller & Boiler Upgrades -->
+<div class="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20 space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[20px]">hvac</span>
+<h4 class="text-xs font-bold text-on-surface">اورهال چیلرهای جذبی و موتورخانه بلوک‌های A تا C</h4>
+</div>
+<span class="text-xs font-bold text-tertiary">۴۵٪</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+<div class="bg-tertiary h-2 rounded-full" style="width: 45%"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] text-on-surface-variant">
+<span>تعویض مشعل‌ها و تصفیه سختی‌گیر آب</span>
+<span class="text-on-surface-variant font-medium">تحویل: ۱۵ بهمن‌ماه</span>
+</div>
+</div>
+<!-- Project 3: Smart Drip Irrigation -->
+<div class="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20 space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">water_drop</span>
+<h4 class="text-xs font-bold text-on-surface">آبیاری قطره‌ای هوشمند فضای سبز ۸ هکتاری</h4>
+</div>
+<span class="text-xs font-bold text-secondary">۹۰٪</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+<div class="bg-secondary h-2 rounded-full" style="width: 90%"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] text-on-surface-variant">
+<span>کاهش ۴۰ درصدی مصرف آب چاه عمیق</span>
+<span class="text-secondary font-medium">مرحله تحویل موقت</span>
+</div>
+</div>
+<!-- Project 4: Solar Lighting -->
+<div class="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20 space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">solar_power</span>
+<h4 class="text-xs font-bold text-on-surface">روشنایی خورشیدی معابر پیاده‌روی دور شهرک</h4>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">۲۰٪</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+<div class="bg-outline h-2 rounded-full" style="width: 20%"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] text-on-surface-variant">
+<span>در انتظار تخصیص ارز برای پنل‌های فتوسل</span>
+<span class="text-on-surface-variant font-medium">تحویل: اسفند ۱۴۰۳</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- 4. Strategic Tools & Command Hub -->
+<section class="bg-surface-container-lowest p-5 lg:p-6 rounded-2xl border border-outline-variant/30 shadow-[0_2px_8px_rgba(0,0,0,0.03)] space-y-4">
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-3.5">
+<div class="flex items-center gap-2">
+<span class="p-2 rounded-lg bg-surface-container-highest text-primary">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+</span>
+<div>
+<h3 class="text-base font-bold text-on-surface">ابزارهای مدیریت استراتژیک و فرماندهی مجمع</h3>
+<p class="text-xs text-on-surface-variant">دستورالعمل‌های حاکمیتی، مجمع عمومی و بازرسی قانونی</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Command Tool 1 -->
+<div class="p-4 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/25 transition-all group flex flex-col justify-between">
+<div class="space-y-2">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">send_and_archive</span>
+</div>
+<h4 class="text-sm font-bold text-on-surface">صدور مصوبه جدید هیئت مدیره</h4>
+<p class="text-xs text-on-surface-variant">ابلاغ رسمی مصوبات به اپلیکیشن اختصاصی ۱۶۰ خانوار و درج در تابلوهای اعلانات.</p>
+</div>
+<button class="mt-4 w-full py-2 bg-surface-container-highest hover:bg-primary hover:text-on-primary text-primary text-xs font-bold rounded-lg transition-all">
+            تنظیم مصوبه جدید
+          </button>
+</div>
+<!-- Command Tool 2 -->
+<div class="p-4 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/25 transition-all group flex flex-col justify-between">
+<div class="space-y-2">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">groups</span>
+</div>
+<h4 class="text-sm font-bold text-on-surface">فراخوان مجمع عمومی فوق‌العاده</h4>
+<p class="text-xs text-on-surface-variant">تعیین دستور جلسه، ثبت نامزدها و سیستم رای‌گیری الکترونیکی مصوبات سالانه.</p>
+</div>
+<button class="mt-4 w-full py-2 bg-surface-container-highest hover:bg-secondary hover:text-on-secondary text-secondary text-xs font-bold rounded-lg transition-all">
+            برنامه‌ریزی مجمع
+          </button>
+</div>
+<!-- Command Tool 3 -->
+<div class="p-4 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/25 transition-all group flex flex-col justify-between">
+<div class="space-y-2">
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">query_stats</span>
+</div>
+<h4 class="text-sm font-bold text-on-surface">گزارش حسابرسی فصلی</h4>
+<p class="text-xs text-on-surface-variant">بررسی صورت‌های مالی، مغایرت‌های بانکی و ترازنامه‌های حسابرس رسمی مستقل.</p>
+</div>
+<button class="mt-4 w-full py-2 bg-surface-container-highest hover:bg-tertiary hover:text-on-tertiary text-tertiary text-xs font-bold rounded-lg transition-all">
+            دریافت تراز پاییز
+          </button>
+</div>
+<!-- Command Tool 4 -->
+<div class="p-4 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/25 transition-all group flex flex-col justify-between">
+<div class="space-y-2">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">rule</span>
+</div>
+<h4 class="text-sm font-bold text-on-surface">بازرسی ادواری ایمنی و حریق</h4>
+<p class="text-xs text-on-surface-variant">چک‌لیست سیستم اعلام و اطفاء، خروجی‌های اضطراری، موتورخانه و برق اضطراری.</p>
+</div>
+<button class="mt-4 w-full py-2 bg-surface-container-highest hover:bg-primary-container hover:text-on-primary text-primary-container text-xs font-bold rounded-lg transition-all">
+            مشاهده آخرین ممیزی
+          </button>
+</div>
+</div>
+</section>
+<!-- 5. Contractors & Operations Team Status (پیمانکاران و تیم‌های اجرایی) -->
+<section class="bg-surface-container-lowest p-5 lg:p-6 rounded-2xl border border-outline-variant/30 shadow-[0_2px_8px_rgba(0,0,0,0.03)] space-y-4">
+<div class="flex flex-wrap items-center justify-between gap-3 border-b border-outline-variant/20 pb-3.5">
+<div class="flex items-center gap-2">
+<span class="p-2 rounded-lg bg-secondary-container/30 text-secondary">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+</span>
+<div>
+<h3 class="text-base font-bold text-on-surface">وضعیت تیم‌های اجرایی و پیمانکاران مقیم شهرک</h3>
+<p class="text-xs text-on-surface-variant">حضور شیفت زنده، انطباق با استاندارد کیفی و امتیاز عملکرد</p>
+</div>
+</div>
+<div class="flex items-center gap-2 text-xs font-bold">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container rounded-lg text-on-surface">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+            تعداد حاضرین امروز: ۲۸ نفر
+          </span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-right border-collapse text-xs">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant border-b border-outline-variant/30">
+<th class="p-3.5 font-bold rounded-r-xl">واحد / پیمانکار</th>
+<th class="p-3.5 font-bold">سرپرست تیم</th>
+<th class="p-3.5 font-bold">وضعیت حضور</th>
+<th class="p-3.5 font-bold">آخرین بازرسی</th>
+<th class="p-3.5 font-bold">شاخص کیفی (KPI)</th>
+<th class="p-3.5 font-bold rounded-l-xl text-left">عملیات نظارتی</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<!-- Contractor 1: Security -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-3.5 font-bold text-on-surface flex items-center gap-2">
+<span class="p-1.5 rounded-md bg-primary-fixed text-primary">
+<span class="material-symbols-outlined text-[16px]">shield</span>
+</span>
+                حراست و انتظامات شهرک (شرکت حافظان نظم)
+              </td>
+<td class="p-3.5 text-on-surface font-medium">سرهنگ کاظمی</td>
+<td class="p-3.5">
+<span class="inline-flex items-center gap-1 text-secondary font-bold bg-secondary-container/40 px-2 py-0.5 rounded-full text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  ۸ نفر از ۸ نفر (کامل)
+                </span>
+</td>
+<td class="p-3.5 text-on-surface-variant">امروز، ساعت ۱۰:۳۰</td>
+<td class="p-3.5">
+<div class="flex items-center gap-2">
+<span class="font-bold text-on-surface">۴.۸ / ۵</span>
+<div class="w-16 bg-surface-container-highest rounded-full h-1.5">
+<div class="bg-secondary h-1.5 rounded-full" style="width: 96%"></div>
+</div>
+</div>
+</td>
+<td class="p-3.5 text-left">
+<button class="px-2.5 py-1 bg-surface-container hover:bg-surface-container-high rounded text-primary font-semibold text-xs">
+                  دفتر وقایع روزانه
+                </button>
+</td>
+</tr>
+<!-- Contractor 2: Gardening -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-3.5 font-bold text-on-surface flex items-center gap-2">
+<span class="p-1.5 rounded-md bg-secondary-container text-on-secondary-container">
+<span class="material-symbols-outlined text-[16px]">yard</span>
+</span>
+                فضای سبز و نهالستان شهرک (رویش سبز)
+              </td>
+<td class="p-3.5 text-on-surface font-medium">مهندس میرزایی</td>
+<td class="p-3.5">
+<span class="inline-flex items-center gap-1 text-secondary font-bold bg-secondary-container/40 px-2 py-0.5 rounded-full text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  ۶ نفر حاضر
+                </span>
+</td>
+<td class="p-3.5 text-on-surface-variant">دیروز</td>
+<td class="p-3.5">
+<div class="flex items-center gap-2">
+<span class="font-bold text-on-surface">۴.۲ / ۵</span>
+<div class="w-16 bg-surface-container-highest rounded-full h-1.5">
+<div class="bg-secondary h-1.5 rounded-full" style="width: 84%"></div>
+</div>
+</div>
+</td>
+<td class="p-3.5 text-left">
+<button class="px-2.5 py-1 bg-surface-container hover:bg-surface-container-high rounded text-primary font-semibold text-xs">
+                  برنامه کوددهی
+                </button>
+</td>
+</tr>
+<!-- Contractor 3: Mechanical & Facilities -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-3.5 font-bold text-on-surface flex items-center gap-2">
+<span class="p-1.5 rounded-md bg-surface-container-highest text-primary">
+<span class="material-symbols-outlined text-[16px]">plumbing</span>
+</span>
+                تاسیسات مکانیکی و آبرسانی
+              </td>
+<td class="p-3.5 text-on-surface font-medium">استاد بهرامی</td>
+<td class="p-3.5">
+<span class="inline-flex items-center gap-1 text-secondary font-bold bg-secondary-container/40 px-2 py-0.5 rounded-full text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  ۴ نفر شیفت روز
+                </span>
+</td>
+<td class="p-3.5 text-on-surface-variant">امروز، ساعت ۰۸:۰۰</td>
+<td class="p-3.5">
+<div class="flex items-center gap-2">
+<span class="font-bold text-on-surface">۴.۹ / ۵</span>
+<div class="w-16 bg-surface-container-highest rounded-full h-1.5">
+<div class="bg-secondary h-1.5 rounded-full" style="width: 98%"></div>
+</div>
+</div>
+</td>
+<td class="p-3.5 text-left">
+<button class="px-2.5 py-1 bg-surface-container hover:bg-surface-container-high rounded text-primary font-semibold text-xs">
+                  لاگ دما و فشار
+                </button>
+</td>
+</tr>
+<!-- Contractor 4: Cleaning -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-3.5 font-bold text-on-surface flex items-center gap-2">
+<span class="p-1.5 rounded-md bg-outline-variant/30 text-on-surface">
+<span class="material-symbols-outlined text-[16px]">cleaning_services</span>
+</span>
+                نظافت عمومی محوطه و شوتینگ زباله
+              </td>
+<td class="p-3.5 text-on-surface font-medium">آقای قنبری</td>
+<td class="p-3.5">
+<span class="inline-flex items-center gap-1 text-on-surface-variant font-bold bg-surface-container px-2 py-0.5 rounded-full text-[11px]">
+                  ۱۰ نفر حاضر (۲ مرخصی)
+                </span>
+</td>
+<td class="p-3.5 text-on-surface-variant">۳ روز پیش</td>
+<td class="p-3.5">
+<div class="flex items-center gap-2">
+<span class="font-bold text-on-surface">۳.۸ / ۵</span>
+<div class="w-16 bg-surface-container-highest rounded-full h-1.5">
+<div class="bg-outline h-1.5 rounded-full" style="width: 76%"></div>
+</div>
+</div>
+</td>
+<td class="p-3.5 text-left">
+<button class="px-2.5 py-1 bg-surface-container hover:bg-surface-container-high rounded text-primary font-semibold text-xs">
+                  تذکر کیفی
+                </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- Sticky Bottom Navigation Bar (Shared Asset with Exact Preserved Logic) -->
+<nav class="fixed bottom-0 left-0 right-0 z-40 bg-[#f9f9fb] border-t border-[#e9ebf2] px-4 pb-2 pt-1 shadow-lg max-w-7xl mx-auto">
+<div class="flex items-center justify-around">
+<a class="just flex flex-1 flex-col items-center justify-end gap-1 rounded-full text-[#0f121a]" href="#">
+<div class="text-[#0f121a] flex h-8 items-center justify-center" data-icon="Gauge" data-size="24px" data-weight="fill">
+<svg fill="currentColor" height="24px" viewbox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M240,160v24a16,16,0,0,1-16,16H115.93a4,4,0,0,1-3.24-6.35L174.27,109a8.21,8.21,0,0,0-1.37-11.3,8,8,0,0,0-11.37,1.61l-72,99.06A4,4,0,0,1,86.25,200H32a16,16,0,0,1-16-16V161.13c0-1.79,0-3.57.13-5.33a4,4,0,0,1,4-3.8H48a8,8,0,0,0,8-8.53A8.17,8.17,0,0,0,47.73,136H23.92a4,4,0,0,1-3.87-5c12-43.84,49.66-77.13,95.52-82.28a4,4,0,0,1,4.43,4V80a8,8,0,0,0,8.53,8A8.17,8.17,0,0,0,136,79.73V52.67a4,4,0,0,1,4-4A112.18,112.18,0,0,1,236.23,131a4,4,0,0,1-3.88,5H208.27a8.17,8.17,0,0,0-8.25,7.47,8,8,0,0,0,8,8.53h27.92a4,4,0,0,1,4,3.86C240,157.23,240,158.61,240,160Z"></path>
+</svg>
+</div>
+<p class="text-[#0f121a] text-xs font-medium leading-normal tracking-[0.015em]">داشبورد کلان</p>
+</a>
+<a class="just flex flex-1 flex-col items-center justify-end gap-1 text-[#556591]" href="#">
+<div class="text-[#556591] flex h-8 items-center justify-center" data-icon="Kanban" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewbox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M216,48H40a8,8,0,0,0-8,8V208a16,16,0,0,0,16,16H88a16,16,0,0,0,16-16V160h48v16a16,16,0,0,0,16,16h40a16,16,0,0,0,16-16V56A8,8,0,0,0,216,48ZM88,208H48V128H88Zm0-96H48V64H88Zm64,32H104V64h48Zm56,32H168V128h40Zm0-64H168V64h40Z"></path>
+</svg>
+</div>
+<p class="text-[#556591] text-xs font-medium leading-normal tracking-[0.015em]">پروژه‌ها</p>
+</a>
+<a class="just flex flex-1 flex-col items-center justify-end gap-1 text-[#556591]" href="#">
+<div class="text-[#556591] flex h-8 items-center justify-center" data-icon="CheckCircle" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewbox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+</svg>
+</div>
+<p class="text-[#556591] text-xs font-medium leading-normal tracking-[0.015em]">تاییدیه‌ها</p>
+</a>
+<a class="just flex flex-1 flex-col items-center justify-end gap-1 text-[#556591]" href="#">
+<div class="text-[#556591] flex h-8 items-center justify-center" data-icon="ChartBar" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewbox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M224,200h-8V40a8,8,0,0,0-8-8H152a8,8,0,0,0-8,8V80H96a8,8,0,0,0-8,8v40H48a8,8,0,0,0-8,8v64H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16ZM160,48h40V200H160ZM104,96h40V200H104ZM56,144H88v56H56Z"></path>
+</svg>
+</div>
+<p class="text-[#556591] text-xs font-medium leading-normal tracking-[0.015em]">گزارش‌ها</p>
+</a>
+</div>
+</nav>
+</body></html>

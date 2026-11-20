@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "outline-variant": "#c5c5d3", "on-tertiary": "#ffffff", "primary-fixed-dim": "#b6c4ff", "on-tertiary-fixed-variant": "#930013", "on-error": "#ffffff", "tertiary-fixed-dim": "#ffb3ad", "on-primary-container": "#90a8ff", "tertiary-fixed": "#ffdad7", "on-primary-fixed": "#00164e", "inverse-surface": "#213145", "on-primary": "#ffffff", "surface-container-lowest": "#ffffff", "on-secondary": "#ffffff", "on-tertiary-container": "#ff8a83", "on-secondary-fixed-variant": "#005137", "tertiary-container": "#860011", "on-surface-variant": "#444651", "tertiary": "#5c0008", "surface-container-high": "#dce9ff", "inverse-primary": "#b6c4ff", "secondary-container": "#82f5c1", "secondary-fixed-dim": "#68dba9", "secondary-fixed": "#85f8c4", "surface-tint": "#4059aa", "surface-container-highest": "#d3e4fe", "error-container": "#ffdad6", "primary-container": "#1e3a8a", "on-secondary-container": "#00714e", "primary": "#00236f", "error": "#ba1a1a", "on-surface": "#0b1c30", "surface-variant": "#d3e4fe", "surface-container": "#e5eeff", "surface-container-low": "#eff4ff", "surface": "#f8f9ff", "surface-dim": "#cbdbf5", "primary-fixed": "#dce1ff", "surface-bright": "#f8f9ff", "on-tertiary-fixed": "#410004", "inverse-on-surface": "#eaf1ff", "secondary": "#006c4a", "on-error-container": "#93000a", "on-secondary-fixed": "#002114", "background": "#f8f9ff", "on-background": "#0b1c30", "outline": "#757682", "on-primary-fixed-variant": "#264191" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "margin-mobile": "1rem", "space-xl": "2rem", "space-md": "1rem", "gutter": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "margin": "1.25rem", "gutter-mobile": "0.75rem" }, fontFamily: { "label-sm": ["Vazirmatn"], "label-md": ["Vazirmatn"], "numeric-stat": ["Vazirmatn"], "body-sm": ["Vazirmatn"], "headline-lg-mobile": ["Vazirmatn"], "headline-sm": ["Vazirmatn"], "body-md": ["Vazirmatn"], "headline-lg": ["Vazirmatn"], "display-lg": ["Vazirmatn"], "label-lg": ["Vazirmatn"], "body-lg": ["Vazirmatn"], "headline-md": ["Vazirmatn"] }, fontSize: { "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }], "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "numeric-stat": ["24px", { "lineHeight": "32px", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-lg-mobile": ["22px", { "lineHeight": "32px", "fontWeight": "700" }], "headline-sm": ["17px", { "lineHeight": "26px", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "headline-lg": ["28px", { "lineHeight": "38px", "fontWeight": "700" }], "display-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "30px", "fontWeight": "700" }] } } } }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><button aria-label="بازگشت" class="w-11 h-11 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors text-on-surface" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_forward</span></button><div class="flex flex-col text-right"><span class="font-label-sm text-on-surface-variant">ارتباط مدیر بلوک با شهرک و انتظامات</span><h1 class="font-headline-sm text-on-surface leading-tight">Dashboard Messages</h1></div></div><div class="flex items-center gap-space-xs"><button aria-label="اعلان‌ها" class="relative w-11 h-11 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors text-on-surface" type="button"><span class="material-symbols-outlined text-[24px]">notifications</span><span class="absolute top-2.5 left-2.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface"></span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full px-margin-mobile pt-16 pb-24 bg-surface"><div class="flex flex-col w-full gap-space-md">
+<!-- Block & Manager Identity Card -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm relative overflow-hidden">
+<div class="absolute -top-12 -left-12 w-32 h-32 rounded-full bg-primary-fixed/30 blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between gap-space-sm relative z-10">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-12 h-12 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[26px]">apartment</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-on-surface truncate">بلوک B (پردیس)</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+</div>
+<span class="font-body-sm text-on-surface-variant truncate">مهندس کاویانی (مدیر بلوک)</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-secondary-container/30 px-2.5 py-1 rounded-full shrink-0">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-sm text-on-secondary-container">ارتباط پایدار با شهرک</span>
+</div>
+</div>
+<!-- Sub-bar: Network Signal & Estate Info -->
+<div class="flex items-center justify-between pt-space-xs font-label-md text-on-surface-variant border-t border-surface-container/60">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+        اتصال مستقیم به سامانه جامع شهرک
+      </span>
+<span class="text-primary font-bold">سامانه نسخه ۴.۲</span>
+</div>
+</section>
+<!-- Quick Status & Metric Cards (Tactile Soft-Layering) -->
+<section class="grid grid-cols-2 gap-space-sm">
+<!-- Active Letters -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">mark_email_unread</span>
+</div>
+<span class="font-label-sm px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed">۴ پیام</span>
+</div>
+<div class="mt-space-sm">
+<span class="font-label-sm text-on-surface-variant block">مکاتبات در جریان</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-numeric-stat text-on-surface">۲</span>
+<span class="font-label-sm text-on-surface-variant">در انتظار تایید شهرک</span>
+</div>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 mt-space-xs overflow-hidden flex">
+<div class="bg-primary h-full rounded-full" style="width: 50%"></div>
+<div class="bg-secondary-fixed-dim h-full rounded-full" style="width: 50%"></div>
+</div>
+</div>
+<!-- Active Gate Permits -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<div class="w-8 h-8 rounded-lg bg-secondary-container/40 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+</div>
+<span class="font-label-sm px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container">۳ مجوز</span>
+</div>
+<div class="mt-space-sm">
+<span class="font-label-sm text-on-surface-variant block">مجوزهای انتظامات</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-numeric-stat text-secondary">فعال</span>
+<span class="font-label-sm text-on-surface-variant">گیت شمالی و اصلی</span>
+</div>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 mt-space-xs overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 100%"></div>
+</div>
+</div>
+</section>
+<!-- Urgent Action Callout -->
+<section class="bg-error-container/40 rounded-xl p-space-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-on-error-container">
+<span class="material-symbols-outlined text-[20px] text-error">notification_important</span>
+<span class="font-label-lg text-on-error-container">اقدام فوری مورد نیاز (۲ مورد)</span>
+</div>
+<span class="font-label-sm bg-error-container text-on-error-container px-2 py-0.5 rounded-full">امروز</span>
+</div>
+<div class="flex flex-col gap-1.5 mt-1">
+<!-- Item 1 -->
+<div class="bg-surface-container-lowest/90 p-2.5 rounded-lg flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-2 h-2 rounded-full bg-error shrink-0"></span>
+<p class="font-body-sm text-on-surface truncate">تذکر به ساکن واحد ۳۰۲ (سر و صدای نامتعارف شبانه)</p>
+</div>
+<button class="shrink-0 bg-primary-fixed text-on-primary-fixed px-2.5 py-1 rounded text-label-sm font-label-sm hover:bg-primary-fixed-dim transition-colors" type="button">
+          ثبت اخطار
+        </button>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface-container-lowest/90 p-2.5 rounded-lg flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-2 h-2 rounded-full bg-error shrink-0"></span>
+<p class="font-body-sm text-on-surface truncate">تاییدیه نهایی فاکتور تعمیر اساسی موتورخانه بلوک B</p>
+</div>
+<button class="shrink-0 bg-primary-fixed text-on-primary-fixed px-2.5 py-1 rounded text-label-sm font-label-sm hover:bg-primary-fixed-dim transition-colors" type="button">
+          امضا و ارجاع
+        </button>
+</div>
+</div>
+</section>
+<!-- Quick Action Grid (ابزارهای سریع ارتباطی) -->
+<section class="flex flex-col gap-space-xs">
+<h2 class="font-headline-sm text-on-surface px-1">ابزارهای سریع ارتباطی</h2>
+<div class="grid grid-cols-2 gap-space-xs">
+<button class="bg-surface-container-lowest p-space-sm rounded-xl shadow-sm text-right flex items-center gap-space-sm active:scale-[0.98] transition-transform" type="button">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed text-on-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">post_add</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-on-surface leading-tight">نامه به شهرک</span>
+<span class="font-label-sm text-on-surface-variant truncate">ثبت مکاتبه رسمی جدید</span>
+</div>
+</button>
+<button class="bg-surface-container-lowest p-space-sm rounded-xl shadow-sm text-right flex items-center gap-space-sm active:scale-[0.98] transition-transform" type="button">
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">car_rental</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-on-surface leading-tight">مجوز تردد</span>
+<span class="font-label-sm text-on-surface-variant truncate">هماهنگی با گیت حراست</span>
+</div>
+</button>
+<button class="bg-surface-container-lowest p-space-sm rounded-xl shadow-sm text-right flex items-center gap-space-sm active:scale-[0.98] transition-transform" type="button">
+<div class="w-10 h-10 rounded-lg bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">plumbing</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-on-surface leading-tight">فوریت تاسیساتی</span>
+<span class="font-label-sm text-on-surface-variant truncate">اعلام خرابی زیرساخت بلوک</span>
+</div>
+</button>
+<button class="bg-surface-container-lowest p-space-sm rounded-xl shadow-sm text-right flex items-center gap-space-sm active:scale-[0.98] transition-transform" type="button">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest text-on-surface flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-on-surface leading-tight">استعلام بودجه</span>
+<span class="font-label-sm text-on-surface-variant truncate">سهم شارژ تجمیعی بلوک</span>
+</div>
+</button>
+</div>
+</section>
+<!-- Interactive Live Gate Coordination Section -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-full bg-secondary animate-ping"></span>
+<h2 class="font-headline-sm text-on-surface">هماهنگی زنده گیت انتظامات</h2>
+</div>
+<a class="flex items-center gap-1 bg-primary text-on-primary px-3 py-1.5 rounded-lg font-label-sm active:opacity-90 transition-opacity" href="tel:02191000000">
+<span class="material-symbols-outlined text-[16px]">call</span>
+        تماس با سرشیفت
+      </a>
+</div>
+<!-- Guard on Duty Status -->
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[20px]">shield_person</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-on-surface">سرشیفت: رحمان حسینی</span>
+<span class="font-label-sm text-on-surface-variant">گیت ورودی اصلی شهرک (شیفت روز)</span>
+</div>
+</div>
+<span class="font-label-sm text-secondary bg-secondary-container/40 px-2 py-0.5 rounded-full">پاسخگو</span>
+</div>
+<!-- Active Gate Items List -->
+<div class="flex flex-col gap-2 mt-1">
+<!-- Moving permit -->
+<div class="bg-surface-container-lowest p-3 rounded-lg shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">local_shipping</span>
+<span class="font-label-lg text-on-surface">مجوز اسباب‌کشی - واحد ۲۰۲</span>
+</div>
+<span class="font-label-sm bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded">تایید شده</span>
+</div>
+<p class="font-body-sm text-on-surface-variant pr-7">
+          جمعه ساعت ۹ الی ۱۴ • ودیعه تخلیه اخذ شد • الزام نایلون‌کشی بدنه آسانسور باربری رعایت شود.
+        </p>
+<div class="flex items-center justify-end gap-2 pr-7">
+<button class="text-label-sm font-label-sm text-primary flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">print</span>
+            برگه عبور گیت
+          </button>
+</div>
+</div>
+<!-- Construction Entry -->
+<div class="bg-surface-container-lowest p-3 rounded-lg shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">fire_truck</span>
+<span class="font-label-lg text-on-surface">کامیون مصالح بازسازی - واحد ۱۰۴</span>
+</div>
+<span class="font-label-sm bg-primary-fixed text-on-primary-fixed px-2 py-0.5 rounded">مجوز تردد موقت</span>
+</div>
+<p class="font-body-sm text-on-surface-variant pr-7">
+          ورود کامیون خاور حامل سرامیک و گچ • ناظر مقیم تایید کرد • ساعت مجاز تخلیه: ۱۰:۰۰ الی ۱۲:۳۰
+        </p>
+</div>
+<!-- Parking Violation Callout -->
+<div class="bg-error-container/20 p-3 rounded-lg flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-error">
+<span class="material-symbols-outlined text-[20px]">minor_crash</span>
+<span class="font-label-lg text-on-error-container">تخلف پارکینگ منفی ۲</span>
+</div>
+<span class="font-label-sm bg-error text-on-error px-2 py-0.5 rounded">هشدار</span>
+</div>
+<p class="font-body-sm text-on-surface-variant pr-7">
+          خودرو پژو ۲۰۶ نوک‌مدادی ناشناس در باکس اختصاصی واحد ۲۰۵ پارک کرده است.
+        </p>
+<div class="flex justify-end gap-space-xs pr-7">
+<button class="bg-error text-on-error px-3 py-1 rounded text-label-sm font-label-sm active:opacity-90" type="button">
+            اعزام مامور گیت و ثبت جریمه
+          </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Official Letters & Correspondence Inbox (کارتابل مکاتبات رسمی) -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">inventory</span>
+<h2 class="font-headline-sm text-on-surface">کارتابل مکاتبات رسمی با شهرک</h2>
+</div>
+<button class="font-label-sm text-primary flex items-center" type="button">
+        مشاهده آرشیو (۳۴)
+        <span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+</div>
+<!-- Letter 1 -->
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col gap-space-xs hover:bg-surface-container transition-colors">
+<div class="flex items-start justify-between gap-space-xs">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-primary font-bold">NL-B-1402</span>
+<span class="font-label-sm bg-error-container text-on-error-container px-1.5 py-0.5 rounded">فوری</span>
+</div>
+<h3 class="font-label-lg text-on-surface mt-1 leading-snug">درخواست اورهال فوری پمپ آبرسانی فشار قوی بلوک B</h3>
+</div>
+<span class="font-label-sm text-secondary bg-secondary-container/40 px-2 py-0.5 rounded shrink-0">موافقت شد</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm pt-1 border-t border-surface-container-high/50">
+<span>فرستنده: مدیر بلوک B ➔ مدیریت شهرک</span>
+<span>ارجاع به امور مالی</span>
+</div>
+</div>
+<!-- Letter 2 -->
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col gap-space-xs hover:bg-surface-container transition-colors">
+<div class="flex items-start justify-between gap-space-xs">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-on-surface-variant font-bold">NL-ADM-894</span>
+<span class="font-label-sm bg-surface-container-high text-on-surface px-1.5 py-0.5 rounded">ابلاغیه رسمی</span>
+</div>
+<h3 class="font-label-lg text-on-surface mt-1 leading-snug">دستورالعمل ساعت خاموشی و نظافت مشاعات شهرک</h3>
+</div>
+<span class="font-label-sm bg-surface-container-highest text-on-surface px-2 py-0.5 rounded shrink-0">دارای پیوست PDF</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm pt-1 border-t border-surface-container-high/50">
+<span>فرستنده: مدیر شهرک (دکتر رادفر)</span>
+<span>مصوب هیئت مدیره</span>
+</div>
+</div>
+<!-- Letter 3 -->
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col gap-space-xs hover:bg-surface-container transition-colors">
+<div class="flex items-start justify-between gap-space-xs">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-primary font-bold">NL-B-1398</span>
+<span class="font-label-sm bg-secondary-container text-on-secondary-container px-1.5 py-0.5 rounded">واریز مالی</span>
+</div>
+<h3 class="font-label-lg text-on-surface mt-1 leading-snug">تسویه سهم شارژ ماهانه بلوک B و واریز به صندوق کل</h3>
+</div>
+<span class="font-label-sm text-secondary bg-secondary-container/40 px-2 py-0.5 rounded shrink-0">تایید حسابداری</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm pt-1 border-t border-surface-container-high/50">
+<span class="font-numeric-stat text-label-lg text-primary">۳۸,۵۰۰,۰۰۰ تومان</span>
+<span>شماره فیش: ۸۹۹۲۱۴</span>
+</div>
+</div>
+</section>
+<!-- Interactive Direct Chat & Voice Dispatch Panel -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">forum</span>
+<h2 class="font-headline-sm text-on-surface">ارتباط بی‌درنگ با ستاد شهرک</h2>
+</div>
+<div class="flex items-center gap-1 bg-surface-container p-0.5 rounded-lg text-label-sm">
+<button class="px-2 py-0.5 rounded bg-surface-container-lowest text-primary font-bold shadow-sm" id="chat-tab-admin" type="button">مدیر شهرک</button>
+<button class="px-2 py-0.5 rounded text-on-surface-variant" id="chat-tab-security" type="button">سرشیفت گیت</button>
+</div>
+</div>
+<!-- Mini Message Thread -->
+<div class="bg-surface-container-low/70 rounded-xl p-space-sm flex flex-col gap-space-sm max-h-48 overflow-y-auto">
+<!-- Incoming Message -->
+<div class="flex flex-col items-start max-w-[85%] self-start">
+<div class="bg-surface-container-lowest p-2.5 rounded-xl rounded-tr-none shadow-sm text-right">
+<span class="font-label-sm text-primary block mb-0.5">دکتر رادفر (مدیر شهرک)</span>
+<p class="font-body-sm text-on-surface">مهندس کاویانی عزیز، پیمانکار تاسیسات ساعت ۱۶ برای پمپ آب در لابی بلوک B مستقر خواهد شد.</p>
+</div>
+<span class="font-label-sm text-on-surface-variant mt-1 px-1">۱۰:۴۲ ق.ظ</span>
+</div>
+<!-- Outgoing Message -->
+<div class="flex flex-col items-end max-w-[85%] self-end">
+<div class="bg-primary text-on-primary p-2.5 rounded-xl rounded-tl-none shadow-sm text-right">
+<p class="font-body-sm">درود. هماهنگ شد، تکنسین مقیم بلوک را نیز همراهشان فرستادم.</p>
+</div>
+<div class="flex items-center gap-1 mt-1 px-1">
+<span class="font-label-sm text-on-surface-variant">۱۰:۴۵ ق.ظ</span>
+<span class="material-symbols-outlined text-[14px] text-secondary">done_all</span>
+</div>
+</div>
+</div>
+<!-- Dispatch Input Bar with Audio Mic & Quick Send -->
+<div class="flex items-center gap-space-xs mt-1">
+<button aria-label="ضبط پیام صوتی بی‌سیم" class="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center text-primary active:bg-primary active:text-on-primary transition-colors shrink-0" id="voice-record-btn" type="button">
+<span class="material-symbols-outlined text-[22px]">mic</span>
+</button>
+<div class="flex-1 relative flex items-center">
+<input class="w-full h-11 bg-surface-container-low text-on-surface placeholder:text-on-surface-variant rounded-xl pr-3 pl-10 text-body-md focus:outline-none focus:ring-2 focus:ring-primary/40" placeholder="پیام فوری یا گزارش اضطراری..." type="text"/>
+<button aria-label="افزودن پیوست عکس یا سند" class="absolute left-2 text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined text-[20px]">attach_file</span>
+</button>
+</div>
+<button aria-label="ارسال پیام" class="w-11 h-11 rounded-xl bg-primary text-on-primary flex items-center justify-center shadow-md active:scale-95 transition-transform shrink-0" type="button">
+<span class="material-symbols-outlined text-[20px] rtl:-rotate-90">send</span>
+</button>
+</div>
+</section>
+</div>
+<script>
+  // Simple micro-interaction for switching channel tabs and mic feedback
+  document.getElementById('chat-tab-admin')?.addEventListener('click', function() {
+    this.className = "px-2 py-0.5 rounded bg-surface-container-lowest text-primary font-bold shadow-sm";
+    const sec = document.getElementById('chat-tab-security');
+    if (sec) sec.className = "px-2 py-0.5 rounded text-on-surface-variant";
+  });
+
+  document.getElementById('chat-tab-security')?.addEventListener('click', function() {
+    this.className = "px-2 py-0.5 rounded bg-surface-container-lowest text-primary font-bold shadow-sm";
+    const adm = document.getElementById('chat-tab-admin');
+    if (adm) adm.className = "px-2 py-0.5 rounded text-on-surface-variant";
+  });
+
+  const micBtn = document.getElementById('voice-record-btn');
+  let isRecording = false;
+  micBtn?.addEventListener('click', function() {
+    isRecording = !isRecording;
+    if (isRecording) {
+      micBtn.classList.add('bg-error', 'text-on-error', 'animate-pulse');
+      micBtn.classList.remove('bg-surface-container', 'text-primary');
+    } else {
+      micBtn.classList.remove('bg-error', 'text-on-error', 'animate-pulse');
+      micBtn.classList.add('bg-surface-container', 'text-primary');
+    }
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_-4px_20px_rgba(15,23,42,0.06)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[56px] h-12 px-space-xs transition-colors gap-0.5 text-primary font-bold" data-path="dashboard-messages" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="font-label-sm">مکاتبات</span></a><a class="flex flex-col items-center justify-center min-w-[56px] h-12 px-space-xs text-on-surface-variant hover:text-on-surface transition-colors gap-0.5" data-path="security-gate" href="#"><span class="material-symbols-outlined text-[22px]">shield</span><span class="font-label-sm">انتظامات</span></a><a class="flex flex-col items-center justify-center min-w-[56px] h-12 px-space-xs text-on-surface-variant hover:text-on-surface transition-colors gap-0.5" data-path="requests-permits" href="#"><span class="material-symbols-outlined text-[22px]">assignment_add</span><span class="font-label-sm">مجوزها</span></a><a class="flex flex-col items-center justify-center min-w-[56px] h-12 px-space-xs text-on-surface-variant hover:text-on-surface transition-colors gap-0.5" data-path="archive-records" href="#"><span class="material-symbols-outlined text-[22px]">inventory_2</span><span class="font-label-sm">آرشیو</span></a></div></nav></body></html>

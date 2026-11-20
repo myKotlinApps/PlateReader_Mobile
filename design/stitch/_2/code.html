@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>حسابداری شارژ و صندوق مجتمع</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Vazirmatn Font for Persian Typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "inverse-primary": "#b6c4ff",
+            "primary-container": "#1e3a8a",
+            "primary-fixed-dim": "#b6c4ff",
+            "on-tertiary-fixed": "#410004",
+            "tertiary-fixed-dim": "#ffb3ad",
+            "primary": "#00236f",
+            "surface-tint": "#4059aa",
+            "on-secondary-container": "#00714e",
+            "on-primary-fixed-variant": "#264191",
+            "surface-container-lowest": "#ffffff",
+            "error": "#ba1a1a",
+            "surface": "#f8f9ff",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "secondary-fixed": "#85f8c4",
+            "surface-variant": "#d3e4fe",
+            "on-secondary-fixed-variant": "#005137",
+            "surface-container-low": "#eff4ff",
+            "on-error-container": "#93000a",
+            "on-error": "#ffffff",
+            "on-surface-variant": "#444651",
+            "surface-container": "#e5eeff",
+            "on-primary-container": "#90a8ff",
+            "outline-variant": "#c5c5d3",
+            "on-surface": "#0b1c30",
+            "outline": "#757682",
+            "surface-bright": "#f8f9ff",
+            "on-tertiary-container": "#ff8a83",
+            "on-primary-fixed": "#00164e",
+            "surface-container-highest": "#d3e4fe",
+            "surface-dim": "#cbdbf5",
+            "on-background": "#0b1c30",
+            "tertiary-fixed": "#ffdad7",
+            "tertiary-container": "#860011",
+            "tertiary": "#5c0008",
+            "surface-container-high": "#dce9ff",
+            "on-tertiary-fixed-variant": "#930013",
+            "background": "#f8f9ff",
+            "inverse-surface": "#213145",
+            "on-secondary": "#ffffff",
+            "primary-fixed": "#dce1ff",
+            "secondary-container": "#82f5c1",
+            "on-primary": "#ffffff",
+            "secondary-fixed-dim": "#68dba9",
+            "on-secondary-fixed": "#002114",
+            "secondary": "#006c4a",
+            "inverse-on-surface": "#eaf1ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.25rem",
+            "space-md": "1rem",
+            "gutter-mobile": "0.75rem",
+            "space-sm": "0.5rem",
+            "margin": "1.25rem",
+            "margin-mobile": "1rem",
+            "gutter": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "headline-sm": ["Vazirmatn", "sans-serif"],
+            "headline-lg-mobile": ["Vazirmatn", "sans-serif"],
+            "display-lg": ["Vazirmatn", "sans-serif"],
+            "label-sm": ["Vazirmatn", "sans-serif"],
+            "body-md": ["Vazirmatn", "sans-serif"],
+            "body-sm": ["Vazirmatn", "sans-serif"],
+            "label-lg": ["Vazirmatn", "sans-serif"],
+            "headline-lg": ["Vazirmatn", "sans-serif"],
+            "label-md": ["Vazirmatn", "sans-serif"],
+            "numeric-stat": ["Vazirmatn", "sans-serif"],
+            "headline-md": ["Vazirmatn", "sans-serif"],
+            "body-lg": ["Vazirmatn", "sans-serif"]
+          },
+          "fontSize": {
+            "headline-sm": ["17px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "headline-lg-mobile": ["22px", { "lineHeight": "32px", "fontWeight": "700" }],
+            "display-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-lg": ["28px", { "lineHeight": "38px", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "numeric-stat": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+            "headline-md": ["20px", { "lineHeight": "30px", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-28 antialiased selection:bg-surface-variant">
+<!-- Top App Navigation / Header -->
+<header class="sticky top-0 z-30 bg-surface-container-lowest/90 backdrop-blur-md border-b border-outline-variant/30">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[22px]">domain</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h1 class="text-headline-sm font-bold text-on-surface">برج مسکونی بهاران</h1>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-semibold bg-surface-container text-primary">دوره آبان ۱۴۰۳</span>
+</div>
+<p class="text-body-sm text-outline">حسابداری شارژ، صندوق ذخیره و تنخواه‌گردان مجتمع</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-1.5 px-3 py-1.5 text-body-sm font-medium text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-lg transition-colors border border-outline-variant/40" title="جستجو در واحدها">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span class="hidden sm:inline">جستجو</span>
+</button>
+<button class="relative p-2 text-on-surface-variant hover:text-primary rounded-lg hover:bg-surface-container-low transition-colors" title="اعلان‌ها">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full ring-2 ring-surface-container-lowest"></span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-5xl mx-auto px-4 sm:px-6 pt-5 space-y-6">
+<!-- بخش ۱: کارت هدر خلاصه مالی و پیشرفت وصولی -->
+<section class="bg-surface-container-lowest rounded-2xl p-5 sm:p-6 border border-outline-variant/40 shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-outline-variant/30">
+<div>
+<h2 class="text-headline-md font-bold text-on-surface">وضعیت مالی و صندوق دوره جاری</h2>
+<p class="text-body-sm text-outline">بروزرسانی زنده بر اساس فیش‌های تایید شده و پرداخت‌های آنلاین</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 text-label-md text-secondary bg-secondary-container/40 px-2.5 py-1 rounded-full font-medium">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+            صندوق تنخواه: ۱۲,۴۰۰,۰۰۰ ت
+          </span>
+</div>
+</div>
+<!-- ۳ کارت متریک -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-5">
+<!-- کل شارژ -->
+<div class="bg-surface-container-low/70 rounded-xl p-4 border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex items-center justify-between text-outline text-body-sm">
+<span>کل شارژ این ماه</span>
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+</span>
+</div>
+<div class="mt-3">
+<div class="text-numeric-stat font-extrabold text-on-surface tracking-tight">۴۵,۰۰۰,۰۰۰ <span class="text-body-sm font-medium text-outline">تومان</span></div>
+<div class="flex items-center gap-1 mt-1 text-label-md text-secondary font-medium">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span>+۸۵٪ نرخ ابلاغ به ساکنین</span>
+</div>
+</div>
+</div>
+<!-- وصول شده -->
+<div class="bg-secondary-container/20 rounded-xl p-4 border border-secondary/20 flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary text-body-sm font-medium">
+<span>وصول شده تا کنون</span>
+<span class="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</span>
+</div>
+<div class="mt-3">
+<div class="text-numeric-stat font-extrabold text-secondary tracking-tight">۳۸,۵۰۰,۰۰۰ <span class="text-body-sm font-medium text-secondary">تومان</span></div>
+<div class="flex items-center gap-1 mt-1 text-label-md text-secondary font-medium">
+<span class="material-symbols-outlined text-[16px]">arrow_circle_up</span>
+<span>+۱۲٪ رشد تسویه نسبت به ماه قبل</span>
+</div>
+</div>
+</div>
+<!-- مانده معوق -->
+<div class="bg-error-container/30 rounded-xl p-4 border border-error/20 flex flex-col justify-between">
+<div class="flex items-center justify-between text-error text-body-sm font-medium">
+<span>مانده معوق و بدهی جاری</span>
+<span class="w-8 h-8 rounded-lg bg-error/10 flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+</span>
+</div>
+<div class="mt-3">
+<div class="text-numeric-stat font-extrabold text-error tracking-tight">۶,۵۰۰,۰۰۰ <span class="text-body-sm font-medium text-error">تومان</span></div>
+<div class="flex items-center gap-1 mt-1 text-label-md text-error font-medium">
+<span class="material-symbols-outlined text-[16px]">hourglass_empty</span>
+<span>۴ واحد دارای دیرکرد پرداخت</span>
+</div>
+</div>
+</div>
+</div>
+<!-- نوار پیشرفت وصول مطالبات -->
+<div class="mt-5 pt-4 border-t border-outline-variant/30">
+<div class="flex items-center justify-between text-body-sm mb-2">
+<span class="font-medium text-on-surface">میزان وصول مطالبات این دوره</span>
+<span class="font-bold text-primary">۸۵.۵٪ وصولی کامل</span>
+</div>
+<div class="h-3 w-full bg-surface-container rounded-full overflow-hidden p-0.5">
+<div class="h-full bg-gradient-to-l from-primary-container to-secondary rounded-full transition-all duration-700 ease-out" style="width: 85.5%;"></div>
+</div>
+<div class="flex justify-between items-center text-label-sm text-outline mt-1.5">
+<span>۳۸,۵۰۰,۰۰۰ وصولی نقدی</span>
+<span>هدف: ۴۵,۰۰۰,۰۰۰ تومان</span>
+</div>
+</div>
+</section>
+<!-- بخش ۴: فرمول و مبنای محاسبه شارژ -->
+<section class="bg-surface-container-lowest rounded-xl p-4 sm:p-5 border border-outline-variant/40 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-variant flex items-center justify-center text-primary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">calculate</span>
+</div>
+<div>
+<h3 class="text-headline-sm font-bold text-on-surface">فرمول مصوب محاسبه شارژ دوره</h3>
+<p class="text-body-sm text-on-surface-variant mt-0.5">
+            شارژ پایه ثابت: <span class="font-semibold text-on-surface">۵۰۰,۰۰۰ تومان</span> + (هر نفر <span class="font-semibold text-on-surface">۱۵۰,۰۰۰ تومان</span>) + (شارژ مشاعات متراژی <span class="font-semibold text-on-surface">۴,۰۰۰ ت/متر</span>)
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end md:self-center shrink-0">
+<button class="inline-flex items-center gap-1.5 text-label-md text-primary font-medium bg-surface-container hover:bg-surface-variant px-3 py-1.5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+          ویرایش ضرایب محاسبه
+        </button>
+</div>
+</section>
+<!-- بخش ۲: تب‌ها و فیلترها -->
+<section class="space-y-4">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-outline-variant/40 pb-2">
+<!-- تب‌ها -->
+<div class="flex gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none" id="tabs-container">
+<button class="tab-btn px-4 py-2 rounded-xl text-body-md font-bold transition-all bg-primary-container text-on-primary shadow-sm flex items-center gap-2">
+<span>همه واحدها</span>
+<span class="bg-surface-container-lowest/20 px-2 py-0.5 rounded-full text-label-sm">۲۴</span>
+</button>
+<button class="tab-btn px-4 py-2 rounded-xl text-body-md font-medium transition-all text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center gap-2">
+<span>بدهکاران</span>
+<span class="bg-error-container text-error px-2 py-0.5 rounded-full text-label-sm font-bold">۴</span>
+</button>
+<button class="tab-btn px-4 py-2 rounded-xl text-body-md font-medium transition-all text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center gap-2">
+<span>تسویه‌شده</span>
+<span class="bg-secondary-container text-secondary px-2 py-0.5 rounded-full text-label-sm font-bold">۲۰</span>
+</button>
+<button class="tab-btn px-4 py-2 rounded-xl text-body-md font-medium transition-all text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center gap-2">
+<span>گزارش هزینه‌ها</span>
+<span class="material-symbols-outlined text-[16px]">analytics</span>
+</button>
+</div>
+<!-- فیلتر مرتب‌سازی و جستجو -->
+<div class="flex items-center gap-2">
+<div class="relative">
+<select class="text-body-sm font-medium bg-surface-container-lowest border border-outline-variant/50 rounded-lg pr-3 pl-8 py-1.5 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary">
+<option>مرتب‌سازی: شماره واحد</option>
+<option>بیشترین بدهی</option>
+<option>جدیدترین پرداخت‌ها</option>
+</select>
+</div>
+</div>
+</div>
+<!-- بخش ۳: لیست واحدها و وضعیت شارژ -->
+<div class="space-y-3.5">
+<!-- کارت ۱: واحد ۱۰۱ - تسویه شده -->
+<div class="bg-surface-container-lowest rounded-xl p-4 sm:p-5 border border-outline-variant/30 hover:border-outline-variant shadow-sm transition-all">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-start sm:items-center gap-3.5">
+<div class="w-12 h-12 rounded-xl bg-surface-container-low text-primary flex flex-col items-center justify-center font-bold border border-outline-variant/30 shrink-0">
+<span class="text-label-sm text-outline">واحد</span>
+<span class="text-headline-sm leading-none">۱۰۱</span>
+</div>
+<div>
+<div class="flex flex-wrap items-center gap-2">
+<h4 class="text-headline-sm font-bold text-on-surface">آقای علوی</h4>
+<span class="text-label-sm font-medium text-outline bg-surface-container px-2 py-0.5 rounded-md">بلوک A - طبقه ۱</span>
+<span class="text-label-sm font-medium text-outline bg-surface-container px-2 py-0.5 rounded-md">مالک ساکن • ۳ نفر (۱۱۰ متر)</span>
+</div>
+<div class="flex items-center gap-3 mt-1.5 text-body-sm text-on-surface-variant">
+<span>مبلغ شارژ دوره: <strong class="text-on-surface font-semibold">۱,۲۰۰,۰۰۰ تومان</strong></span>
+<span class="text-outline">•</span>
+<span class="text-label-md text-outline">تاریخ پرداخت: ۳ آبان - زرین‌پال</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-outline-variant/20">
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-body-sm font-bold bg-secondary-container text-secondary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                تسویه شده
+              </span>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-body-sm font-semibold text-primary hover:bg-surface-container transition-colors border border-outline-variant/40">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+                مشاهده فاکتور
+              </button>
+</div>
+</div>
+</div>
+<!-- کارت ۲: واحد ۱۰۲ - بدهکار (دارای بدهی قبلی + ارسال پیامک) -->
+<div class="bg-surface-container-lowest rounded-xl p-4 sm:p-5 border-2 border-error/30 hover:border-error shadow-sm transition-all relative overflow-hidden">
+<div class="absolute top-0 right-0 left-0 h-1 bg-error"></div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-start sm:items-center gap-3.5">
+<div class="w-12 h-12 rounded-xl bg-error-container/40 text-error flex flex-col items-center justify-center font-bold border border-error/30 shrink-0">
+<span class="text-label-sm text-error/80">واحد</span>
+<span class="text-headline-sm leading-none">۱۰۲</span>
+</div>
+<div>
+<div class="flex flex-wrap items-center gap-2">
+<h4 class="text-headline-sm font-bold text-on-surface">مستاجر خانم کریمی</h4>
+<span class="text-label-sm font-medium text-outline bg-surface-container px-2 py-0.5 rounded-md">بلوک A - طبقه ۱</span>
+<span class="text-label-sm font-medium text-outline bg-surface-container px-2 py-0.5 rounded-md">مستاجر • ۲ نفر (۹۵ متر)</span>
+</div>
+<div class="flex flex-wrap items-center gap-2 sm:gap-3 mt-1.5 text-body-sm">
+<span class="text-on-surface-variant">شارژ دوره جاری: <strong class="text-on-surface font-semibold">۱,۲۰۰,۰۰۰</strong></span>
+<span class="text-error font-medium">+ بدهی معوق قبلی: <strong>۸۰۰,۰۰۰ تومان</strong></span>
+<span class="text-outline">•</span>
+<span class="text-error font-bold bg-error-container/50 px-2 py-0.5 rounded">مجموع بدهی: ۲,۰۰۰,۰۰۰ تومان</span>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between md:justify-end gap-2 pt-3 md:pt-0 border-t md:border-t-0 border-outline-variant/20">
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-body-sm font-bold bg-error-container text-error">
+<span class="material-symbols-outlined text-[18px]">error</span>
+                بدهکار
+              </span>
+<div class="flex items-center gap-2">
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-body-sm font-semibold bg-primary text-on-primary hover:bg-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">sms</span>
+                  پیامک یادآوری
+                </button>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-body-sm font-semibold text-primary hover:bg-surface-container transition-colors border border-outline-variant/40" title="کپی لینک اختصاصی پرداخت">
+<span class="material-symbols-outlined text-[18px]">link</span>
+                  لینک پرداخت
+                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- کارت ۳: واحد ۲۰۳ - تسویه شده -->
+<div class="bg-surface-container-lowest rounded-xl p-4 sm:p-5 border border-outline-variant/30 hover:border-outline-variant shadow-sm transition-all">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-start sm:items-center gap-3.5">
+<div class="w-12 h-12 rounded-xl bg-surface-container-low text-primary flex flex-col items-center justify-center font-bold border border-outline-variant/30 shrink-0">
+<span class="text-label-sm text-outline">واحد</span>
+<span class="text-headline-sm leading-none">۲۰۳</span>
+</div>
+<div>
+<div class="flex flex-wrap items-center gap-2">
+<h4 class="text-headline-sm font-bold text-on-surface">دکتر رادمنش</h4>
+<span class="text-label-sm font-medium text-outline bg-surface-container px-2 py-0.5 rounded-md">بلوک B - طبقه ۲</span>
+<span class="text-label-sm font-medium text-outline bg-surface-container px-2 py-0.5 rounded-md">مالک ساکن • ۴ نفر (۱۴۰ متر)</span>
+</div>
+<div class="flex items-center gap-3 mt-1.5 text-body-sm text-on-surface-variant">
+<span>مبلغ شارژ دوره: <strong class="text-on-surface font-semibold">۱,۴۵۰,۰۰۰ تومان</strong></span>
+<span class="text-outline">•</span>
+<span class="text-label-md text-outline">تاریخ پرداخت: ۱ آبان - پایا بانک ملت</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-outline-variant/20">
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-body-sm font-bold bg-secondary-container text-secondary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                تسویه شده
+              </span>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-body-sm font-semibold text-primary hover:bg-surface-container transition-colors border border-outline-variant/40">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+                مشاهده فاکتور
+              </button>
+</div>
+</div>
+</div>
+<!-- کارت ۴: واحد ۲۰۴ - اخطار بدهی (بدهی ۲ ماهه) -->
+<div class="bg-surface-container-lowest rounded-xl p-4 sm:p-5 border-2 border-tertiary-fixed-dim hover:border-tertiary shadow-sm transition-all relative overflow-hidden">
+<div class="absolute top-0 right-0 left-0 h-1 bg-tertiary"></div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-start sm:items-center gap-3.5">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed text-tertiary flex flex-col items-center justify-center font-bold border border-tertiary/20 shrink-0">
+<span class="text-label-sm text-tertiary/80">واحد</span>
+<span class="text-headline-sm leading-none">۲۰۴</span>
+</div>
+<div>
+<div class="flex flex-wrap items-center gap-2">
+<h4 class="text-headline-sm font-bold text-on-surface">مهندس شریفی</h4>
+<span class="text-label-sm font-medium text-outline bg-surface-container px-2 py-0.5 rounded-md">بلوک B - طبقه ۲</span>
+<span class="text-label-sm font-medium text-outline bg-surface-container px-2 py-0.5 rounded-md">مالک • ۳ نفر (۱۲۰ متر)</span>
+</div>
+<div class="flex flex-wrap items-center gap-2 sm:gap-3 mt-1.5 text-body-sm">
+<span class="text-on-surface-variant">شارژ دوره جاری: <strong class="text-on-surface font-semibold">۱,۳۰۰,۰۰۰</strong></span>
+<span class="text-tertiary font-semibold">+ بدهی مهر ماه: ۱,۳۰۰,۰۰۰ تومان</span>
+<span class="text-outline">•</span>
+<span class="text-tertiary font-bold bg-tertiary-fixed px-2 py-0.5 rounded">کل بدهی (۲ ماه): ۲,۶۰۰,۰۰۰ تومان</span>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between md:justify-end gap-2 pt-3 md:pt-0 border-t md:border-t-0 border-outline-variant/20">
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-body-sm font-bold bg-tertiary-fixed text-tertiary">
+<span class="material-symbols-outlined text-[18px]">priority_high</span>
+                اخطار بدهی ۲ ماهه
+              </span>
+<div class="flex items-center gap-2">
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-body-sm font-semibold bg-tertiary text-on-tertiary hover:opacity-90 transition-opacity shadow-sm">
+<span class="material-symbols-outlined text-[18px]">notification_important</span>
+                  ارسال اخطار رسمی
+                </button>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-body-sm font-semibold text-primary hover:bg-surface-container transition-colors border border-outline-variant/40">
+<span class="material-symbols-outlined text-[18px]">link</span>
+                  لینک پرداخت
+                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- بخش ۵: نوار اقدامات سریع و صدور صورتحساب (Sticky Bottom Bar) -->
+<div class="fixed bottom-0 right-0 left-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-t border-outline-variant/40 shadow-lg py-3 px-4 sm:px-6">
+<div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+<div class="flex items-center gap-2 text-body-sm text-on-surface-variant w-full sm:w-auto justify-between sm:justify-start">
+<span class="flex items-center gap-1 font-medium text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-secondary">check_circle</span>
+          ۲۰ واحد تسویه کامل
+        </span>
+<span class="text-outline">|</span>
+<span class="flex items-center gap-1 text-error font-medium">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+          ۴ واحد بدهکار (۶,۵۰۰,۰۰۰ تومان)
+        </span>
+</div>
+<!-- دکمه‌های عملیاتی -->
+<div class="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+<button class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-body-md font-semibold text-on-surface hover:bg-surface-container transition-colors border border-outline-variant/60">
+<span class="material-symbols-outlined text-[20px] text-primary">download</span>
+<span>خروجی اکسل / PDF صورت‌های مالی</span>
+</button>
+<button class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-body-md font-bold bg-primary text-on-primary hover:bg-primary-container shadow-md hover:shadow transition-all">
+<span class="material-symbols-outlined text-[20px]">add_card</span>
+<span>صدور صورتحساب دوره جدید</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+    // عملکرد ساده سوئیچ تب‌ها
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('bg-primary-container', 'text-on-primary', 'shadow-sm', 'font-bold');
+          t.classList.add('text-on-surface-variant', 'font-medium');
+        });
+        tab.classList.add('bg-primary-container', 'text-on-primary', 'shadow-sm', 'font-bold');
+        tab.classList.remove('text-on-surface-variant', 'font-medium');
+      });
+    });
+  </script>
+</body></html>

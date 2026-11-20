@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;direction:rtl;font-family:'Vazirmatn',sans-serif;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"tertiary-fixed-dim":"#ffb3ad","on-primary-fixed":"#00164e","on-primary-fixed-variant":"#264191","on-surface":"#0b1c30","secondary-fixed":"#85f8c4","primary-container":"#1e3a8a","inverse-on-surface":"#eaf1ff","on-secondary":"#ffffff","inverse-surface":"#213145","surface":"#f8f9ff","on-error":"#ffffff","surface-container-high":"#dce9ff","primary":"#00236f","on-error-container":"#93000a","primary-fixed":"#dce1ff","error-container":"#ffdad6","error":"#ba1a1a","tertiary-container":"#860011","outline-variant":"#c5c5d3","secondary-fixed-dim":"#68dba9","surface-dim":"#cbdbf5","surface-container-lowest":"#ffffff","tertiary-fixed":"#ffdad7","on-secondary-fixed-variant":"#005137","background":"#f8f9ff","on-surface-variant":"#444651","on-background":"#0b1c30","outline":"#757682","on-secondary-fixed":"#002114","surface-tint":"#4059aa","on-tertiary-container":"#ff8a83","on-secondary-container":"#00714e","on-tertiary-fixed-variant":"#930013","primary-fixed-dim":"#b6c4ff","secondary":"#006c4a","secondary-container":"#82f5c1","on-tertiary-fixed":"#410004","tertiary":"#5c0008","on-tertiary":"#ffffff","inverse-primary":"#b6c4ff","on-primary":"#ffffff","surface-container-highest":"#d3e4fe","surface-bright":"#f8f9ff","on-primary-container":"#90a8ff","surface-container-low":"#eff4ff","surface-container":"#e5eeff","surface-variant":"#d3e4fe"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-mobile":"1rem","space-lg":"1.5rem","gutter-mobile":"0.75rem","gutter":"1rem","space-xl":"2rem","space-xs":"0.25rem","margin":"1.25rem","space-sm":"0.5rem","space-md":"1rem"},"fontFamily":{"body-md":["Vazirmatn"],"headline-sm":["Vazirmatn"],"headline-lg-mobile":["Vazirmatn"],"display-lg":["Vazirmatn"],"body-lg":["Vazirmatn"],"label-lg":["Vazirmatn"],"headline-md":["Vazirmatn"],"label-sm":["Vazirmatn"],"label-md":["Vazirmatn"],"body-sm":["Vazirmatn"],"headline-lg":["Vazirmatn"],"numeric-stat":["Vazirmatn"]},"fontSize":{"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"headline-sm":["17px",{"lineHeight":"26px","fontWeight":"600"}],"headline-lg-mobile":["22px",{"lineHeight":"32px","fontWeight":"700"}],"display-lg":["36px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"800"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"label-lg":["14px",{"lineHeight":"20px","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"30px","fontWeight":"700"}],"label-sm":["11px",{"lineHeight":"14px","fontWeight":"500"}],"label-md":["12px",{"lineHeight":"16px","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"38px","fontWeight":"700"}],"numeric-stat":["24px",{"lineHeight":"32px","fontWeight":"700"}]}}}};</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin-mobile flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-[20px]">apartment</span></div><div class="flex flex-col text-right"><span class="font-label-sm text-label-sm text-on-surface-variant leading-none">مجتمع مسکونی نیلوفر</span><h1 class="font-headline-sm text-headline-sm text-on-surface leading-tight m-0">مدیریت بلوک‌ها و واحدها</h1></div></div><div class="flex items-center gap-space-xs"><button aria-label="جستجو" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-primary active:scale-95 transition-transform"><span class="material-symbols-outlined text-[22px]">search</span></button><button aria-label="فیلتر" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-primary active:scale-95 transition-transform"><span class="material-symbols-outlined text-[22px]">tune</span></button></div></div></header><main class="flex flex-col relative w-full px-margin-mobile pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full pb-6 space-y-space-md">
+<!-- ۱. بنر خلاصه وضعیت کل مجتمع (KPI Banner) -->
+<section class="w-full rounded-xl bg-primary text-on-primary p-space-md shadow-[0_8px_24px_rgba(0,35,111,0.18)] relative overflow-hidden">
+<div class="absolute -left-6 -bottom-6 w-32 h-32 rounded-full bg-primary-container/30 blur-2xl pointer-events-none"></div>
+<div class="absolute right-12 -top-8 w-24 h-24 rounded-full bg-secondary/15 blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-space-sm relative z-10">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px] text-secondary-fixed">domain</span>
+<h2 class="font-headline-sm text-headline-sm text-on-primary">نمای آماری واحدها</h2>
+</div>
+<span class="font-label-sm text-label-sm bg-primary-container/70 text-primary-fixed px-2 py-0.5 rounded-full">۳ بلوک فعال</span>
+</div>
+<!-- آمار اصلی در ساختار بنتو -->
+<div class="grid grid-cols-3 gap-space-xs my-space-sm relative z-10">
+<div class="bg-primary-container/40 backdrop-blur-md rounded-lg p-space-xs text-center flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">کل واحدها</span>
+<div class="flex items-baseline gap-0.5 mt-0.5">
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-on-primary">۴۸</span>
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">واحد</span>
+</div>
+</div>
+<div class="bg-primary-container/40 backdrop-blur-md rounded-lg p-space-xs text-center flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">ساکن دارند</span>
+<div class="flex items-baseline gap-0.5 mt-0.5">
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-secondary-fixed">۴۴</span>
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">مسکونی</span>
+</div>
+</div>
+<div class="bg-primary-container/40 backdrop-blur-md rounded-lg p-space-xs text-center flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">خالی / آماده</span>
+<div class="flex items-baseline gap-0.5 mt-0.5">
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-surface-container-highest">۴</span>
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">واحد</span>
+</div>
+</div>
+</div>
+<!-- نوار تفکیک وضعیت سکونت -->
+<div class="bg-primary-container/60 rounded-lg p-2.5 mt-space-xs relative z-10 flex flex-col gap-1.5">
+<div class="flex justify-between items-center font-label-sm text-label-sm text-primary-fixed">
+<span class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed inline-block"></span>
+          ۳۰ مالک
+        </span>
+<span class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary-fixed inline-block"></span>
+          ۱۴ مستأجر
+        </span>
+<span class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-surface-variant inline-block"></span>
+          ۴ خالی
+        </span>
+</div>
+<!-- Progress Bar ترکیبی -->
+<div class="w-full h-1.5 rounded-full bg-primary flex overflow-hidden">
+<div class="bg-secondary-fixed h-full" style="width: 62.5%"></div>
+<div class="bg-primary-fixed h-full" style="width: 29.1%"></div>
+<div class="bg-surface-variant h-full" style="width: 8.4%"></div>
+</div>
+</div>
+<!-- دکمه اکشن سریع -->
+<button class="w-full mt-space-sm py-2.5 px-space-md rounded-lg bg-secondary-container hover:bg-secondary-fixed text-on-secondary-container font-label-lg text-label-lg font-bold flex items-center justify-center gap-space-xs transition-colors shadow-sm active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+<span>افزودن واحد یا ساکن جدید</span>
+</button>
+</section>
+<!-- ۲. تب‌های بلوک و فیلترهای چیپسی -->
+<section class="flex flex-col space-y-space-sm">
+<!-- اسکرول افقی بلوک‌ها -->
+<div class="flex items-center gap-space-xs overflow-x-auto no-scrollbar py-0.5">
+<button class="block-tab px-3.5 py-2 rounded-full font-label-md text-label-md shrink-0 bg-primary text-on-primary shadow-sm flex items-center gap-1.5 transition-all" data-block="all">
+<span>همه بلوک‌ها</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded-full bg-primary-container text-on-primary">۴۸</span>
+</button>
+<button class="block-tab px-3.5 py-2 rounded-full font-label-md text-label-md shrink-0 bg-surface-container text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-1.5" data-block="A">
+<span>بلوک A</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant">۱۶</span>
+</button>
+<button class="block-tab px-3.5 py-2 rounded-full font-label-md text-label-md shrink-0 bg-surface-container text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-1.5" data-block="B">
+<span>بلوک B</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant">۱۶</span>
+</button>
+<button class="block-tab px-3.5 py-2 rounded-full font-label-md text-label-md shrink-0 bg-surface-container text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-1.5" data-block="C">
+<span>بلوک C</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant">۱۶</span>
+</button>
+</div>
+<!-- نوار جستجو -->
+<div class="relative w-full">
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full h-11 pr-10 pl-9 bg-surface-container-lowest text-on-surface font-body-sm text-body-sm rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.03)] placeholder:text-outline focus:outline-none focus:bg-surface-container-low transition-colors" id="unit-search" placeholder="شماره واحد، نام ساکن یا پلاک خودرو..." type="text"/>
+<button class="absolute inset-y-0 left-0 hidden items-center pl-3 text-outline hover:text-on-surface" id="clear-search">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- چیپ‌های فیلتر سریع -->
+<div class="flex items-center gap-space-xs overflow-x-auto no-scrollbar py-0.5">
+<button class="chip-filter active px-3 py-1 rounded-lg font-label-sm text-label-sm bg-on-surface text-surface-container-lowest shrink-0 transition-colors" data-filter="all">همه واحدها</button>
+<button class="chip-filter px-3 py-1 rounded-lg font-label-sm text-label-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container shrink-0 flex items-center gap-1 transition-colors" data-filter="debt">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+<span>دارای بدهی</span>
+</button>
+<button class="chip-filter px-3 py-1 rounded-lg font-label-sm text-label-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container shrink-0 transition-colors" data-filter="tenant">مستأجرین</button>
+<button class="chip-filter px-3 py-1 rounded-lg font-label-sm text-label-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container shrink-0 transition-colors" data-filter="empty">واحدهای خالی</button>
+</div>
+</section>
+<!-- ۳. کارت تفصیلی و تجسمی بلوک برگزیده (Block Overview Card) -->
+<section class="w-full bg-surface-container-lowest rounded-xl p-space-md shadow-[0_4px_20px_-2px_rgba(30,58,138,0.04)] relative">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm bg-surface-container-low/60 -mx-space-md -mt-space-md p-space-md rounded-t-xl">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">corporate_fare</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">مشخصات بلوک A (پردیس)</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">۴ طبقه مسکونی | لابی مجزا</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary bg-secondary-container/40 px-2 py-1 rounded-full font-bold">۹۴٪ وصولی</span>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex items-center gap-2 bg-surface-container-low/40 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary text-[20px]">manage_accounts</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">مدیر بلوک</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">مهندس کاویانی</span>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-low/40 p-2 rounded-lg">
+<span class="material-symbols-outlined text-secondary text-[20px]">local_parking</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">وضعیت پارکینگ</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">۱۸ از ۱۸ (تکمیل)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ۴. لیست کارت‌های واحدها با ساختار غنی -->
+<section class="flex flex-col space-y-space-sm" id="units-container">
+<!-- واحد ۱۰۱: تسویه‌شده / مالک -->
+<div class="unit-card bg-surface-container-lowest rounded-xl p-space-md shadow-[0_4px_16px_rgba(0,0,0,0.03)] flex flex-col space-y-space-sm transition-transform active:scale-[0.99]" data-block="A" data-status="settled" data-type="owner" data-unit="101">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed text-on-primary-fixed flex flex-col items-center justify-center font-bold">
+<span class="text-[10px] leading-tight text-on-primary-fixed-variant">واحد</span>
+<span class="font-headline-sm text-headline-sm leading-none">۱۰۱</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">آقای علوی</h4>
+<span class="font-label-sm text-label-sm bg-primary-container/15 text-primary px-1.5 py-0.2 rounded">مالک</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">طبقه اول • بلوک A • ۳ نفر ساکن</p>
+</div>
+</div>
+<div class="flex items-center gap-1 bg-secondary-container/50 text-on-secondary-container px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span class="font-label-sm text-label-sm font-semibold">تسویه‌شده</span>
+</div>
+</div>
+<!-- مشخصات فنی واحد -->
+<div class="flex items-center justify-between bg-surface-container-low/50 py-1.5 px-space-sm rounded-lg font-label-sm text-label-sm text-on-surface-variant">
+<span>متراژ: <strong>۱۱۰ م²</strong></span>
+<span>پارکینگ: <strong>قطعه ۱۲</strong></span>
+<span>انباری: <strong>قطعه ۵</strong></span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-0.5">
+<span class="text-secondary font-medium">شارژ اردیبهشت پرداخت شد</span>
+<span class="text-outline">پلاک خودرو: ایران ۱۱ - ۴۳۵س۱۲</span>
+</div>
+<!-- اکشن‌های واحد -->
+<div class="flex items-center gap-space-xs pt-space-xs">
+<button class="flex-1 h-9 rounded-lg bg-surface-container text-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-1 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">folder_shared</span>
+<span>پرونده واحد</span>
+</button>
+<button class="w-9 h-9 rounded-lg bg-surface-container text-primary flex items-center justify-center hover:bg-surface-container-high transition-colors" title="تماس سریع">
+<span class="material-symbols-outlined text-[18px]">phone</span>
+</button>
+<button class="w-9 h-9 rounded-lg bg-surface-container text-primary flex items-center justify-center hover:bg-surface-container-high transition-colors" title="ارسال پیامک">
+<span class="material-symbols-outlined text-[18px]">sms</span>
+</button>
+</div>
+</div>
+<!-- واحد ۱۰۲: بدهکار / مستأجر -->
+<div class="unit-card bg-surface-container-lowest rounded-xl p-space-md shadow-[0_4px_16px_rgba(0,0,0,0.03)] flex flex-col space-y-space-sm transition-transform active:scale-[0.99]" data-block="A" data-status="debt" data-type="tenant" data-unit="102">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-error-container text-error flex flex-col items-center justify-center font-bold">
+<span class="text-[10px] leading-tight">واحد</span>
+<span class="font-headline-sm text-headline-sm leading-none">۱۰۲</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">خانم حسینی</h4>
+<span class="font-label-sm text-label-sm bg-surface-container text-on-surface-variant px-1.5 py-0.2 rounded">مستأجر</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">مالک: دکتر پناهی • بلوک A</p>
+</div>
+</div>
+<div class="flex items-center gap-1 bg-error-container text-on-error-container px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span class="font-label-sm text-label-sm font-semibold">بدهکار</span>
+</div>
+</div>
+<!-- مشخصات فنی -->
+<div class="flex items-center justify-between bg-surface-container-low/50 py-1.5 px-space-sm rounded-lg font-label-sm text-label-sm text-on-surface-variant">
+<span>متراژ: <strong>۱۲۵ م²</strong></span>
+<span>پارکینگ: <strong>قطعه ۱۳</strong></span>
+<span>انباری: <strong>قطعه ۶</strong></span>
+</div>
+<!-- بدهی تفصیلی -->
+<div class="flex items-center justify-between bg-error-container/30 text-error p-2 rounded-lg font-label-sm text-label-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">receipt_long</span>
+<span>معوق: ۲ دوره (فروردین و اردیبهشت)</span>
+</div>
+<span class="font-headline-sm text-headline-sm font-bold text-error">۲,۱۰۰,۰۰۰ <span class="text-[11px] font-normal">تومان</span></span>
+</div>
+<!-- اکشن‌های واحد -->
+<div class="flex items-center gap-space-xs pt-space-xs">
+<button class="flex-1 h-9 rounded-lg bg-error text-on-error font-label-md text-label-md font-semibold flex items-center justify-center gap-1 shadow-sm active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-[18px]">outgoing_mail</span>
+<span>ارسال پیامک تذکر بدهی</span>
+</button>
+<button class="w-9 h-9 rounded-lg bg-surface-container text-primary flex items-center justify-center hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">folder_shared</span>
+</button>
+<button class="w-9 h-9 rounded-lg bg-surface-container text-primary flex items-center justify-center hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">phone</span>
+</button>
+</div>
+</div>
+<!-- واحد ۲۰۱: تسویه‌شده / مالک -->
+<div class="unit-card bg-surface-container-lowest rounded-xl p-space-md shadow-[0_4px_16px_rgba(0,0,0,0.03)] flex flex-col space-y-space-sm transition-transform active:scale-[0.99]" data-block="A" data-status="settled" data-type="owner" data-unit="201">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed text-on-primary-fixed flex flex-col items-center justify-center font-bold">
+<span class="text-[10px] leading-tight text-on-primary-fixed-variant">واحد</span>
+<span class="font-headline-sm text-headline-sm leading-none">۲۰۱</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">دکتر رادفر</h4>
+<span class="font-label-sm text-label-sm bg-primary-container/15 text-primary px-1.5 py-0.2 rounded">مالک</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">طبقه دوم • بلوک A • ۴ نفر ساکن</p>
+</div>
+</div>
+<div class="flex items-center gap-1 bg-secondary-container/50 text-on-secondary-container px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span class="font-label-sm text-label-sm font-semibold">تسویه‌شده</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low/50 py-1.5 px-space-sm rounded-lg font-label-sm text-label-sm text-on-surface-variant">
+<span>متراژ: <strong>۱۳۵ م²</strong></span>
+<span>پارکینگ: <strong>۲ عدد (۱۴ و ۱۵)</strong></span>
+<span>انباری: <strong>قطعه ۸</strong></span>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span class="text-secondary font-medium">عضو هیئت مدیره ساختمان</span>
+<span class="text-outline">تماس اضطراری ثبت شده</span>
+</div>
+<div class="flex items-center gap-space-xs pt-space-xs">
+<button class="flex-1 h-9 rounded-lg bg-surface-container text-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-1 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">folder_shared</span>
+<span>پرونده واحد</span>
+</button>
+<button class="w-9 h-9 rounded-lg bg-surface-container text-primary flex items-center justify-center hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">phone</span>
+</button>
+</div>
+</div>
+<!-- واحد ۲۰۲: خالی / تخلیه -->
+<div class="unit-card bg-surface-container-lowest rounded-xl p-space-md shadow-[0_4px_16px_rgba(0,0,0,0.03)] flex flex-col space-y-space-sm transition-transform active:scale-[0.99]" data-block="A" data-status="empty" data-type="empty" data-unit="202">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-surface-variant text-on-surface-variant flex flex-col items-center justify-center font-bold">
+<span class="text-[10px] leading-tight">واحد</span>
+<span class="font-headline-sm text-headline-sm leading-none">۲۰۲</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">واحد خالی</h4>
+<span class="font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant px-1.5 py-0.2 rounded">تخلیه</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">طبقه دوم • بلوک A • در حال نقاشی</p>
+</div>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-high text-on-surface-variant px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">door_front</span>
+<span class="font-label-sm text-label-sm font-semibold">فاقد سکونت</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low/50 py-1.5 px-space-sm rounded-lg font-label-sm text-label-sm text-on-surface-variant">
+<span>متراژ: <strong>۱۱۰ م²</strong></span>
+<span>پارکینگ: <strong>قطعه ۱۶</strong></span>
+<span>کلید: <strong>نزد لابی‌من</strong></span>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span class="text-primary font-medium">شارژ ثابت ماهانه پرداخت می‌شود</span>
+<span class="text-outline">مالک: آقای شریفی</span>
+</div>
+<div class="flex items-center gap-space-xs pt-space-xs">
+<button class="flex-1 h-9 rounded-lg bg-surface-container text-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-1 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>ثبت مستأجر یا ساکن جدید</span>
+</button>
+<button class="w-9 h-9 rounded-lg bg-surface-container text-primary flex items-center justify-center hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">key</span>
+</button>
+</div>
+</div>
+<!-- واحد ۳۰۱: در انتظار تایید فیش / مستأجر / بلوک B -->
+<div class="unit-card bg-surface-container-lowest rounded-xl p-space-md shadow-[0_4px_16px_rgba(0,0,0,0.03)] flex flex-col space-y-space-sm transition-transform active:scale-[0.99]" data-block="B" data-status="pending" data-type="tenant" data-unit="301">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex flex-col items-center justify-center font-bold">
+<span class="text-[10px] leading-tight">واحد</span>
+<span class="font-headline-sm text-headline-sm leading-none">۳۰۱</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">مهندس رضوانی</h4>
+<span class="font-label-sm text-label-sm bg-surface-container text-on-surface-variant px-1.5 py-0.2 rounded">مستأجر</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">طبقه سوم • بلوک B • ۳ نفر ساکن</p>
+</div>
+</div>
+<div class="flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">hourglass_top</span>
+<span class="font-label-sm text-label-sm font-semibold">در انتظار تایید فیش</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low/50 py-1.5 px-space-sm rounded-lg font-label-sm text-label-sm text-on-surface-variant">
+<span>متراژ: <strong>۱۴۵ م²</strong></span>
+<span>پارکینگ: <strong>قطعه ۲۸</strong></span>
+<span>انباری: <strong>قطعه ۱۴</strong></span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low p-2 rounded-lg font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">receipt</span>
+<span>فیش واریزی ۱,۲۰۰,۰۰۰ تومان</span>
+</div>
+<button class="text-primary font-bold hover:underline">بررسی فیش</button>
+</div>
+<div class="flex items-center gap-space-xs pt-space-xs">
+<button class="flex-1 h-9 rounded-lg bg-secondary text-on-secondary font-label-md text-label-md font-semibold flex items-center justify-center gap-1 shadow-sm active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>تایید پرداخت شارژ</span>
+</button>
+<button class="w-9 h-9 rounded-lg bg-surface-container text-primary flex items-center justify-center hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">folder_shared</span>
+</button>
+</div>
+</div>
+</section>
+<!-- حالت خالی داینامیک در صورت عدم تطابق فیلتر -->
+<div class="hidden flex-col items-center justify-center p-8 bg-surface-container-lowest rounded-xl text-center" id="empty-state">
+<div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center text-outline mb-3">
+<span class="material-symbols-outlined text-[32px]">manage_search</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-1">واحدی با این مشخصات یافت نشد</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">می‌توانید عبارت جستجو را پاک کنید یا فیلترها را تغییر دهید.</p>
+<button class="px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md font-semibold" id="reset-filters">نمایش همه واحدها</button>
+</div>
+<!-- ۵. ابزارهای دسته‌جمعی و گزارش‌گیری نهایی (Bulk Actions & Export) -->
+<section class="mt-space-md pt-space-md flex flex-col space-y-space-xs bg-surface-container-low/60 p-space-md rounded-xl">
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-md text-label-md mb-1">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>عملیات گروهی و گزارش‌گیری</span>
+</div>
+<div class="grid grid-cols-2 gap-space-xs">
+<button class="h-11 rounded-lg bg-surface-container-lowest text-primary hover:bg-surface-container font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[20px]">download</span>
+<span>خروجی اکسل و PDF</span>
+</button>
+<button class="h-11 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[20px]">campaign</span>
+<span>پیام همگانی به ساکنین</span>
+</button>
+</div>
+</section>
+</div>
+<script>
+  (function initUnitsManagement() {
+    const searchInput = document.getElementById('unit-search');
+    const clearBtn = document.getElementById('clear-search');
+    const blockTabs = document.querySelectorAll('.block-tab');
+    const chipFilters = document.querySelectorAll('.chip-filter');
+    const unitCards = document.querySelectorAll('.unit-card');
+    const emptyState = document.getElementById('empty-state');
+    const resetBtn = document.getElementById('reset-filters');
+
+    let currentBlock = 'all';
+    let currentFilter = 'all';
+    let currentSearch = '';
+
+    function filterUnits() {
+      let visibleCount = 0;
+
+      unitCards.forEach(card => {
+        const block = card.getAttribute('data-block');
+        const status = card.getAttribute('data-status');
+        const type = card.getAttribute('data-type');
+        const text = card.textContent.toLowerCase();
+
+        const matchBlock = (currentBlock === 'all' || block === currentBlock);
+        
+        let matchChip = true;
+        if (currentFilter === 'debt') matchChip = (status === 'debt');
+        else if (currentFilter === 'tenant') matchChip = (type === 'tenant');
+        else if (currentFilter === 'empty') matchChip = (type === 'empty');
+
+        const matchSearch = (!currentSearch || text.includes(currentSearch));
+
+        if (matchBlock && matchChip && matchSearch) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      if (visibleCount === 0) {
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+      } else {
+        emptyState.classList.add('hidden');
+        emptyState.classList.remove('flex');
+      }
+    }
+
+    // انتخاب تب بلوک
+    blockTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        blockTabs.forEach(t => {
+          t.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+          t.classList.add('bg-surface-container', 'text-on-surface');
+        });
+        tab.classList.remove('bg-surface-container', 'text-on-surface');
+        tab.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+
+        currentBlock = tab.getAttribute('data-block');
+        filterUnits();
+      });
+    });
+
+    // چیپ‌های فیلتر
+    chipFilters.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chipFilters.forEach(c => {
+          c.classList.remove('bg-on-surface', 'text-surface-container-lowest');
+          c.classList.add('bg-surface-container-low', 'text-on-surface-variant');
+        });
+        chip.classList.remove('bg-surface-container-low', 'text-on-surface-variant');
+        chip.classList.add('bg-on-surface', 'text-surface-container-lowest');
+
+        currentFilter = chip.getAttribute('data-filter');
+        filterUnits();
+      });
+    });
+
+    // جستجوی زنده
+    searchInput.addEventListener('input', (e) => {
+      currentSearch = e.target.value.trim().toLowerCase();
+      if (currentSearch.length > 0) {
+        clearBtn.classList.remove('hidden');
+        clearBtn.classList.add('flex');
+      } else {
+        clearBtn.classList.add('hidden');
+        clearBtn.classList.remove('flex');
+      }
+      filterUnits();
+    });
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      currentSearch = '';
+      clearBtn.classList.add('hidden');
+      clearBtn.classList.remove('flex');
+      filterUnits();
+    });
+
+    // دکمه ریست
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        currentSearch = '';
+        currentBlock = 'all';
+        currentFilter = 'all';
+        clearBtn.classList.add('hidden');
+
+        // فعال‌سازی مجدد اولین تب‌ها
+        blockTabs[0].click();
+        chipFilters[0].click();
+      });
+    }
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_-4px_20px_rgba(30,58,138,0.05)]" data-active-classes="text-primary font-label-md"><div class="flex justify-around items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center min-w-[64px] h-12 text-on-surface-variant hover:text-primary transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[24px]">space_dashboard</span><span class="font-label-sm text-label-sm mt-space-xs leading-none">داشبورد</span></a><a class="flex flex-col items-center justify-center min-w-[64px] h-12 text-on-surface-variant hover:text-primary transition-colors" data-path="units-and-blocks" href="#"><span class="material-symbols-outlined text-[24px]">apartment</span><span class="font-label-sm text-label-sm mt-space-xs leading-none">واحدها</span></a><a class="flex flex-col items-center justify-center min-w-[64px] h-12 text-on-surface-variant hover:text-primary transition-colors" data-path="finance-and-accounting" href="#"><span class="material-symbols-outlined text-[24px]">account_balance_wallet</span><span class="font-label-sm text-label-sm mt-space-xs leading-none">مالی و شارژ</span></a><a class="flex flex-col items-center justify-center min-w-[64px] h-12 text-on-surface-variant hover:text-primary transition-colors" data-path="security-and-traffic" href="#"><span class="material-symbols-outlined text-[24px]">shield_person</span><span class="font-label-sm text-label-sm mt-space-xs leading-none">نگهبانی</span></a></div></nav></body></html>
