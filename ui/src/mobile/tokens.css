@@ -1,0 +1,144 @@
+/* =========================================================================
+   Shahrak Mobile Design System — design tokens (Phase 1)
+   Scoped to `.alpr-mobile-shell` so NOTHING leaks into the desktop Duralux
+   panel. Brand navy #31537a is preserved; only layout/component/motion are
+   modernized (Material-3-inspired roles). All color pairs satisfy the
+   contrast rules in ui/src/theme-design-rules.md (no white-on-white, no
+   black-on-black, hover lighter than rest).
+   ========================================================================= */
+
+.alpr-mobile-shell {
+  /* ---- Typography (Vazirmatn is the single source of truth) ---- */
+  --m-font: var(--font-vazir, 'Vazirmatn', ui-sans-serif, system-ui, sans-serif);
+  --m-text-display: 26px;
+  --m-text-title: 20px;
+  --m-text-heading: 17px;
+  --m-text-body: 15px;
+  --m-text-label: 13px;
+  --m-text-caption: 12px;
+  --m-leading: 1.8;
+  --m-leading-tight: 1.5;
+
+  /* ---- Spacing scale (4px base) ---- */
+  --m-space-1: 4px;
+  --m-space-2: 8px;
+  --m-space-3: 12px;
+  --m-space-4: 16px;
+  --m-space-5: 20px;
+  --m-space-6: 24px;
+  --m-space-8: 32px;
+
+  /* ---- Radius ---- */
+  --m-radius-sm: 10px;
+  --m-radius: 14px;
+  --m-radius-lg: 18px;
+  --m-radius-xl: 24px;
+  --m-radius-pill: 999px;
+
+  /* ---- Touch & layout ---- */
+  --m-touch: 48px;
+  --m-nav-height: 64px;
+  --m-content-max: 680px;
+
+  /* ---- Motion ---- */
+  --m-dur-fast: 140ms;
+  --m-dur: 220ms;
+  --m-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ---- Elevation (soft, no decorative gradients) ---- */
+  --m-shadow-1: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.08);
+  --m-shadow-2: 0 2px 6px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.08);
+  --m-shadow-3: 0 6px 16px rgba(15, 23, 42, 0.12), 0 12px 32px rgba(15, 23, 42, 0.12);
+
+  /* ---- Color roles: LIGHT ---- */
+  --m-bg: #f4f6fa;
+  --m-surface: #ffffff;
+  --m-surface-2: #f8fafc;
+  --m-surface-3: #f1f5f9;
+  --m-on-surface: #0f172a;
+  --m-on-surface-muted: #475569;
+  --m-on-surface-faint: #64748b;
+  --m-outline: #e2e8f0;
+  --m-outline-strong: #cbd5e1;
+
+  --m-accent: #31537a;
+  --m-primary-container: #e0ecfa;
+  --m-on-primary-container: #1e3a5f;
+
+  --m-btn-primary-bg: #31537a;
+  --m-btn-primary-fg: #ffffff;
+  --m-btn-primary-hover-bg: #e0ecfa;
+  --m-btn-primary-hover-fg: #0f172a;
+
+  --m-success: #16a34a;
+  --m-success-container: #ecfdf5;
+  --m-on-success-container: #14532d;
+  --m-warning: #d97706;
+  --m-warning-container: #fffbeb;
+  --m-on-warning-container: #78350f;
+  --m-danger: #dc2626;
+  --m-danger-container: #fef2f2;
+  --m-on-danger-container: #7f1d1d;
+  --m-info: #2563eb;
+  --m-info-container: #eff6ff;
+  --m-on-info-container: #1e3a8a;
+
+  --m-focus-ring: rgba(49, 83, 122, 0.35);
+  --m-scrim: rgba(15, 23, 42, 0.45);
+  --m-skeleton-base: #eef2f7;
+  --m-skeleton-shine: #f8fafc;
+}
+
+/* ---- Color roles: DARK ---- */
+html[data-theme='dark'] .alpr-mobile-shell,
+html.app-skin-dark .alpr-mobile-shell {
+  --m-bg: #0f172a;
+  --m-surface: #1e293b;
+  --m-surface-2: #243449;
+  --m-surface-3: #334155;
+  --m-on-surface: #f1f5f9;
+  --m-on-surface-muted: #cbd5e1;
+  --m-on-surface-faint: #94a3b8;
+  --m-outline: #334155;
+  --m-outline-strong: #475569;
+
+  --m-accent: #93c5fd;
+  --m-primary-container: rgba(59, 130, 246, 0.16);
+  --m-on-primary-container: #bfdbfe;
+
+  --m-btn-primary-bg: #3b6ea5;
+  --m-btn-primary-fg: #ffffff;
+  --m-btn-primary-hover-bg: #4a7fb5;
+  --m-btn-primary-hover-fg: #ffffff;
+
+  --m-success: #4ade80;
+  --m-success-container: rgba(34, 197, 94, 0.16);
+  --m-on-success-container: #bbf7d0;
+  --m-warning: #fbbf24;
+  --m-warning-container: rgba(245, 158, 11, 0.16);
+  --m-on-warning-container: #fde68a;
+  --m-danger: #f87171;
+  --m-danger-container: rgba(239, 68, 68, 0.16);
+  --m-on-danger-container: #fecaca;
+  --m-info: #60a5fa;
+  --m-info-container: rgba(59, 130, 246, 0.16);
+  --m-on-info-container: #bfdbfe;
+
+  --m-focus-ring: rgba(147, 197, 253, 0.4);
+  --m-scrim: rgba(0, 0, 0, 0.6);
+  --m-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --m-shadow-2: 0 2px 6px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.4);
+  --m-shadow-3: 0 6px 16px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(0, 0, 0, 0.5);
+  --m-skeleton-base: #243449;
+  --m-skeleton-shine: #334155;
+}
+
+/* Respect reduced-motion globally within the mobile scope. */
+@media (prefers-reduced-motion: reduce) {
+  .alpr-mobile-shell,
+  .alpr-mobile-shell * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
