@@ -6,55 +6,55 @@
   --font-sans: 'Vazirmatn', system-ui, -apple-system, sans-serif;
   --font-display: 'Vazirmatn', system-ui, -apple-system, sans-serif;
 
-  /* Calm Pastel Material 3 Residential Palette (Restrained & Soft) */
-  --color-surface: #f6f8fb;
-  --color-surface-dim: #e8eef7;
-  --color-surface-bright: #fafbfd;
+  /* Softened Luminous Material 3 Residential Palette (Inspired by Original Stitch Blue + Mint) */
+  --color-surface: #f8f9ff;
+  --color-surface-dim: #dce6f9;
+  --color-surface-bright: #f9fbff;
   --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f1f4f9;
-  --color-surface-container: #e9eef6;
-  --color-surface-container-high: #e1e8f3;
-  --color-surface-container-highest: #d7e1ef;
-  --color-surface-variant: #dde5f2;
+  --color-surface-container-low: #eff4ff;
+  --color-surface-container: #e5eeff;
+  --color-surface-container-high: #dce8ff;
+  --color-surface-container-highest: #d1e1fc;
+  --color-surface-variant: #d9e6fd;
 
-  /* Softened Indigo-Slate Primary (calm, never harsh dark block) */
-  --color-primary: #3b5998;
-  --color-primary-container: #e8eefb;
+  /* Softened Royal Sapphire Primary (lively & refined, never harsh navy or flat gray) */
+  --color-primary: #2b4fa2;
+  --color-primary-container: #dfe8ff;
   --color-on-primary: #ffffff;
-  --color-on-primary-container: #243b6b;
-  --color-primary-fixed: #e8eefb;
-  --color-primary-fixed-dim: #cfdcf7;
-  --color-on-primary-fixed: #1d3159;
-  --color-on-primary-fixed-variant: #344e86;
+  --color-on-primary-container: #1b3575;
+  --color-primary-fixed: #e4ecff;
+  --color-primary-fixed-dim: #c3d3ff;
+  --color-on-primary-fixed: #142a63;
+  --color-on-primary-fixed-variant: #2c4c9c;
 
-  /* Muted Sage Secondary */
-  --color-secondary: #2b7a5e;
-  --color-secondary-container: #e7f5ef;
+  /* Softened Mint Emerald Secondary */
+  --color-secondary: #1f8a65;
+  --color-secondary-container: #d7f6e7;
   --color-on-secondary: #ffffff;
-  --color-on-secondary-container: #1f5c46;
-  --color-secondary-fixed: #d3efe3;
+  --color-on-secondary-container: #135c43;
+  --color-secondary-fixed: #bbf0d8;
 
-  /* Muted Warm Amber / Rose Tertiary */
-  --color-tertiary: #8f4a3c;
-  --color-tertiary-container: #faece9;
+  /* Softened Warm Rose Tertiary */
+  --color-tertiary: #8a3a44;
+  --color-tertiary-container: #fce8ea;
   --color-on-tertiary: #ffffff;
-  --color-on-tertiary-container: #73382c;
+  --color-on-tertiary-container: #6b252e;
 
-  /* Soft Muted Crimson Error */
-  --color-error: #b84448;
-  --color-error-container: #fdeeee;
+  /* Softened Coral Crimson Error */
+  --color-error: #c93b44;
+  --color-error-container: #fde4e6;
   --color-on-error: #ffffff;
-  --color-on-error-container: #8f2d31;
+  --color-on-error-container: #8c1d26;
 
-  --color-background: #f6f8fb;
-  --color-on-background: #1b2533;
-  --color-on-surface: #1b2533;
-  --color-on-surface-variant: #5b677a;
-  --color-outline: #8d99ac;
-  --color-outline-variant: #d6dde8;
-  --color-inverse-surface: #253142;
-  --color-inverse-on-surface: #eef2f8;
-  --color-inverse-primary: #c1d1f5;
+  --color-background: #f8f9ff;
+  --color-on-background: #0f2138;
+  --color-on-surface: #0f2138;
+  --color-on-surface-variant: #4b5870;
+  --color-outline: #7e8ba3;
+  --color-outline-variant: #d1def2;
+  --color-inverse-surface: #1f3047;
+  --color-inverse-on-surface: #edf3ff;
+  --color-inverse-primary: #b9ccff;
 
   /* Spacing Scale */
   --spacing-space-2xs: 4px;
@@ -68,65 +68,82 @@
   --spacing-margin-tablet: 24px;
   --spacing-margin-desktop: 32px;
 
-  /* Layered Hairline Shadows (Emil Design Engineering: crisp shadow-over-border) */
-  --shadow-ambient: 0px 4px 16px rgba(27, 37, 51, 0.04);
-  --shadow-floating: 0 0 0 1px rgba(27, 37, 51, 0.06), 0 12px 32px -4px rgba(27, 37, 51, 0.12), 0 2px 6px rgba(27, 37, 51, 0.05);
-  --shadow-card: 0 0 0 1px rgba(27, 37, 51, 0.06), 0 1px 2px rgba(27, 37, 51, 0.03), 0 6px 16px -6px rgba(27, 37, 51, 0.04);
+  /* Soft Blue-Tinted Atmospheric Elevation (from Original Stitch Reference) */
+  --shadow-ambient: 0 4px 20px -2px rgba(43, 79, 162, 0.06);
+  --shadow-floating: 0 0 0 1px rgba(43, 79, 162, 0.08), 0 14px 34px -4px rgba(15, 33, 56, 0.14), 0 2px 6px rgba(43, 79, 162, 0.05);
+  --shadow-card: 0 4px 20px -2px rgba(43, 79, 162, 0.07), 0 1px 3px rgba(15, 33, 56, 0.04);
 }
 
 :root {
   --font-vazir: 'Vazirmatn', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --ui-card-radius: 2px;
-  --ui-btn-radius: 2px;
+  --ui-card-radius: 14px;
+  --ui-btn-radius: 10px;
   --ease-out-quart: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-spring-snappy: cubic-bezier(0.16, 1, 0.3, 1);
-  --shadow-surface-ring: 0 0 0 1px rgba(27, 37, 51, 0.06), 0 1px 2px rgba(27, 37, 51, 0.03), 0 6px 16px -6px rgba(27, 37, 51, 0.04);
+  --hero-grad-from: #3052a1;
+  --hero-grad-via: #3e62b8;
+  --hero-grad-to: #263d73;
+  --hero-orb-1: rgba(130, 245, 193, 0.24);
+  --hero-orb-2: rgba(195, 211, 255, 0.22);
+  --shadow-surface-ring: 0 4px 18px -3px rgba(43, 79, 162, 0.06), 0 1px 2px rgba(15, 33, 56, 0.03);
   --shadow-dock-ring: 0 0 0 1px rgba(27, 37, 51, 0.07), 0 10px 28px -4px rgba(27, 37, 51, 0.11), 0 2px 6px rgba(27, 37, 51, 0.04);
-  --bs-primary: #3b5998;
-  --bs-primary-rgb: 59, 89, 152;
-  --bs-secondary: #2b7a5e;
-  --bs-secondary-rgb: 43, 122, 94;
-  --bs-danger: #b84448;
-  --bs-danger-rgb: 184, 68, 72;
+  --bs-primary: #2b4fa2;
+  --bs-primary-rgb: 43, 79, 162;
+  --bs-secondary: #1f8a65;
+  --bs-secondary-rgb: 31, 138, 101;
+  --bs-danger: #c93b44;
+  --bs-danger-rgb: 201, 59, 68;
+}
+
+html[data-corner-style='sharp'] {
+  --ui-card-radius: 3px;
+  --ui-btn-radius: 3px;
 }
 
 html[data-corner-style='curved'] {
-  --ui-card-radius: 16px;
-  --ui-btn-radius: 12px;
+  --ui-card-radius: 14px;
+  --ui-btn-radius: 10px;
 }
 
 html[data-theme='dark'],
 html.app-skin-dark {
   color-scheme: dark;
-  --color-surface: #0e1420;
-  --color-background: #0e1420;
-  --color-surface-dim: #0a0f18;
-  --color-surface-bright: #1b2538;
-  --color-surface-container-lowest: #151e2e;
-  --color-surface-container-low: #1c273b;
-  --color-surface-container: #223047;
-  --color-surface-container-high: #2a3a54;
-  --color-surface-container-highest: #334563;
-  --color-surface-variant: #25334a;
-  --color-on-background: #edf2fa;
-  --color-on-surface: #edf2fa;
-  --color-on-surface-variant: #9fb0ca;
-  --color-outline: #627491;
-  --color-outline-variant: #2e3e57;
-  --color-primary: #7aa2f7;
-  --color-primary-container: #1e3054;
-  --color-on-primary: #0c162b;
-  --color-on-primary-container: #dbe7ff;
-  --color-secondary: #4fd1a5;
-  --color-secondary-container: #15362c;
-  --color-on-secondary-container: #b9f3dd;
-  --color-error: #f28b90;
-  --color-error-container: #3b1c22;
-  --color-on-error: #2a0b0e;
-  --color-on-error-container: #ffd6d8;
-  --shadow-surface-ring: 0 0 0 1px rgba(148, 163, 184, 0.16), 0 2px 10px rgba(0, 0, 0, 0.35);
+  --color-surface: #0d1422;
+  --color-background: #0d1422;
+  --color-surface-dim: #090e18;
+  --color-surface-bright: #1b263b;
+  --color-surface-container-lowest: #141e30;
+  --color-surface-container-low: #1b2840;
+  --color-surface-container: #22324f;
+  --color-surface-container-high: #2a3d5e;
+  --color-surface-container-highest: #34496e;
+  --color-surface-variant: #253654;
+  --color-on-background: #edf3ff;
+  --color-on-surface: #edf3ff;
+  --color-on-surface-variant: #a3b5d1;
+  --color-outline: #657899;
+  --color-outline-variant: #2d405e;
+  --color-primary: #3b6fd9;
+  --color-primary-container: #1d325c;
+  --color-primary-fixed: #223a6b;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #dce8ff;
+  --color-secondary: #4cd9a5;
+  --color-secondary-container: #133a2d;
+  --color-secondary-fixed: #1b4d3d;
+  --color-on-secondary-container: #bef7e0;
+  --color-error: #f58c93;
+  --color-error-container: #3d1c23;
+  --color-on-error: #2b0b10;
+  --color-on-error-container: #ffd9dc;
+  --hero-grad-from: #1b3161;
+  --hero-grad-via: #24417a;
+  --hero-grad-to: #14223d;
+  --hero-orb-1: rgba(76, 217, 165, 0.18);
+  --hero-orb-2: rgba(125, 168, 255, 0.18);
+  --shadow-surface-ring: 0 0 0 1px rgba(148, 163, 184, 0.16), 0 4px 16px rgba(0, 0, 0, 0.34);
   --shadow-dock-ring: 0 0 0 1px rgba(148, 163, 184, 0.2), 0 12px 30px rgba(0, 0, 0, 0.52);
-  --shadow-card: 0 0 0 1px rgba(148, 163, 184, 0.15), 0 4px 14px rgba(0, 0, 0, 0.32);
+  --shadow-card: 0 0 0 1px rgba(148, 163, 184, 0.14), 0 6px 20px -4px rgba(0, 0, 0, 0.42);
   --shadow-floating: 0 0 0 1px rgba(148, 163, 184, 0.2), 0 14px 36px rgba(0, 0, 0, 0.56);
 }
 

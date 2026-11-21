@@ -1,0 +1,1396 @@
+{
+  "users": [
+    {
+      "id": "u_admin",
+      "username": "admin",
+      "passwordHash": "scrypt$7523dc153b9a64bed2b49714437e361e$86584bc792fc046d262d8d7e7b275a872226b7d33fac162b2454dfed9452c7ea",
+      "displayName": "مهندس شریفی (مدیر کل شهرک)",
+      "role": "complex_manager",
+      "blockId": null,
+      "unitCode": null,
+      "phone": "۰۹۱۲۱۱۱۱۱۰۱",
+      "createdByUserId": null,
+      "createdByName": "سیستم مرکزی",
+      "isTemporary": false,
+      "validFromMs": null,
+      "validUntilMs": null,
+      "active": true,
+      "createdAtMs": 1792662714783
+    },
+    {
+      "id": "u_acc_complex",
+      "username": "acc_complex",
+      "passwordHash": "scrypt$7523dc153b9a64bed2b49714437e361e$86584bc792fc046d262d8d7e7b275a872226b7d33fac162b2454dfed9452c7ea",
+      "displayName": "خانم طاهری (مدیر حسابداری شهرک)",
+      "role": "complex_accountant",
+      "blockId": null,
+      "unitCode": null,
+      "phone": "۰۹۱۲۱۱۱۱۱۰۲",
+      "createdByUserId": "u_admin",
+      "createdByName": "مهندس شریفی",
+      "isTemporary": false,
+      "validFromMs": null,
+      "validUntilMs": null,
+      "active": true,
+      "createdAtMs": 1793094714783
+    },
+    {
+      "id": "u_fac_chief",
+      "username": "fac_chief",
+      "passwordHash": "scrypt$7523dc153b9a64bed2b49714437e361e$86584bc792fc046d262d8d7e7b275a872226b7d33fac162b2454dfed9452c7ea",
+      "displayName": "مهندس صابری (سرپرست کل تاسیسات)",
+      "role": "facilities_chief",
+      "blockId": null,
+      "unitCode": null,
+      "phone": "۰۹۱۲۱۱۱۱۱۰۳",
+      "createdByUserId": "u_admin",
+      "createdByName": "مهندس شریفی",
+      "isTemporary": false,
+      "validFromMs": null,
+      "validUntilMs": null,
+      "active": true,
+      "createdAtMs": 1793094714783
+    },
+    {
+      "id": "u_block_b_mgr",
+      "username": "block_b_mgr",
+      "passwordHash": "scrypt$7523dc153b9a64bed2b49714437e361e$86584bc792fc046d262d8d7e7b275a872226b7d33fac162b2454dfed9452c7ea",
+      "displayName": "دکتر فراهانی (مدیر بلوک B)",
+      "role": "block_manager",
+      "blockId": "B",
+      "unitCode": "B-101",
+      "phone": "۰۹۱۲۲۲۲۲۲۰۱",
+      "createdByUserId": "u_admin",
+      "createdByName": "مهندس شریفی",
+      "isTemporary": false,
+      "validFromMs": null,
+      "validUntilMs": null,
+      "active": true,
+      "createdAtMs": 1793526714783
+    },
+    {
+      "id": "u_acc_block_b",
+      "username": "acc_block_b",
+      "passwordHash": "scrypt$7523dc153b9a64bed2b49714437e361e$86584bc792fc046d262d8d7e7b275a872226b7d33fac162b2454dfed9452c7ea",
+      "displayName": "آقای موسوی (حسابدار مشترک بلوک‌های A و B)",
+      "role": "block_accountant",
+      "blockId": "B",
+      "unitCode": null,
+      "phone": "۰۹۱۲۲۲۲۲۲۰۲",
+      "createdByUserId": "u_block_b_mgr",
+      "createdByName": "دکتر فراهانی",
+      "isTemporary": false,
+      "validFromMs": null,
+      "validUntilMs": null,
+      "active": true,
+      "createdAtMs": 1793958714783,
+      "assignedBlocks": [
+        {
+          "blockId": "B",
+          "grantedByUserId": "u_block_b_mgr",
+          "grantedByName": "دکتر فراهانی (مدیر بلوک B)",
+          "grantedAtMs": 1793960038808,
+          "permissions": [
+            "finance",
+            "excel_import"
+          ]
+        },
+        {
+          "blockId": "A",
+          "grantedByUserId": "u_admin",
+          "grantedByName": "مهندس شریفی (مدیر بلوک A)",
+          "grantedAtMs": 1794392038808,
+          "permissions": [
+            "finance",
+            "excel_import"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u_fac_block_b",
+      "username": "fac_block_b",
+      "passwordHash": "scrypt$7523dc153b9a64bed2b49714437e361e$86584bc792fc046d262d8d7e7b275a872226b7d33fac162b2454dfed9452c7ea",
+      "displayName": "استاد کریمیان (تاسیسات مشترک بلوک‌های B و C)",
+      "role": "block_facilities",
+      "blockId": "B",
+      "unitCode": null,
+      "phone": "۰۹۱۲۲۲۲۲۲۰۳",
+      "createdByUserId": "u_block_b_mgr",
+      "createdByName": "دکتر فراهانی",
+      "isTemporary": false,
+      "validFromMs": null,
+      "validUntilMs": null,
+      "active": true,
+      "createdAtMs": 1793958714783,
+      "assignedBlocks": [
+        {
+          "blockId": "B",
+          "grantedByUserId": "u_block_b_mgr",
+          "grantedByName": "دکتر فراهانی (مدیر بلوک B)",
+          "grantedAtMs": 1793960038808,
+          "permissions": [
+            "facilities"
+          ]
+        },
+        {
+          "blockId": "C",
+          "grantedByUserId": "u_admin",
+          "grantedByName": "مهندس شریفی (مدیر بلوک C)",
+          "grantedAtMs": 1794564838808,
+          "permissions": [
+            "facilities"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u_caretaker_b1",
+      "username": "caretaker_b1",
+      "passwordHash": "scrypt$7523dc153b9a64bed2b49714437e361e$86584bc792fc046d262d8d7e7b275a872226b7d33fac162b2454dfed9452c7ea",
+      "displayName": "آقای رحمتی (سرایدار دائم بلوک B)",
+      "role": "block_caretaker",
+      "blockId": "B",
+      "unitCode": "سرایداری B",
+      "phone": "۰۹۱۹۳۳۳۳۳۰۱",
+      "createdByUserId": "u_block_b_mgr",
+      "createdByName": "دکتر فراهانی",
+      "isTemporary": false,
+      "validFromMs": null,
+      "validUntilMs": null,
+      "active": true,
+      "createdAtMs": 1794045114783
+    },
+    {
+      "id": "u_temp_caretaker_b",
+      "username": "temp_caretaker_b",
+      "passwordHash": "scrypt$7523dc153b9a64bed2b49714437e361e$86584bc792fc046d262d8d7e7b275a872226b7d33fac162b2454dfed9452c7ea",
+      "displayName": "امیرحسین مرادی (سرایدار کمکی بلوک B)",
+      "role": "temp_caretaker",
+      "blockId": "B",
+      "unitCode": "شیفت کمکی B",
+      "phone": "۰۹۳۵۴۴۴۴۴۰۲",
+      "createdByUserId": "u_block_b_mgr",
+      "createdByName": "دکتر فراهانی",
+      "isTemporary": true,
+      "accessDurationLabel": "۱ روز کامل (۲۴ ساعت)",
+      "validFromMs": 1795247514783,
+      "validUntilMs": 1795333914783,
+      "active": true,
+      "createdAtMs": 1795247514783
+    },
+    {
+      "id": "u_guard_gate1",
+      "username": "guard_gate1",
+      "passwordHash": "scrypt$7523dc153b9a64bed2b49714437e361e$86584bc792fc046d262d8d7e7b275a872226b7d33fac162b2454dfed9452c7ea",
+      "displayName": "رحمان حسینی (نگهبان گیت ورودی)",
+      "role": "gate_guard",
+      "blockId": null,
+      "unitCode": "گیت شمالی",
+      "phone": "۰۹۱۹۵۵۵۵۵۰۱",
+      "createdByUserId": "u_admin",
+      "createdByName": "مهندس شریفی",
+      "isTemporary": false,
+      "validFromMs": null,
+      "validUntilMs": null,
+      "active": true,
+      "createdAtMs": 1793526714783
+    },
+    {
+      "id": "u_res_b208",
+      "username": "res_b208",
+      "passwordHash": "scrypt$7523dc153b9a64bed2b49714437e361e$86584bc792fc046d262d8d7e7b275a872226b7d33fac162b2454dfed9452c7ea",
+      "displayName": "آقای حسینی (ساکن واحد B-208)",
+      "role": "resident",
+      "blockId": "B",
+      "unitCode": "B-208",
+      "phone": "۰۹۱۹۴۵۶۷۱۲۳",
+      "createdByUserId": "u_block_b_mgr",
+      "createdByName": "دکتر فراهانی",
+      "isTemporary": false,
+      "validFromMs": null,
+      "validUntilMs": null,
+      "active": true,
+      "createdAtMs": 1793699514783
+    }
+  ],
+  "blocks": [
+    {
+      "id": "A",
+      "name": "بلوک A (شرقی)",
+      "floors": 6,
+      "unitsCount": 16,
+      "managerUserId": "u_admin",
+      "managerName": "مهندس شریفی",
+      "monthlyChargeBaseTomans": 1100000
+    },
+    {
+      "id": "B",
+      "name": "بلوک B (یاسمن / غربی)",
+      "floors": 6,
+      "unitsCount": 16,
+      "managerUserId": "u_block_b_mgr",
+      "managerName": "دکتر فراهانی",
+      "monthlyChargeBaseTomans": 1120000
+    },
+    {
+      "id": "C",
+      "name": "بلوک C (مرکزی)",
+      "floors": 6,
+      "unitsCount": 16,
+      "managerUserId": "u_admin",
+      "managerName": "مهندس شریفی",
+      "monthlyChargeBaseTomans": 1150000
+    }
+  ],
+  "units": [
+    {
+      "id": "unit_a101",
+      "blockId": "A",
+      "unitCode": "A-101",
+      "floor": 1,
+      "residentUserId": null,
+      "residentName": "مهندس رضایی",
+      "occupancyType": "مالک ساکن",
+      "phone": "۰۹۱۲۳۴۵۶۷۸۹",
+      "plateText": "۱۲ ب ۳۴۵ - ۱۱",
+      "parkingCode": "P-12",
+      "storageCode": "S-04",
+      "balanceTomans": 1850000,
+      "debtTomans": 0
+    },
+    {
+      "id": "unit_a104",
+      "blockId": "A",
+      "unitCode": "A-104",
+      "floor": 2,
+      "residentUserId": null,
+      "residentName": "دکتر محمدی",
+      "occupancyType": "مالک ساکن",
+      "phone": "۰۹۱۲۸۸۷۷۶۶۵",
+      "plateText": "۶۸ د ۷۹۱ - ۲۲",
+      "parkingCode": "P-24",
+      "storageCode": "S-11",
+      "balanceTomans": 420000,
+      "debtTomans": 750000
+    },
+    {
+      "id": "unit_b203",
+      "blockId": "B",
+      "unitCode": "B-203",
+      "floor": 3,
+      "residentUserId": null,
+      "residentName": "خانم کریمی",
+      "occupancyType": "مالک ساکن",
+      "phone": "۰۹۱۲۶۵۴۳۲۱۰",
+      "plateText": "۴۴ ج ۸۹۱ - ۶۶",
+      "parkingCode": "P-18",
+      "storageCode": "S-09",
+      "balanceTomans": 1200000,
+      "debtTomans": 0
+    },
+    {
+      "id": "unit_b208",
+      "blockId": "B",
+      "unitCode": "B-208",
+      "floor": 4,
+      "residentUserId": "u_res_b208",
+      "residentName": "آقای حسینی",
+      "occupancyType": "مستأجر",
+      "phone": "۰۹۱۹۴۵۶۷۱۲۳",
+      "plateText": "۸۸ ط ۵۱۲ - ۱۱",
+      "parkingCode": "P-31",
+      "storageCode": "S-22",
+      "balanceTomans": 130000,
+      "debtTomans": 0
+    },
+    {
+      "id": "unit_b302",
+      "blockId": "B",
+      "unitCode": "B-302",
+      "floor": 3,
+      "residentUserId": null,
+      "residentName": "مهندس احمدی",
+      "occupancyType": "مالک ساکن",
+      "phone": "۰۹۱۲۷۷۸۸۹۹۰",
+      "plateText": "۲۵ س ۶۱۴ - ۱۱",
+      "parkingCode": "P-35",
+      "storageCode": "S-26",
+      "balanceTomans": 650000,
+      "debtTomans": 480000
+    },
+    {
+      "id": "unit_c102",
+      "blockId": "C",
+      "unitCode": "C-102",
+      "floor": 1,
+      "residentUserId": null,
+      "residentName": "خانم شمس",
+      "occupancyType": "مالک ساکن",
+      "phone": "۰۹۱۲۹۰۸۰۷۰۶",
+      "plateText": "۳۳ م ۹۰۲ - ۴۴",
+      "parkingCode": "P-41",
+      "storageCode": "S-31",
+      "balanceTomans": 950000,
+      "debtTomans": 0
+    },
+    {
+      "id": "unit_b08",
+      "blockId": "B",
+      "unitCode": "B-08",
+      "unitNumber": 8,
+      "floor": 2,
+      "residentUserId": null,
+      "residentName": "مهندس مرادی",
+      "occupancyType": "مالک ساکن",
+      "phone": "۰۹۱۲۴۴۵۵۶۶۸",
+      "plateText": "۵۴ ن ۸۱۸ - ۱۱",
+      "parkingCode": "P-08",
+      "storageCode": "S-08",
+      "balanceTomans": 0,
+      "debtTomans": 0,
+      "expectedChargeTomans": 1450000
+    },
+    {
+      "id": "unit_b11",
+      "blockId": "B",
+      "unitCode": "B-11",
+      "unitNumber": 11,
+      "floor": 3,
+      "residentUserId": null,
+      "residentName": "دکتر سلیمانی",
+      "occupancyType": "مالک ساکن",
+      "phone": "۰۹۱۲۳۳۴۴۵۱۱",
+      "plateText": "۳۱ ل ۴۱۱ - ۲۲",
+      "parkingCode": "P-11",
+      "storageCode": "S-11",
+      "balanceTomans": 0,
+      "debtTomans": 0,
+      "expectedChargeTomans": 1550000
+    },
+    {
+      "id": "unit_b15",
+      "blockId": "B",
+      "unitCode": "B-15",
+      "unitNumber": 15,
+      "floor": 4,
+      "residentUserId": null,
+      "residentName": "زهرا رضوی",
+      "occupancyType": "مستأجر",
+      "phone": "۰۹۱۲۶۶۷۷۸۱۵",
+      "plateText": "۷۷ م ۵۱۵ - ۱۱",
+      "parkingCode": "P-15",
+      "storageCode": "S-15",
+      "balanceTomans": 480000,
+      "debtTomans": 0,
+      "expectedChargeTomans": 1920000,
+      "secondaryPhone": "۰۲۱۸۸۷۷۶۶۱۵",
+      "nationalId": "۰۰۷۸۴۵۱۲۳۰",
+      "householdCount": 3,
+      "emergencyContactName": "مهندس سعید رضوی (همسر)",
+      "emergencyContactPhone": "۰۹۱۲۵۵۴۴۳۳۲",
+      "landlordName": "حاج مرتضی اکبری",
+      "landlordPhone": "۰۹۱۲۱۱۱۲۲۴۴",
+      "leaseStartJalali": "۱۴۰۵/۰۷/۰۱",
+      "leaseEndJalali": "۱۴۰۶/۰۷/۰۱",
+      "hasPets": false,
+      "specialNeedsNote": "کودک خردسال در واحد ساکن است (الویت اطلاع‌رسانی قطعی برق/آسانسور)",
+      "vehicles": [
+        {
+          "id": "veh_sub_1",
+          "vehicleType": "سواری",
+          "modelAndColor": "پژو ۲۰۷ اتوماتیک سفید",
+          "plateText": "۷۷ م ۵۱۵ - ۱۱",
+          "parkingType": "اختصاصی سنددار",
+          "parkingNumber": "P-15",
+          "parkingFloorOrZone": "همکف غربی"
+        },
+        {
+          "id": "veh_sub_2",
+          "vehicleType": "سواری",
+          "modelAndColor": "کوییک R نقره‌ای",
+          "plateText": "۶۴ د ۲۹۸ - ۲۲",
+          "parkingType": "پارکینگ اجاره‌ای",
+          "parkingNumber": "P-44",
+          "parkingFloorOrZone": "طبقه منفی ۲ - ردیف B",
+          "parkingProofName": "قرارداد اجاره پارکینگ P-44 (مالک واحد B-19)"
+        }
+      ],
+      "onboardingVerified": true,
+      "lastVerifiedAtMs": 1795258899942
+    }
+  ],
+  "caretaker_tasks": [
+    {
+      "id": "tsk_101",
+      "blockId": "B",
+      "title": "شست‌وشوی کامل لابی و رمپ پارکینگ بلوک B",
+      "description": "شست‌وشوی سنگ کف لابی، نظافت شیشه درب ورودی و تی‌کشی راهروی آسانسور طبقه همکف تا چهارم.",
+      "category": "نظافت",
+      "priority": "urgent",
+      "assignedToUserId": "u_caretaker_b1",
+      "assignedToName": "آقای رحمتی (سرایدار دائم بلوک B)",
+      "assignedByUserId": "u_block_b_mgr",
+      "assignedByName": "دکتر فراهانی (مدیر بلوک B)",
+      "dueLabel": "امروز تا ساعت ۱۶:۰۰",
+      "status": "in_progress",
+      "createdAtMs": 1795240314783,
+      "updatedAtMs": 1795247514783
+    },
+    {
+      "id": "tsk_102",
+      "blockId": "B",
+      "title": "تعویض لامپ سنسوری پاگرد طبقه ۳ و ۴ بلوک B",
+      "description": "۲ عدد لامپ LED ۱۲ وات از انبار سرایداری برداشته و در پاگرد غربی نصب شود.",
+      "category": "تاسیسات سبک",
+      "priority": "normal",
+      "assignedToUserId": "u_temp_caretaker_b",
+      "assignedToName": "امیرحسین مرادی (سرایدار کمکی بلوک B)",
+      "assignedByUserId": "u_block_b_mgr",
+      "assignedByName": "دکتر فراهانی (مدیر بلوک B)",
+      "dueLabel": "امروز تا ساعت ۱۸:۰۰",
+      "status": "todo",
+      "createdAtMs": 1795247514783,
+      "updatedAtMs": 1795247514783
+    },
+    {
+      "id": "tsk_103",
+      "blockId": "B",
+      "title": "بازدید مخزن آب و بررسی فشار پمپ جکوزی بلوک B",
+      "description": "ثبت عدد فشارسنج موتورخانه و بررسی خشک بودن کف اتاق پمپ پس از حادثه نشتی.",
+      "category": "بازرسی ایمنی",
+      "priority": "urgent",
+      "assignedToUserId": "u_caretaker_b1",
+      "assignedToName": "آقای رحمتی (سرایدار دائم بلوک B)",
+      "assignedByUserId": "u_block_b_mgr",
+      "assignedByName": "دکتر فراهانی (مدیر بلوک B)",
+      "dueLabel": "امروز ساعت ۱۱:۰۰",
+      "status": "done_pending_review",
+      "completionNote": "فشار روی ۴.۲ بار ثابت است؛ کف اتاق پمپ خشک و بدون چکه بود.",
+      "createdAtMs": 1795233114783,
+      "updatedAtMs": 1795251114783
+    }
+  ],
+  "resident_requests": [
+    {
+      "id": "req_301",
+      "blockId": "B",
+      "unitCode": "B-208",
+      "residentUserId": "u_res_b208",
+      "residentName": "آقای حسینی",
+      "type": "maintenance",
+      "category": "آیفون و برق واحد",
+      "title": "قطع شدن تصویر آیفون تصویری واحد ۲۰۸",
+      "description": "زنگ واحد می‌خورد اما صفحه نمایش تصویر درب ورودی بلوک را نشان نمی‌دهد.",
+      "status": "assigned",
+      "assignedToUserId": "u_fac_block_b",
+      "assignedToName": "استاد کریمیان (مسئول تاسیسات بلوک B)",
+      "managerReply": "به استاد کریمیان ارجاع شد؛ امروز ساعت ۱۷ برای بررسی مراجعه می‌کنند.",
+      "createdAtMs": 1795236714783,
+      "updatedAtMs": 1795247514783
+    },
+    {
+      "id": "req_302",
+      "blockId": "B",
+      "unitCode": "B-302",
+      "residentUserId": "u_res_b208",
+      "residentName": "مهندس احمدی",
+      "type": "common_area",
+      "category": "آسانسور",
+      "title": "صدای لرزش درب آسانسور نفر‌بر در طبقه سوم",
+      "description": "هنگام باز شدن درب در طبقه سوم صدای سایش ریل شنیده می‌شود.",
+      "status": "open",
+      "createdAtMs": 1795249314783,
+      "updatedAtMs": 1795249314783
+    }
+  ],
+  "resident_messages": [
+    {
+      "id": "msg_401",
+      "blockId": "B",
+      "unitCode": "B-208",
+      "residentUserId": "u_res_b208",
+      "residentName": "آقای حسینی",
+      "senderUserId": "u_res_b208",
+      "senderName": "آقای حسینی (واحد B-208)",
+      "senderRole": "resident",
+      "body": "سلام جناب دکتر فراهانی، برای اسباب‌کشی یک دست مبل جدید پنجشنبه ساعت ۱۱ نیاز به هماهنگی آسانسور باربر داریم.",
+      "createdAtMs": 1795225914783
+    },
+    {
+      "id": "msg_402",
+      "blockId": "B",
+      "unitCode": "B-208",
+      "residentUserId": "u_res_b208",
+      "residentName": "آقای حسینی",
+      "senderUserId": "u_block_b_mgr",
+      "senderName": "دکتر فراهانی (مدیر بلوک B)",
+      "senderRole": "block_manager",
+      "body": "سلام آقای حسینی، با سرایدار بلوک هماهنگ شد؛ پنجشنبه از ساعت ۱۱ تا ۱۳ آسانسور باربر با ضربه‌گیر آماده خواهد بود. لطفاً پلاک وانت را در بخش ثبت مهمان وارد کنید.",
+      "createdAtMs": 1795233114783
+    }
+  ],
+  "guest_permits": [
+    {
+      "id": "gp_501",
+      "blockId": "B",
+      "unitCode": "B-208",
+      "residentUserId": "u_res_b208",
+      "residentName": "آقای حسینی",
+      "guestName": "مهندس کاظمی (مهمان خانوادگی)",
+      "plateText": "۵۵ ن ۶۲۱ - ۱۱",
+      "visitDateLabel": "امروز • ساعت ۱۸:۰۰",
+      "validHours": 6,
+      "note": "ورود به پارکینگ مهمان بلوک B",
+      "status": "pending_gate",
+      "createdAtMs": 1795252014783,
+      "updatedAtMs": 1795252014783
+    },
+    {
+      "id": "gp_502",
+      "blockId": "B",
+      "unitCode": "B-203",
+      "residentUserId": "u_res_b208",
+      "residentName": "خانم کریمی",
+      "guestName": "پیک باربری (آقای شمس)",
+      "plateText": "۳۱ ع ۴۰۸ - ۲۲",
+      "visitDateLabel": "امروز • ساعت ۱۴:۳۰",
+      "validHours": 2,
+      "note": "تحویل سفارش لوازم خانگی",
+      "status": "entered",
+      "verifiedByGuardName": "رحمان حسینی",
+      "createdAtMs": 1795243914783,
+      "updatedAtMs": 1795247514783
+    }
+  ],
+  "payment_receipts": [
+    {
+      "id": "rcp_xls_1795262020178_3",
+      "blockId": "B",
+      "unitCode": "B-15",
+      "residentUserId": "u_excel_import",
+      "residentName": "زهرا رضوی",
+      "amountTomans": 2400000,
+      "traceCode": "SHB-9910612",
+      "channel": "شبا / پایا",
+      "bankAccountCode": "1102",
+      "dateLabel": "۱۴۰۵/۰۸/۱۲ - ۱۶:۴۵",
+      "note": "تطبیق خودکار اکسل بانکی (۱۴۰۵/۰۸/۰۱ تا ۱۴۰۵/۰۸/۳۰) • واریز بیشتر / تسویه معوقه",
+      "status": "approved",
+      "voucherNo": 107,
+      "reviewedByName": "مهندس شریفی (مدیر کل شهرک)",
+      "reviewNote": "ثبت خودکار از فایل bank-deposits-units-block-B.xlsx",
+      "createdAtMs": 1795262020181,
+      "updatedAtMs": 1795262020181
+    },
+    {
+      "id": "rcp_xls_1795262020178_2",
+      "blockId": "B",
+      "unitCode": "B-208",
+      "residentUserId": "u_res_b208",
+      "residentName": "آقای حسینی",
+      "amountTomans": 1250000,
+      "traceCode": "SHB-9910530",
+      "channel": "شبا / پایا",
+      "bankAccountCode": "1102",
+      "dateLabel": "۱۴۰۵/۰۸/۰۹ - ۱۱:۳۰",
+      "note": "تطبیق خودکار اکسل بانکی (۱۴۰۵/۰۸/۰۱ تا ۱۴۰۵/۰۸/۳۰) • واریز بیشتر / تسویه معوقه",
+      "status": "approved",
+      "voucherNo": 107,
+      "reviewedByName": "مهندس شریفی (مدیر کل شهرک)",
+      "reviewNote": "ثبت خودکار از فایل bank-deposits-units-block-B.xlsx",
+      "createdAtMs": 1795262020180,
+      "updatedAtMs": 1795262020180
+    },
+    {
+      "id": "rcp_xls_1795262020178_1",
+      "blockId": "B",
+      "unitCode": "B-11",
+      "residentUserId": "u_excel_import",
+      "residentName": "دکتر سلیمانی",
+      "amountTomans": 1550000,
+      "traceCode": "SHB-9910488",
+      "channel": "شبا / پایا",
+      "bankAccountCode": "1102",
+      "dateLabel": "۱۴۰۵/۰۸/۰۷ - ۱۴:۱۵",
+      "note": "تطبیق خودکار اکسل بانکی (۱۴۰۵/۰۸/۰۱ تا ۱۴۰۵/۰۸/۳۰) • تطابق کامل شارژ ✓",
+      "status": "approved",
+      "voucherNo": 107,
+      "reviewedByName": "مهندس شریفی (مدیر کل شهرک)",
+      "reviewNote": "ثبت خودکار از فایل bank-deposits-units-block-B.xlsx",
+      "createdAtMs": 1795262020179,
+      "updatedAtMs": 1795262020179
+    },
+    {
+      "id": "rcp_xls_1795262020178_0",
+      "blockId": "B",
+      "unitCode": "B-08",
+      "residentUserId": "u_excel_import",
+      "residentName": "مهندس مرادی",
+      "amountTomans": 1450000,
+      "traceCode": "SHB-9910421",
+      "channel": "شبا / پایا",
+      "bankAccountCode": "1102",
+      "dateLabel": "۱۴۰۵/۰۸/۰۵ - ۱۰:۲۴",
+      "note": "تطبیق خودکار اکسل بانکی (۱۴۰۵/۰۸/۰۱ تا ۱۴۰۵/۰۸/۳۰) • تطابق کامل شارژ ✓",
+      "status": "approved",
+      "voucherNo": 107,
+      "reviewedByName": "مهندس شریفی (مدیر کل شهرک)",
+      "reviewNote": "ثبت خودکار از فایل bank-deposits-units-block-B.xlsx",
+      "createdAtMs": 1795262020178,
+      "updatedAtMs": 1795262020178
+    },
+    {
+      "id": "rcp_601",
+      "blockId": "A",
+      "unitCode": "A-104",
+      "residentUserId": "u_res_b208",
+      "residentName": "دکتر محمدی",
+      "amountTomans": 3200000,
+      "traceCode": "SHB-8829104",
+      "channel": "شبا / پایا",
+      "bankAccountCode": "1102",
+      "dateLabel": "۱۴۰۵/۰۸/۲۸",
+      "note": "تسویه شارژ آبان و معوقه مهر",
+      "status": "pending",
+      "createdAtMs": 1795236714783,
+      "updatedAtMs": 1795236714783
+    },
+    {
+      "id": "rcp_602",
+      "blockId": "B",
+      "unitCode": "B-208",
+      "residentUserId": "u_res_b208",
+      "residentName": "آقای حسینی",
+      "amountTomans": 1120000,
+      "traceCode": "CRD-5519082",
+      "channel": "کارت‌به‌کارت",
+      "bankAccountCode": "1102",
+      "dateLabel": "۱۴۰۵/۰۸/۲۹",
+      "note": "شارژ آبان ۱۴۰۵ واحد B-208",
+      "status": "pending",
+      "createdAtMs": 1795247514783,
+      "updatedAtMs": 1795247514783
+    }
+  ],
+  "block_notices": [
+    {
+      "id": "ntc_onb_1795258899942",
+      "blockId": "B",
+      "targetUnitCode": "B-15",
+      "title": "تایید پرونده سکونت و فعال‌سازی پلاک خودرو (B-15)",
+      "body": "اطلاعات سکونت زهرا رضوی توسط دکتر فراهانی (مدیر بلوک B) تایید شد و ۲ پلاک خودرو در لیست مجاز انتظامات و گیت ورودی ثبت گردید.",
+      "severity": "info",
+      "senderUserId": "u_block_b_mgr",
+      "senderName": "دکتر فراهانی (مدیر بلوک B)",
+      "senderRoleTitle": "مدیر بلوک",
+      "createdAtMs": 1795258899942
+    },
+    {
+      "id": "ntc_1795256240113",
+      "blockId": "B",
+      "targetUnitCode": "ALL",
+      "title": "قطعی برق",
+      "body": "الامه",
+      "severity": "warning",
+      "senderUserId": "u_block_b_mgr",
+      "senderName": "دکتر فراهانی (مدیر بلوک B)",
+      "senderRoleTitle": "مدیر بلوک",
+      "createdAtMs": 1795256240113
+    },
+    {
+      "id": "ntc_701",
+      "blockId": "B",
+      "targetUnitCode": "ALL",
+      "title": "قطعی کوتاه‌مدت آب برای تست فشار رایزر غربی",
+      "body": "فردا ساعت ۱۰ تا ۱۱:۳۰ صبح جهت تست نهایی شیر فلکه رایزر ۲، آب بلوک B قطع خواهد بود.",
+      "severity": "warning",
+      "senderUserId": "u_block_b_mgr",
+      "senderName": "دکتر فراهانی",
+      "senderRoleTitle": "مدیر بلوک B",
+      "createdAtMs": 1795243914783
+    },
+    {
+      "id": "ntc_702",
+      "blockId": "B",
+      "targetUnitCode": "B-208",
+      "title": "تایید رزرو آسانسور باربر برای واحد ۲۰۸",
+      "body": "آسانسور باربر برای پنجشنبه ساعت ۱۱ تا ۱۳ با محافظ دیوار رزرو شد.",
+      "severity": "info",
+      "senderUserId": "u_block_b_mgr",
+      "senderName": "دکتر فراهانی",
+      "senderRoleTitle": "مدیر بلوک B",
+      "createdAtMs": 1795233114783
+    }
+  ],
+  "accounting_entries": [
+    {
+      "id": "je_101",
+      "voucherNo": 101,
+      "date": "۱۴۰۵/۰۸/۰۱",
+      "description": "سند افتتاحیه دوره آبان ۱۴۰۵ — انتقال مانده بانک‌ها، صندوق ذخیره و مطالبات",
+      "source": "opening",
+      "status": "final",
+      "refCode": "OPEN-1405-08",
+      "lines": [
+        {
+          "accountCode": "1102",
+          "description": "مانده بانک پاسارگاد",
+          "debit": 108500000,
+          "credit": 0
+        },
+        {
+          "accountCode": "1103",
+          "description": "مانده بانک سامان (عمرانی)",
+          "debit": 142000000,
+          "credit": 0
+        },
+        {
+          "accountCode": "1104",
+          "description": "مانده تنخواه بلوک B",
+          "debit": 12150000,
+          "credit": 0
+        },
+        {
+          "accountCode": "1105",
+          "subsidiary": "واحدهای معوق دوره قبل",
+          "debit": 19850000,
+          "credit": 0
+        },
+        {
+          "accountCode": "2102",
+          "subsidiary": "چک صیادی آسانسور البرز",
+          "debit": 0,
+          "credit": 24000000
+        },
+        {
+          "accountCode": "2103",
+          "subsidiary": "پیش‌دریافت شارژ بلوک A",
+          "debit": 0,
+          "credit": 6500000
+        },
+        {
+          "accountCode": "3101",
+          "description": "اندوخته صندوق ذخیره عمرانی",
+          "debit": 0,
+          "credit": 142000000
+        },
+        {
+          "accountCode": "3102",
+          "description": "مازاد انباشته سنواتی",
+          "debit": 0,
+          "credit": 110000000
+        }
+      ]
+    },
+    {
+      "id": "je_102",
+      "voucherNo": 102,
+      "date": "۱۴۰۵/۰۸/۰۲",
+      "description": "صدور جمعی قبوض شارژ آبان ۱۴۰۵ (۴۸ واحد — ۳ بلوک)",
+      "source": "charge",
+      "status": "final",
+      "refCode": "CHG-1405-08",
+      "lines": [
+        {
+          "accountCode": "1105",
+          "subsidiary": "کل واحدهای مجتمع (۴۸ واحد)",
+          "debit": 54000000,
+          "credit": 0
+        },
+        {
+          "accountCode": "4101",
+          "description": "درآمد شارژ جاری آبان",
+          "debit": 0,
+          "credit": 45000000
+        },
+        {
+          "accountCode": "4102",
+          "description": "سهم صندوق ذخیره عمرانی",
+          "debit": 0,
+          "credit": 9000000
+        }
+      ]
+    },
+    {
+      "id": "je_103",
+      "voucherNo": 103,
+      "date": "۱۴۰۵/۰۸/۱۰",
+      "description": "وصول شارژ واحدهای بلوک A و C — واریز تجمیعی به بانک پاسارگاد",
+      "source": "receipt",
+      "status": "final",
+      "refCode": "BNK-88201",
+      "lines": [
+        {
+          "accountCode": "1102",
+          "description": "واریز شارژ ۴۲ واحد",
+          "debit": 49850000,
+          "credit": 0
+        },
+        {
+          "accountCode": "1105",
+          "subsidiary": "تسویه ۴۲ واحد بلوک A/B/C",
+          "debit": 0,
+          "credit": 49850000
+        }
+      ]
+    },
+    {
+      "id": "je_104",
+      "voucherNo": 104,
+      "date": "۱۴۰۵/۰۸/۱۵",
+      "description": "پرداخت حقوق و بیمه پرسنل لابی‌من و انتظامات گیت (آبان ۱۴۰۵)",
+      "source": "manual",
+      "status": "final",
+      "refCode": "PAY-1405-08",
+      "lines": [
+        {
+          "accountCode": "5104",
+          "description": "حقوق ۳ نفر لابی‌من و نگهبانی",
+          "debit": 28500000,
+          "credit": 0
+        },
+        {
+          "accountCode": "2104",
+          "description": "حق بیمه تامین اجتماعی سهم کارفرما",
+          "debit": 0,
+          "credit": 4200000
+        },
+        {
+          "accountCode": "1102",
+          "description": "پرداخت خالص حقوق از پاسارگاد",
+          "debit": 0,
+          "credit": 24300000
+        }
+      ]
+    },
+    {
+      "id": "je_105",
+      "voucherNo": 105,
+      "date": "۱۴۰۵/۰۸/۲۰",
+      "description": "ثبت سند پایا VCH-402-882 — اورهال بوسترپمپ آبرسانی بلوک B",
+      "source": "petty_cash",
+      "status": "final",
+      "refCode": "VCH-402-882",
+      "lines": [
+        {
+          "accountCode": "5102",
+          "subsidiary": "پمپ‌سازان نوین",
+          "description": "اورهال الکتروپمپ و سیم‌پیچی",
+          "debit": 18500000,
+          "credit": 0
+        },
+        {
+          "accountCode": "2101",
+          "subsidiary": "پمپ‌سازان نوین",
+          "description": "بستانکاری پیمانکار بابت فاکتور ۸۸۲",
+          "debit": 0,
+          "credit": 18500000
+        }
+      ]
+    },
+    {
+      "id": "je_106",
+      "voucherNo": 106,
+      "date": "۱۴۰۵/۰۸/۲۴",
+      "description": "پرداخت قبوض برق، آب و گاز مشاعات و سرویس نظافت دوره آبان",
+      "source": "manual",
+      "status": "draft",
+      "refCode": "UTL-1405-08",
+      "lines": [
+        {
+          "accountCode": "5101",
+          "description": "قبوض انرژی مشاعات ۳ بلوک",
+          "debit": 7400000,
+          "credit": 0
+        },
+        {
+          "accountCode": "5105",
+          "description": "مواد شوینده و رسیدگی فضای سبز",
+          "debit": 3650000,
+          "credit": 0
+        },
+        {
+          "accountCode": "1104",
+          "description": "پرداخت از محل تنخواه بلوک B",
+          "debit": 0,
+          "credit": 3650000
+        },
+        {
+          "accountCode": "1102",
+          "description": "پرداخت قبوض از بانک پاسارگاد",
+          "debit": 0,
+          "credit": 7400000
+        }
+      ]
+    },
+    {
+      "id": "je_107_1795262020178",
+      "voucherNo": 107,
+      "date": "۱۴۰۵/۰۸/۳۰",
+      "description": "ثبت خودکار گردش بانکی بلوک B (۱۴۰۵/۰۸/۰۱ تا ۱۴۰۵/۰۸/۳۰) — ۴ واحد",
+      "source": "receipt",
+      "status": "final",
+      "refCode": "XLS-B-107",
+      "lines": [
+        {
+          "accountCode": "1102",
+          "description": "تجمیع واریزی‌های اکسل بانکی بلوک B (۱۴۰۵/۰۸/۰۱ تا ۱۴۰۵/۰۸/۳۰)",
+          "debit": 6650000,
+          "credit": 0
+        },
+        {
+          "accountCode": "1105",
+          "subsidiary": "واحد B-08 (مهندس مرادی)",
+          "description": "واریز شارژ ۱۴۰۵/۰۸/۰۵ - ۱۰:۲۴ — SHB-9910421",
+          "debit": 0,
+          "credit": 1450000
+        },
+        {
+          "accountCode": "1105",
+          "subsidiary": "واحد B-11 (دکتر سلیمانی)",
+          "description": "واریز شارژ ۱۴۰۵/۰۸/۰۷ - ۱۴:۱۵ — SHB-9910488",
+          "debit": 0,
+          "credit": 1550000
+        },
+        {
+          "accountCode": "1105",
+          "subsidiary": "واحد B-208 (آقای حسینی)",
+          "description": "واریز شارژ ۱۴۰۵/۰۸/۰۹ - ۱۱:۳۰ — SHB-9910530",
+          "debit": 0,
+          "credit": 1250000
+        },
+        {
+          "accountCode": "1105",
+          "subsidiary": "واحد B-15 (زهرا رضوی)",
+          "description": "واریز شارژ ۱۴۰۵/۰۸/۱۲ - ۱۶:۴۵ — SHB-9910612",
+          "debit": 0,
+          "credit": 2400000
+        }
+      ]
+    }
+  ],
+  "sayadi_checks": [
+    {
+      "id": "chk_1",
+      "sayadiId": "4105882100492184",
+      "payee": "شرکت آسانسور البرز",
+      "amountTomans": 24000000,
+      "dueDate": "۱۴۰۵/۰۹/۰۵",
+      "bankAccountCode": "1102",
+      "expenseAccountCode": "2102",
+      "status": "registered"
+    },
+    {
+      "id": "chk_2",
+      "sayadiId": "4105882100492219",
+      "payee": "شرکت پمپ‌سازان نوین",
+      "amountTomans": 18500000,
+      "dueDate": "۱۴۰۵/۰۹/۱۲",
+      "bankAccountCode": "1103",
+      "expenseAccountCode": "2101",
+      "status": "pending_sign"
+    }
+  ],
+  "excel_bank_patterns": [
+    {
+      "id": "pat_1795262019246",
+      "name": "پترن تستی بانک ملت — شماره واحد و مبلغ",
+      "blockId": "B",
+      "amountColumn": "واریز",
+      "dateColumn": "تاریخ واریز",
+      "traceColumn": "شماره پیگیری",
+      "descriptionColumn": "شرح تراکنش",
+      "currencyUnit": "rials",
+      "unitMatchMode": "last_digits_and_charge",
+      "suffixDigitCount": 2,
+      "chargeToleranceTomans": 2000,
+      "customFields": [
+        {
+          "id": "cf_unit",
+          "fieldLabel": "شماره واحد",
+          "sourceType": "unit_from_last_digits"
+        },
+        {
+          "id": "cf_res",
+          "fieldLabel": "واریزکننده (ساکن)",
+          "sourceType": "resident_from_unit"
+        },
+        {
+          "id": "cf_date",
+          "fieldLabel": "زمان واریز",
+          "sourceType": "column",
+          "columnName": "تاریخ واریز"
+        }
+      ],
+      "createdByUserId": "u_admin",
+      "createdByName": "مهندس شریفی (مدیر کل شهرک)",
+      "createdAtMs": 1795262019246
+    },
+    {
+      "id": "pat_pasargad_2digit",
+      "name": "الگوی بانک پاسارگاد — ۲ رقم آخر = شماره واحد",
+      "blockId": "B",
+      "amountColumn": "واریز",
+      "dateColumn": "تاریخ واریز",
+      "traceColumn": "شماره پیگیری",
+      "descriptionColumn": "شرح تراکنش",
+      "currencyUnit": "rials",
+      "unitMatchMode": "last_digits_and_charge",
+      "suffixDigitCount": 2,
+      "chargeToleranceTomans": 2000,
+      "customFields": [
+        {
+          "id": "cf_unit",
+          "fieldLabel": "شماره واحد",
+          "sourceType": "unit_from_last_digits"
+        },
+        {
+          "id": "cf_res",
+          "fieldLabel": "واریزکننده (ساکن)",
+          "sourceType": "resident_from_unit"
+        },
+        {
+          "id": "cf_date",
+          "fieldLabel": "زمان واریز",
+          "sourceType": "column",
+          "columnName": "تاریخ واریز"
+        }
+      ],
+      "createdByUserId": "u_block_b_mgr",
+      "createdByName": "دکتر فراهانی (مدیر بلوک B)",
+      "createdAtMs": 1794824038808
+    }
+  ],
+  "excel_import_batches": [
+    {
+      "id": "xlsb_1795262020178",
+      "blockId": "B",
+      "periodLabel": "۱۴۰۵/۰۸/۰۱ تا ۱۴۰۵/۰۸/۳۰",
+      "patternName": "پترن تستی بانک ملت — شماره واحد و مبلغ",
+      "fileName": "bank-deposits-units-block-B.xlsx",
+      "bankAccountCode": "1102",
+      "matchedCount": 4,
+      "totalMatchedTomans": 6650000,
+      "voucherNo": 107,
+      "importedByUserId": "u_admin",
+      "importedByName": "مهندس شریفی (مدیر کل شهرک)",
+      "createdAtMs": 1795262020178,
+      "records": [
+        {
+          "unitCode": "B-08",
+          "residentName": "مهندس مرادی",
+          "amountTomans": 1450000,
+          "depositDate": "۱۴۰۵/۰۸/۰۵ - ۱۰:۲۴",
+          "traceCode": "SHB-9910421",
+          "statusLabel": "تطابق کامل شارژ ✓",
+          "customRecord": {
+            "شماره واحد": "B-08",
+            "واریزکننده (ساکن)": "مهندس مرادی",
+            "زمان واریز": "۱۴۰۵/۰۸/۰۵ - ۱۰:۲۴"
+          }
+        },
+        {
+          "unitCode": "B-11",
+          "residentName": "دکتر سلیمانی",
+          "amountTomans": 1550000,
+          "depositDate": "۱۴۰۵/۰۸/۰۷ - ۱۴:۱۵",
+          "traceCode": "SHB-9910488",
+          "statusLabel": "تطابق کامل شارژ ✓",
+          "customRecord": {
+            "شماره واحد": "B-11",
+            "واریزکننده (ساکن)": "دکتر سلیمانی",
+            "زمان واریز": "۱۴۰۵/۰۸/۰۷ - ۱۴:۱۵"
+          }
+        },
+        {
+          "unitCode": "B-208",
+          "residentName": "آقای حسینی",
+          "amountTomans": 1250000,
+          "depositDate": "۱۴۰۵/۰۸/۰۹ - ۱۱:۳۰",
+          "traceCode": "SHB-9910530",
+          "statusLabel": "واریز بیشتر / تسویه معوقه",
+          "customRecord": {
+            "شماره واحد": "B-208",
+            "واریزکننده (ساکن)": "آقای حسینی",
+            "زمان واریز": "۱۴۰۵/۰۸/۰۹ - ۱۱:۳۰"
+          }
+        },
+        {
+          "unitCode": "B-15",
+          "residentName": "زهرا رضوی",
+          "amountTomans": 2400000,
+          "depositDate": "۱۴۰۵/۰۸/۱۲ - ۱۶:۴۵",
+          "traceCode": "SHB-9910612",
+          "statusLabel": "واریز بیشتر / تسویه معوقه",
+          "customRecord": {
+            "شماره واحد": "B-15",
+            "واریزکننده (ساکن)": "زهرا رضوی",
+            "زمان واریز": "۱۴۰۵/۰۸/۱۲ - ۱۶:۴۵"
+          }
+        }
+      ]
+    }
+  ],
+  "unit_invite_codes": [
+    {
+      "id": "inv_b302",
+      "code": "BLB-302-4821",
+      "blockId": "B",
+      "unitCode": "B-302",
+      "status": "used",
+      "createdByUserId": "u_block_b_mgr",
+      "createdByName": "دکتر فراهانی (مدیر بلوک B)",
+      "createdAtMs": 1795247622182,
+      "usedAtMs": 1795259082118,
+      "usedByName": "سعید رضایی"
+    },
+    {
+      "id": "inv_b08",
+      "code": "BLB-08-5214",
+      "blockId": "B",
+      "unitCode": "B-08",
+      "status": "active",
+      "createdByUserId": "u_block_b_mgr",
+      "createdByName": "دکتر فراهانی (مدیر بلوک B)",
+      "createdAtMs": 1795247622182
+    },
+    {
+      "id": "inv_b11",
+      "code": "BLB-11-6409",
+      "blockId": "B",
+      "unitCode": "B-11",
+      "status": "active",
+      "createdByUserId": "u_block_b_mgr",
+      "createdByName": "دکتر فراهانی (مدیر بلوک B)",
+      "createdAtMs": 1795251222182
+    },
+    {
+      "id": "inv_b15",
+      "code": "BLB-15-7390",
+      "blockId": "B",
+      "unitCode": "B-15",
+      "status": "used",
+      "createdByUserId": "u_block_b_mgr",
+      "createdByName": "دکتر فراهانی (مدیر بلوک B)",
+      "createdAtMs": 1795236822182,
+      "usedAtMs": 1795254822182,
+      "usedByName": "خانم زهرا رضوی"
+    },
+    {
+      "id": "inv_a104",
+      "code": "BLA-104-6150",
+      "blockId": "A",
+      "unitCode": "A-104",
+      "status": "active",
+      "createdByUserId": "u_admin",
+      "createdByName": "مهندس شریفی (مدیر کل شهرک)",
+      "createdAtMs": 1795244022182
+    },
+    {
+      "id": "inv_c102",
+      "code": "BLC-102-3940",
+      "blockId": "C",
+      "unitCode": "C-102",
+      "status": "active",
+      "createdByUserId": "u_admin",
+      "createdByName": "مهندس شریفی (مدیر کل شهرک)",
+      "createdAtMs": 1795244022182
+    }
+  ],
+  "resident_submissions": [
+    {
+      "id": "sub_1795259082118",
+      "trackingCode": "NF-82118",
+      "inviteCode": "BLB-302-4821",
+      "blockId": "B",
+      "unitCode": "B-302",
+      "fullName": "سعید رضایی",
+      "phone": "09123456789",
+      "householdCount": 2,
+      "occupancyType": "مالک ساکن",
+      "storageCode": "S-26",
+      "hasPets": false,
+      "vehicles": [
+        {
+          "id": "veh_1795259082117_0",
+          "vehicleType": "سواری",
+          "modelAndColor": "دنا پلاس سفید",
+          "plateText": "۴۵ ب ۳۱۲ - ایران ۲۲",
+          "parkingType": "اختصاصی سنددار",
+          "parkingNumber": "P-302"
+        }
+      ],
+      "status": "pending_review",
+      "createdAtMs": 1795259082118,
+      "updatedAtMs": 1795259082118
+    },
+    {
+      "id": "sub_b15_demo",
+      "trackingCode": "NF-85142",
+      "inviteCode": "BLB-15-7390",
+      "blockId": "B",
+      "unitCode": "B-15",
+      "fullName": "زهرا رضوی",
+      "nationalId": "۰۰۷۸۴۵۱۲۳۰",
+      "phone": "۰۹۱۲۶۶۷۷۸۱۵",
+      "secondaryPhone": "۰۲۱۸۸۷۷۶۶۱۵",
+      "emergencyContactName": "مهندس سعید رضوی (همسر)",
+      "emergencyContactPhone": "۰۹۱۲۵۵۴۴۳۳۲",
+      "householdCount": 3,
+      "occupancyType": "مستأجر",
+      "landlordName": "حاج مرتضی اکبری",
+      "landlordPhone": "۰۹۱۲۱۱۱۲۲۴۴",
+      "leaseStartJalali": "۱۴۰۵/۰۷/۰۱",
+      "leaseEndJalali": "۱۴۰۶/۰۷/۰۱",
+      "storageCode": "S-15",
+      "hasPets": false,
+      "specialNeedsNote": "کودک خردسال در واحد ساکن است (الویت اطلاع‌رسانی قطعی برق/آسانسور)",
+      "desiredUsername": "res_b15",
+      "vehicles": [
+        {
+          "id": "veh_sub_1",
+          "vehicleType": "سواری",
+          "modelAndColor": "پژو ۲۰۷ اتوماتیک سفید",
+          "plateText": "۷۷ م ۵۱۵ - ۱۱",
+          "parkingType": "اختصاصی سنددار",
+          "parkingNumber": "P-15",
+          "parkingFloorOrZone": "همکف غربی"
+        },
+        {
+          "id": "veh_sub_2",
+          "vehicleType": "سواری",
+          "modelAndColor": "کوییک R نقره‌ای",
+          "plateText": "۶۴ د ۲۹۸ - ۲۲",
+          "parkingType": "پارکینگ اجاره‌ای",
+          "parkingNumber": "P-44",
+          "parkingFloorOrZone": "طبقه منفی ۲ - ردیف B",
+          "parkingProofName": "قرارداد اجاره پارکینگ P-44 (مالک واحد B-19)"
+        }
+      ],
+      "status": "approved",
+      "createdAtMs": 1795255422182,
+      "updatedAtMs": 1795258899942,
+      "reviewedByUserId": "u_block_b_mgr",
+      "reviewedByName": "دکتر فراهانی (مدیر بلوک B)"
+    }
+  ],
+  "approved_vehicles": [
+    {
+      "id": "aveh_1795258899942_1",
+      "blockId": "B",
+      "unitCode": "B-15",
+      "residentName": "زهرا رضوی",
+      "residentPhone": "۰۹۱۲۶۶۷۷۸۱۵",
+      "occupancyType": "مستأجر",
+      "vehicleType": "سواری",
+      "modelAndColor": "کوییک R نقره‌ای",
+      "plateText": "۶۴ د ۲۹۸ - ۲۲",
+      "normalizedPlate": "64د29822",
+      "parkingType": "پارکینگ اجاره‌ای",
+      "parkingNumber": "P-44",
+      "parkingFloorOrZone": "طبقه منفی ۲ - ردیف B",
+      "hasParkingProof": true,
+      "gateAccessEnabled": true,
+      "sourceSubmissionId": "sub_b15_demo",
+      "approvedByName": "دکتر فراهانی (مدیر بلوک B)",
+      "approvedAtMs": 1795258899942
+    },
+    {
+      "id": "aveh_1795258899942_0",
+      "blockId": "B",
+      "unitCode": "B-15",
+      "residentName": "زهرا رضوی",
+      "residentPhone": "۰۹۱۲۶۶۷۷۸۱۵",
+      "occupancyType": "مستأجر",
+      "vehicleType": "سواری",
+      "modelAndColor": "پژو ۲۰۷ اتوماتیک سفید",
+      "plateText": "۷۷ م ۵۱۵ - ۱۱",
+      "normalizedPlate": "77م51511",
+      "parkingType": "اختصاصی سنددار",
+      "parkingNumber": "P-15",
+      "parkingFloorOrZone": "همکف غربی",
+      "hasParkingProof": true,
+      "gateAccessEnabled": true,
+      "sourceSubmissionId": "sub_b15_demo",
+      "approvedByName": "دکتر فراهانی (مدیر بلوک B)",
+      "approvedAtMs": 1795258899942
+    },
+    {
+      "id": "aveh_a101",
+      "blockId": "A",
+      "unitCode": "A-101",
+      "residentName": "مهندس رضایی",
+      "residentPhone": "۰۹۱۲۳۴۵۶۷۸۹",
+      "occupancyType": "مالک ساکن",
+      "vehicleType": "سواری",
+      "modelAndColor": "هایما S7 مشکی",
+      "plateText": "۱۲ ب ۳۴۵ - ۱۱",
+      "normalizedPlate": "12ب34511",
+      "parkingType": "اختصاصی سنددار",
+      "parkingNumber": "P-12",
+      "parkingFloorOrZone": "منفی ۱ - شرقی",
+      "hasParkingProof": true,
+      "gateAccessEnabled": true,
+      "approvedByName": "مهندس شریفی (مدیر کل شهرک)",
+      "approvedAtMs": 1794221622182
+    },
+    {
+      "id": "aveh_b208",
+      "blockId": "B",
+      "unitCode": "B-208",
+      "residentName": "آقای حسینی",
+      "residentPhone": "۰۹۱۹۴۵۶۷۱۲۳",
+      "occupancyType": "مستأجر",
+      "vehicleType": "سواری",
+      "modelAndColor": "دنا پلاس توربو سفید",
+      "plateText": "۸۸ ط ۵۱۲ - ۱۱",
+      "normalizedPlate": "88ط51211",
+      "parkingType": "اختصاصی سنددار",
+      "parkingNumber": "P-31",
+      "parkingFloorOrZone": "منفی ۱ - غربی",
+      "hasParkingProof": true,
+      "gateAccessEnabled": true,
+      "approvedByName": "دکتر فراهانی (مدیر بلوک B)",
+      "approvedAtMs": 1794567222182
+    },
+    {
+      "id": "aveh_b203",
+      "blockId": "B",
+      "unitCode": "B-203",
+      "residentName": "خانم کریمی",
+      "residentPhone": "۰۹۱۲۶۵۴۳۲۱۰",
+      "occupancyType": "مالک ساکن",
+      "vehicleType": "سواری",
+      "modelAndColor": "تارا اتوماتیک خاکستری",
+      "plateText": "۴۴ ج ۸۹۱ - ۶۶",
+      "normalizedPlate": "44ج89166",
+      "parkingType": "پارکینگ طبقاتی",
+      "parkingNumber": "P-18",
+      "parkingFloorOrZone": "طبقه ۲ - ستون C",
+      "hasParkingProof": true,
+      "gateAccessEnabled": true,
+      "approvedByName": "دکتر فراهانی (مدیر بلوک B)",
+      "approvedAtMs": 1794394422182
+    },
+    {
+      "id": "aveh_c102",
+      "blockId": "C",
+      "unitCode": "C-102",
+      "residentName": "خانم شمس",
+      "residentPhone": "۰۹۱۲۹۰۸۰۷۰۶",
+      "occupancyType": "مالک ساکن",
+      "vehicleType": "سواری",
+      "modelAndColor": "مزدا ۳ نوک‌مدادی",
+      "plateText": "۳۳ م ۹۰۲ - ۴۴",
+      "normalizedPlate": "33م90244",
+      "parkingType": "اختصاصی سنددار",
+      "parkingNumber": "P-41",
+      "parkingFloorOrZone": "منفی ۱ - مرکزی",
+      "hasParkingProof": true,
+      "gateAccessEnabled": true,
+      "approvedByName": "مهندس شریفی (مدیر کل شهرک)",
+      "approvedAtMs": 1794048822182
+    }
+  ]
+}

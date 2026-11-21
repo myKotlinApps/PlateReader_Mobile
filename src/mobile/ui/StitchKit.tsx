@@ -30,7 +30,7 @@ export const SubMenuTabs: React.FC<{
     <div
       ref={listRef}
       role="tablist"
-      className={`bg-surface-container-low rounded-[var(--ui-card-radius)] p-1 shadow-[inset_0_0_0_1px_rgba(27,37,51,0.06)] flex items-center gap-1 overflow-x-auto no-scrollbar ${className}`}
+      className={`bg-surface-container/75 rounded-[var(--ui-card-radius)] p-1 border border-surface-container-high/80 flex items-center gap-1 overflow-x-auto no-scrollbar ${className}`}
     >
       {items.map((item) => {
         const isActive = item.id === active;
@@ -43,8 +43,8 @@ export const SubMenuTabs: React.FC<{
             onClick={() => onChange(item.id)}
             className={`shrink-0 h-9 px-3 rounded-[var(--ui-btn-radius)] text-[13px] flex items-center justify-center gap-1.5 whitespace-nowrap active:scale-[0.97] transition-[transform,background-color,color,box-shadow] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
               isActive
-                ? 'bg-surface-container-lowest text-on-primary-container font-bold shadow-[var(--shadow-surface-ring)]'
-                : 'text-on-surface-variant font-medium hover:text-on-surface hover:bg-surface-container-lowest/50'
+                ? 'bg-surface-container-lowest text-primary font-bold shadow-[var(--shadow-card)]'
+                : 'text-on-surface-variant font-medium hover:text-primary hover:bg-surface-container-lowest/60'
             }`}
           >
             {item.icon && (
@@ -75,44 +75,46 @@ export const SubMenuTabs: React.FC<{
   );
 };
 
-/** Unified section heading — balanced 14px Persian SemiBold. */
+/** Unified section heading — balanced 14px Persian SemiBold with lively Stitch tinted icon chip. */
 export const SectionHeader: React.FC<{
   title: string;
   icon?: string;
   action?: React.ReactNode;
 }> = ({ title, icon, action }) => (
-  <div className="flex items-center justify-between gap-2 px-0.5">
-    <div className="flex items-center gap-2 min-w-0">
+  <div className="flex items-center justify-between gap-2.5 flex-wrap px-0.5 min-w-0 max-w-full">
+    <div className="flex items-center gap-2 flex-1 min-w-[min(220px,100%)]">
       {icon && (
-        <span className="material-symbols-outlined text-[18px] text-primary/80 shrink-0">
-          {icon}
+        <span className="w-7 h-7 rounded-[var(--ui-btn-radius)] bg-primary-container/80 text-primary flex items-center justify-center shrink-0">
+          <span className="material-symbols-outlined text-[17px]">{icon}</span>
         </span>
       )}
-      <h2 className="text-[14px] font-bold text-on-surface mb-0 truncate leading-snug">{title}</h2>
+      <h2 className="text-[14.5px] font-bold text-on-surface mb-0 break-words leading-snug min-w-0">
+        {title}
+      </h2>
     </div>
-    {action && <div className="shrink-0">{action}</div>}
+    {action && <div className="shrink-0 max-w-full min-w-0">{action}</div>}
   </div>
 );
 
 /**
- * Unified clean white surface card.
- * Uses layered hairline shadow instead of harsh border+shadow (Emil Design Engineering).
+ * Elevated white card floating over soft sky-tinted canvas (Original Stitch CSS elevation).
  */
 export const SurfaceCard: React.FC<{
   children: React.ReactNode;
   className?: string;
 }> = ({ children, className = '' }) => (
   <section
-    className={`bg-surface-container-lowest rounded-[var(--ui-card-radius)] border border-outline-variant/55 p-4 shadow-[var(--shadow-surface-ring)] ${className}`}
+    className={`bg-surface-container-lowest rounded-[var(--ui-card-radius)] border border-surface-container-high/85 p-4 shadow-[var(--shadow-card)] min-w-0 max-w-full overflow-x-clip ${className}`}
   >
     {children}
   </section>
 );
 
 /**
- * Architectural Hero Summary Card (Anti UI Slop + Anthropic + Taste Skill):
- * - Eliminates generic AI gradients and "cards-within-cards" boxed inner tiles.
- * - Uses a calm solid tonal header band + unified hairline-divided 3-column tabular KPI strip.
+ * Softened Stitch Hero Summary Card:
+ * - Brings back the lively softened Sapphire-to-Indigo luminous header (with subtle mint/sky ambient orbs)
+ *   paired with a crisp elevated 3-column tabular KPI strip underneath.
+ * - Adapts seamlessly across all 6 palettes and Light/Dark themes via CSS variables.
  */
 export const HeroSummaryCard: React.FC<{
   title: string;
@@ -120,31 +122,47 @@ export const HeroSummaryCard: React.FC<{
   badge?: string;
   stats: Array<{ label: string; value: string; accent?: 'default' | 'positive' | 'danger' }>;
 }> = ({ title, subtitle, badge, stats }) => (
-  <section className="bg-surface-container-lowest rounded-[var(--ui-card-radius)] border border-outline-variant/55 overflow-hidden shadow-[var(--shadow-surface-ring)]">
-    <div className="bg-primary-container/35 px-4 py-3.5 flex items-center justify-between gap-2.5 border-b border-outline-variant/35">
-      <div className="min-w-0 flex-1">
-        <h2 className="text-[15px] font-bold text-on-surface mb-0 truncate leading-snug">
+  <section className="bg-surface-container-lowest rounded-[var(--ui-card-radius)] border border-surface-container-high/85 overflow-hidden shadow-[var(--shadow-card)]">
+    <div
+      className="relative overflow-hidden px-4 py-4 flex items-center justify-between gap-2.5 flex-wrap text-white"
+      style={{
+        background:
+          'linear-gradient(135deg, var(--hero-grad-from, #3052a1) 0%, var(--hero-grad-via, #3e62b8) 54%, var(--hero-grad-to, #263d73) 100%)',
+      }}
+    >
+      <div
+        className="absolute -left-10 -top-10 w-36 h-36 rounded-full blur-2xl pointer-events-none"
+        style={{ background: 'var(--hero-orb-1, rgba(130, 245, 193, 0.24))' }}
+        aria-hidden="true"
+      />
+      <div
+        className="absolute right-0 -bottom-10 w-28 h-28 rounded-full blur-xl pointer-events-none"
+        style={{ background: 'var(--hero-orb-2, rgba(195, 211, 255, 0.22))' }}
+        aria-hidden="true"
+      />
+      <div className="relative z-10 min-w-0 flex-1">
+        <h2 className="text-[15.5px] font-bold text-white mb-0 truncate leading-snug">
           {title}
         </h2>
         {subtitle && (
-          <p className="text-[12.5px] text-on-surface-variant mb-0 mt-0.5 truncate leading-normal">
+          <p className="text-[12.5px] text-white/80 mb-0 mt-0.5 truncate leading-normal">
             {subtitle}
           </p>
         )}
       </div>
       {badge && (
-        <span className="shrink-0 inline-flex items-center gap-1.5 text-[12px] font-semibold text-on-primary-container whitespace-nowrap">
-          <span className="w-1.5 h-1.5 rounded-full bg-primary/75 shrink-0" aria-hidden="true" />
-          <span>{badge}</span>
+        <span className="relative z-10 shrink-0 max-w-full inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[var(--ui-btn-radius)] bg-white/15 backdrop-blur-md border border-white/15 text-[11.5px] font-semibold text-white min-w-0">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 shrink-0 animate-pulse" aria-hidden="true" />
+          <span className="truncate">{badge}</span>
         </span>
       )}
     </div>
 
-    <div className="grid grid-cols-3 divide-x divide-x-reverse divide-outline-variant/40 bg-surface-container-lowest">
+    <div className="grid grid-cols-3 divide-x divide-x-reverse divide-surface-container bg-surface-container-lowest">
       {stats.map((st, idx) => (
         <div key={idx} className="px-2 py-3 text-center min-w-0">
           <span
-            className={`block text-[14.5px] font-bold font-numeric-stat leading-snug truncate ${
+            className={`block text-[15px] font-extrabold font-numeric-stat leading-snug truncate ${
               st.accent === 'positive'
                 ? 'text-secondary'
                 : st.accent === 'danger'
@@ -177,21 +195,30 @@ export const NoticeBanner: React.FC<{
   onCloseRef.current = onClose;
 
   useEffect(() => {
-    if (!hostMounted || !message) return;
-    const id = pushDockAlarm({
-      message,
-      tone,
-      title:
-        tone === 'success'
-          ? 'عملیات با موفقیت انجام شد'
-          : tone === 'danger'
-            ? 'نیاز به بررسی و اصلاح'
-            : 'اطلاع‌رسانی سامانه',
-      onClose: () => onCloseRef.current?.(),
-    });
-    return () => {
-      dismissDockAlarm(id);
-    };
+    if (!message) return;
+    if (hostMounted) {
+      const id = pushDockAlarm({
+        message,
+        tone,
+        title:
+          tone === 'success'
+            ? 'عملیات با موفقیت انجام شد'
+            : tone === 'danger'
+              ? 'نیاز به بررسی و اصلاح'
+              : 'اطلاع‌رسانی سامانه',
+        onClose: () => onCloseRef.current?.(),
+      });
+      return () => {
+        dismissDockAlarm(id);
+      };
+    }
+    if (typeof window !== 'undefined' && onCloseRef.current) {
+      const t = window.setTimeout(() => {
+        onCloseRef.current?.();
+      }, 5000);
+      return () => window.clearTimeout(t);
+    }
+    return undefined;
   }, [hostMounted, message, tone]);
 
   if (hostMounted) {
@@ -284,18 +311,18 @@ export const StitchButton: React.FC<
   return (
     <button
       type="button"
-      className={`inline-flex items-center justify-center gap-1.5 font-semibold whitespace-nowrap active:scale-[0.97] transition-[transform,background-color,color,opacity] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-1 disabled:opacity-50 disabled:active:scale-100 ${sizeCls} ${variantCls} ${className}`}
+      className={`inline-flex items-center justify-center gap-1.5 font-semibold max-w-full min-w-0 active:scale-[0.97] transition-[transform,background-color,color,opacity] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-1 disabled:opacity-50 disabled:active:scale-100 ${sizeCls} ${variantCls} ${className}`}
       {...rest}
     >
-      {icon && <span className="material-symbols-outlined text-[17px]">{icon}</span>}
-      <span>{children}</span>
+      {icon && <span className="material-symbols-outlined text-[17px] shrink-0">{icon}</span>}
+      <span className="inline-flex flex-row items-center justify-center gap-1.5 min-w-0 truncate">{children}</span>
     </button>
   );
 };
 
 /**
  * Ultra-quiet semantic status indicator (Anthropic Zero-Pill + Taste Skill):
- * Restrained status dot + crisp 12px Persian label — zero loud badge clutter.
+ * Restrained status dot + crisp 12px Persian label — zero loud badge clutter & guaranteed containment.
  */
 export const StatusPill: React.FC<{
   label: string;
@@ -319,10 +346,10 @@ export const StatusPill: React.FC<{
           : 'bg-outline';
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[var(--ui-btn-radius)] text-[12px] font-medium whitespace-nowrap ${textCls}`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-[var(--ui-btn-radius)] text-[11.5px] font-medium max-w-full min-w-0 overflow-hidden ${textCls}`}
     >
       <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotCls}`} aria-hidden="true" />
-      <span>{label}</span>
+      <span className="truncate">{label}</span>
     </span>
   );
 };

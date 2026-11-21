@@ -6,6 +6,7 @@ import {
   type ListedUserDoc,
 } from '../rbac/rbacApi';
 import {
+  canAccessBlock,
   formatRemainingDurationFa,
   ROLE_DEFINITIONS,
   type BlockSharePermission,
@@ -23,6 +24,8 @@ import type {
 import { JalaliDateTimePicker } from '../components/JalaliDateTimePicker';
 import { TelegramChatPanel } from '../components/TelegramChatPanel';
 import { BlockResidentQrTab } from '../components/BlockResidentQrTab';
+import { CaretakerManagementTab } from '../components/CaretakerManagementTab';
+import { FinanceBankExcelTab } from '../finance/FinanceBankExcelTab';
 import { formatAmountFa } from '../utils/persianMoney';
 import { formatJalaliDateTime, getTodayJalali, jalaliDateTimeToMs } from '../utils/jalaliDate';
 import {
@@ -37,8 +40,8 @@ import {
   SurfaceCard,
 } from '../ui/StitchKit';
 
-type BlockTab = 'overview' | 'qr_onboarding' | 'staff' | 'tasks' | 'requests';
-const VALID_TABS: BlockTab[] = ['overview', 'qr_onboarding', 'staff', 'tasks', 'requests'];
+type BlockTab = 'overview' | 'caretakers' | 'excel' | 'qr_onboarding' | 'staff' | 'tasks' | 'requests';
+const VALID_TABS: BlockTab[] = ['overview', 'caretakers', 'excel', 'qr_onboarding', 'staff', 'tasks', 'requests'];
 
 interface Props {
   currentUser: RbacUserRecord;
@@ -227,8 +230,21 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
   );
 
   const blockUsers = useMemo(
-    () => users.filter((u) => !selectedBlockId || u.blockId === selectedBlockId || (isComplexScope && u.blockId === null)),
+    () =>
+      users.filter(
+        (u) =>
+          !selectedBlockId ||
+          u.blockId === selectedBlockId ||
+          canAccessBlock(u, selectedBlockId) ||
+          (isComplexScope && u.blockId === null),
+      ),
     [users, selectedBlockId, isComplexScope],
+  );
+
+  const allCaretakersCount = useMemo(
+    () =>
+      users.filter((u) => u.role === 'block_caretaker' || u.role === 'temp_caretaker').length,
+    [users],
   );
 
   const blockCaretakers = useMemo(
@@ -236,7 +252,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
       users.filter(
         (u) =>
           (u.role === 'block_caretaker' || u.role === 'temp_caretaker') &&
-          (!selectedBlockId || u.blockId === selectedBlockId),
+          (!selectedBlockId || canAccessBlock(u, selectedBlockId)),
       ),
     [users, selectedBlockId],
   );
@@ -650,6 +666,17 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
           ...(canManageBlock
             ? [
                 {
+                  id: 'caretakers',
+                  label: 'مدیریت سرایداران',
+                  icon: 'cleaning_services',
+                  badge: allCaretakersCount > 0 ? allCaretakersCount : undefined,
+                },
+                {
+                  id: 'excel',
+                  label: 'مدیریت اکسل بانکی',
+                  icon: 'table_view',
+                },
+                {
                   id: 'qr_onboarding',
                   label: 'QR ثبت‌نام ساکنین',
                   icon: 'qr_code_2',
@@ -657,7 +684,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 },
               ]
             : []),
-          { id: 'staff', label: 'کادر و سرایدار موقت', icon: 'group_add', badge: blockUsers.length },
+          { id: 'staff', label: 'کادر و پرسنل', icon: 'group_add', badge: blockUsers.length },
           { id: 'tasks', label: 'وظایف سرایدار', icon: 'checklist', badge: pendingReviewCount },
           { id: 'requests', label: 'ساکنین و مکاتبه', icon: 'forum', badge: openReqCount },
         ]}
@@ -700,7 +727,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 {blockNotices.map((n) => (
                   <div
                     key={n.id}
-                    className="p-3 rounded-[2px] bg-surface-container-low/80 border border-outline-variant/45 space-y-1"
+                    className="p-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low/80 border border-outline-variant/45 space-y-1"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <strong className="text-[13.5px] font-bold text-on-surface">
@@ -738,7 +765,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                         واحد {u.unitCode} — {u.residentName}
                       </strong>
                       {u.onboardingVerified && (
-                        <span className="px-1.5 py-0.5 rounded-[2px] bg-secondary-container/70 text-on-secondary-container text-[10.5px] font-bold">
+                        <span className="px-1.5 py-0.5 rounded-[var(--ui-btn-radius)] bg-secondary-container/70 text-on-secondary-container text-[10.5px] font-bold">
                           تایید QR
                         </span>
                       )}
@@ -769,6 +796,32 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
             </div>
           </SurfaceCard>
         </div>
+      )}
+
+      {/* ==================== TAB 1A: DEDICATED CARETAKER ACCOUNTS & BLOCK ACCESS ==================== */}
+      {tab === 'caretakers' && canManageBlock && (
+        <CaretakerManagementTab
+          currentUser={currentUser}
+          selectedBlockId={selectedBlockId}
+          onDataChanged={() => {
+            void loadAll();
+            onSyncChanged?.();
+          }}
+        />
+      )}
+
+      {/* ==================== TAB 1A-2: BANK EXCEL PATTERNS & AUTO PAYMENT RECONCILIATION ==================== */}
+      {tab === 'excel' && canManageBlock && (
+        <FinanceBankExcelTab
+          selectedBlockId={selectedBlockId}
+          accessibleBlocks={blocks}
+          units={units}
+          onCommitted={async () => {
+            await loadAll();
+            onSyncChanged?.();
+          }}
+          onFeedback={(msg) => setFeedback({ tone: 'success', text: msg })}
+        />
       )}
 
       {/* ==================== TAB 1B: LOBBY QR CODE & RESIDENT SELF-ONBOARDING ==================== */}
@@ -923,7 +976,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                   </div>
 
                   {u.isTemporary && u.accessDurationLabel && (
-                    <div className="px-2.5 py-1.5 rounded-[2px] bg-primary-container/35 border border-primary/20 text-[11.5px] text-on-primary-container flex items-center justify-between gap-2">
+                    <div className="px-2.5 py-1.5 rounded-[var(--ui-btn-radius)] bg-primary-container/35 border border-primary/20 text-[11.5px] text-on-primary-container flex items-center justify-between gap-2">
                       <span>مدت دسترسی: {u.accessDurationLabel}</span>
                       {u.validUntilMs && (
                         <span className="font-numeric-stat">
@@ -1022,7 +1075,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-1.5">
                           {t.priority === 'urgent' && (
-                            <span className="px-1.5 py-0.5 rounded-[2px] bg-error-container text-on-error-container text-[10.5px] font-bold">
+                            <span className="px-1.5 py-0.5 rounded-[var(--ui-btn-radius)] bg-error-container text-on-error-container text-[10.5px] font-bold">
                               فوری
                             </span>
                           )}
@@ -1049,7 +1102,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                     </div>
 
                     {(t.completionNote || t.completionPhoto) && (
-                      <div className="p-2.5 rounded-[2px] bg-secondary-container/35 border border-secondary/25 space-y-2">
+                      <div className="p-2.5 rounded-[var(--ui-btn-radius)] bg-secondary-container/35 border border-secondary/25 space-y-2">
                         {t.completionNote && (
                           <p className="text-[12px] text-on-surface mb-0">
                             <strong>گزارش سرایدار:</strong> {t.completionNote}
@@ -1114,7 +1167,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                   return (
                     <div
                       key={req.id}
-                      className="p-3 rounded-[2px] bg-surface-container-low/80 border border-outline-variant/45 space-y-2"
+                      className="p-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low/80 border border-outline-variant/45 space-y-2"
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
@@ -1141,7 +1194,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                         </button>
                       )}
                       {req.managerReply && (
-                        <div className="p-2 rounded-[2px] bg-surface-container-lowest border border-outline-variant/35 text-[12px]">
+                        <div className="p-2 rounded-[var(--ui-btn-radius)] bg-surface-container-lowest border border-outline-variant/35 text-[12px]">
                           <strong>پاسخ مدیریت/تاسیسات:</strong> {req.managerReply}
                         </div>
                       )}
@@ -1204,7 +1257,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 setNewRole(r);
                 setIsTempFlag(r === 'temp_caretaker');
               }}
-              className="w-full h-10 px-2.5 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+              className="w-full h-10 px-2.5 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
             >
               {creatableRoles.map((r) => (
                 <option key={r} value={r}>
@@ -1226,7 +1279,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 value={newDisplayName}
                 onChange={(e) => setNewDisplayName(e.target.value)}
                 placeholder="مثلاً: علی رضایی"
-                className="w-full h-10 px-3 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                className="w-full h-10 px-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
               />
             </div>
             <div>
@@ -1241,7 +1294,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 value={newUsername}
                 onChange={(e) => setNewUsername(e.target.value)}
                 placeholder="ali_temp"
-                className="w-full h-10 px-3 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                className="w-full h-10 px-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
               />
             </div>
           </div>
@@ -1258,7 +1311,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 dir="ltr"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full h-10 px-3 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                className="w-full h-10 px-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
               />
             </div>
             <div>
@@ -1272,7 +1325,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 value={newPhone}
                 onChange={(e) => setNewPhone(e.target.value)}
                 placeholder="0912..."
-                className="w-full h-10 px-3 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                className="w-full h-10 px-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
               />
             </div>
           </div>
@@ -1288,7 +1341,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                   disabled={Boolean(currentUser.blockId)}
                   value={currentUser.blockId || newBlockId}
                   onChange={(e) => setNewBlockId(e.target.value)}
-                  className="w-full h-10 px-2.5 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                  className="w-full h-10 px-2.5 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
                 >
                   {blocks.map((b) => (
                     <option key={b.id} value={b.id}>
@@ -1309,7 +1362,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                     value={newUnitCode}
                     onChange={(e) => setNewUnitCode(e.target.value)}
                     placeholder={`${selectedBlockId}-305`}
-                    className="w-full h-10 px-3 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                    className="w-full h-10 px-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
                   />
                 </div>
               )}
@@ -1318,7 +1371,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
 
           {/* Temporary / Relief Caretaker Time Window */}
           {(newRole === 'temp_caretaker' || newRole === 'block_caretaker') && (
-            <div className="p-3 rounded-[2px] bg-primary-container/30 border border-primary/25 space-y-2.5">
+            <div className="p-3 rounded-[var(--ui-btn-radius)] bg-primary-container/30 border border-primary/25 space-y-2.5">
               <div className="flex items-center justify-between gap-2">
                 <span className="text-[12.5px] font-bold text-on-surface">
                   تعیین مدت دسترسی زمان‌دار (سرایدار موقت / کمکی)
@@ -1350,7 +1403,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                         key={opt.id}
                         type="button"
                         onClick={() => setDurationPreset(opt.id)}
-                        className={`h-9 px-2 rounded-[2px] border text-[12px] font-semibold transition-colors ${
+                        className={`h-9 px-2 rounded-[var(--ui-btn-radius)] border text-[12px] font-semibold transition-colors ${
                           durationPreset === opt.id
                             ? 'bg-primary text-on-primary border-primary'
                             : 'bg-surface-container-lowest text-on-surface border-outline-variant/55'
@@ -1415,7 +1468,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
               required
               value={taskAssigneeId}
               onChange={(e) => setTaskAssigneeId(e.target.value)}
-              className="w-full h-10 px-2.5 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+              className="w-full h-10 px-2.5 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
             >
               {blockCaretakers.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -1435,7 +1488,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
               value={taskTitle}
               onChange={(e) => setTaskTitle(e.target.value)}
               placeholder="مثلاً: شستشوی رمپ پارکینگ و بررسی لامپ‌ها"
-              className="w-full h-10 px-3 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+              className="w-full h-10 px-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
             />
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -1447,7 +1500,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 id="tk-cat"
                 value={taskCategory}
                 onChange={(e) => setTaskCategory(e.target.value as CaretakerTaskDoc['category'])}
-                className="w-full h-10 px-2 rounded-[2px] bg-surface-container-low text-[12.5px] border border-outline-variant/55"
+                className="w-full h-10 px-2 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[12.5px] border border-outline-variant/55"
               >
                 <option value="نظافت">نظافت</option>
                 <option value="تاسیسات سبک">تاسیسات سبک</option>
@@ -1464,7 +1517,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 id="tk-pri"
                 value={taskPriority}
                 onChange={(e) => setTaskPriority(e.target.value as 'normal' | 'urgent')}
-                className="w-full h-10 px-2 rounded-[2px] bg-surface-container-low text-[12.5px] border border-outline-variant/55"
+                className="w-full h-10 px-2 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[12.5px] border border-outline-variant/55"
               >
                 <option value="normal">عادی</option>
                 <option value="urgent">فوری</option>
@@ -1488,7 +1541,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
               value={taskDesc}
               onChange={(e) => setTaskDesc(e.target.value)}
               placeholder="جزئیات محل و نکات مورد انتظار..."
-              className="w-full p-2.5 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+              className="w-full p-2.5 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
             />
           </div>
           <StitchButton type="submit" disabled={busy} icon="send" className="w-full">
@@ -1507,7 +1560,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
         {reviewingTask && (
           <div className="space-y-3">
             {reviewingTask.completionNote && (
-              <div className="p-2.5 rounded-[2px] bg-surface-container-low border border-outline-variant/45 text-[12.5px]">
+              <div className="p-2.5 rounded-[var(--ui-btn-radius)] bg-surface-container-low border border-outline-variant/45 text-[12.5px]">
                 <strong>گزارش سرایدار:</strong> {reviewingTask.completionNote}
               </div>
             )}
@@ -1515,7 +1568,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
               <img
                 src={reviewingTask.completionPhoto}
                 alt="تصویر انجام وظیفه"
-                className="w-full max-h-56 object-contain rounded-[2px] border border-outline-variant/50 bg-surface-container-low"
+                className="w-full max-h-56 object-contain rounded-[var(--ui-btn-radius)] border border-outline-variant/50 bg-surface-container-low"
               />
             )}
             <div>
@@ -1528,7 +1581,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 value={reviewNote}
                 onChange={(e) => setReviewNote(e.target.value)}
                 placeholder="تایید شد یا علت نیاز به اصلاح..."
-                className="w-full h-10 px-3 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                className="w-full h-10 px-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
               />
             </div>
             <div className="grid grid-cols-2 gap-2">
@@ -1571,7 +1624,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 id="nt-target"
                 value={noticeTargetUnit}
                 onChange={(e) => setNoticeTargetUnit(e.target.value)}
-                className="w-full h-10 px-2 rounded-[2px] bg-surface-container-low text-[12.5px] border border-outline-variant/55"
+                className="w-full h-10 px-2 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[12.5px] border border-outline-variant/55"
               >
                 <option value="ALL">همه واحدهای بلوک {selectedBlockId}</option>
                 {blockUnits.map((u) => (
@@ -1589,7 +1642,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 id="nt-sev"
                 value={noticeSeverity}
                 onChange={(e) => setNoticeSeverity(e.target.value as typeof noticeSeverity)}
-                className="w-full h-10 px-2 rounded-[2px] bg-surface-container-low text-[12.5px] border border-outline-variant/55"
+                className="w-full h-10 px-2 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[12.5px] border border-outline-variant/55"
               >
                 <option value="info">اطلاعیه عادی</option>
                 <option value="warning">هشدار مهم</option>
@@ -1608,7 +1661,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
               value={noticeTitle}
               onChange={(e) => setNoticeTitle(e.target.value)}
               placeholder="مثلاً: سرویس دوره‌ای آسانسور فردا ساعت ۱۰"
-              className="w-full h-10 px-3 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+              className="w-full h-10 px-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
             />
           </div>
           <div>
@@ -1621,7 +1674,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
               required
               value={noticeBody}
               onChange={(e) => setNoticeBody(e.target.value)}
-              className="w-full p-2.5 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+              className="w-full p-2.5 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
             />
           </div>
           <StitchButton type="submit" disabled={busy} icon="campaign" className="w-full">
@@ -1647,7 +1700,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 id="rq-st"
                 value={reqNextStatus}
                 onChange={(e) => setReqNextStatus(e.target.value as ResidentRequestDoc['status'])}
-                className="w-full h-10 px-2.5 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                className="w-full h-10 px-2.5 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
               >
                 <option value="assigned">ارجاع به تاسیسات</option>
                 <option value="in_progress">در حال تعمیر</option>
@@ -1665,7 +1718,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 value={reqReplyText}
                 onChange={(e) => setReqReplyText(e.target.value)}
                 placeholder="زمان اعزام تکنسین یا نتیجه بررسی..."
-                className="w-full p-2.5 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                className="w-full p-2.5 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
               />
             </div>
             <StitchButton type="submit" disabled={busy} icon="check" className="w-full">

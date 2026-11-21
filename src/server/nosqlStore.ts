@@ -175,18 +175,19 @@ export interface ExcelBankPatternDoc {
   id: string;
   name: string;
   blockId: string; // 'ALL' | 'A' | 'B' | 'C'
+  unitColumn?: string;
   amountColumn: string;
   dateColumn: string;
   traceColumn?: string;
   descriptionColumn?: string;
   currencyUnit: 'tomans' | 'rials';
-  unitMatchMode: 'last_digits' | 'last_digits_and_charge' | 'exact_charge';
+  unitMatchMode: 'unit_column' | 'last_digits' | 'last_digits_and_charge' | 'exact_charge';
   suffixDigitCount: 1 | 2 | 3;
   chargeToleranceTomans?: number;
   customFields: Array<{
     id: string;
     fieldLabel: string;
-    sourceType: 'column' | 'unit_from_last_digits' | 'resident_from_unit';
+    sourceType: 'column' | 'unit_from_column' | 'unit_from_last_digits' | 'resident_from_unit';
     columnName?: string;
   }>;
   createdByUserId: string;
@@ -445,6 +446,7 @@ function buildInitialSeed(): NoSqlCollections {
       displayName: 'آقای رحمتی (سرایدار دائم بلوک B)',
       role: 'block_caretaker',
       blockId: 'B',
+      caretakerBlockIds: ['B'],
       unitCode: 'سرایداری B',
       phone: '۰۹۱۹۳۳۳۳۳۰۱',
       createdByUserId: 'u_block_b_mgr',
@@ -462,6 +464,7 @@ function buildInitialSeed(): NoSqlCollections {
       displayName: 'امیرحسین مرادی (سرایدار کمکی بلوک B)',
       role: 'temp_caretaker',
       blockId: 'B',
+      caretakerBlockIds: ['B'],
       unitCode: 'شیفت کمکی B',
       phone: '۰۹۳۵۴۴۴۴۴۰۲',
       createdByUserId: 'u_block_b_mgr',
@@ -906,9 +909,32 @@ function buildInitialSeed(): NoSqlCollections {
 
   const excel_bank_patterns: ExcelBankPatternDoc[] = [
     {
+      id: 'pat_unit_col_default',
+      name: 'الگوی استاندارد — نگاشت ستون شماره واحد و مبلغ',
+      blockId: 'ALL',
+      unitColumn: 'شماره واحد',
+      amountColumn: 'مبلغ واریزی',
+      dateColumn: 'تاریخ واریز',
+      traceColumn: 'شماره پیگیری',
+      descriptionColumn: 'شرح تراکنش',
+      currencyUnit: 'tomans',
+      unitMatchMode: 'unit_column',
+      suffixDigitCount: 2,
+      chargeToleranceTomans: 2500,
+      customFields: [
+        { id: 'cf_unit_col', fieldLabel: 'شماره واحد', sourceType: 'unit_from_column' },
+        { id: 'cf_res_col', fieldLabel: 'واریزکننده (ساکن)', sourceType: 'resident_from_unit' },
+        { id: 'cf_desc_col', fieldLabel: 'شرح واریزی', sourceType: 'column', columnName: 'شرح تراکنش' },
+      ],
+      createdByUserId: 'u_complex_mgr',
+      createdByName: 'مهندس کاظمی (مدیر کل شهرک)',
+      createdAtMs: now - 4 * 86400_000,
+    },
+    {
       id: 'pat_pasargad_2digit',
       name: 'الگوی بانک پاسارگاد — ۲ رقم آخر = شماره واحد',
       blockId: 'B',
+      unitColumn: '',
       amountColumn: 'واریز',
       dateColumn: 'تاریخ واریز',
       traceColumn: 'شماره پیگیری',

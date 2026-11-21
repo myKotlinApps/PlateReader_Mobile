@@ -88,6 +88,7 @@
   -webkit-backdrop-filter: blur(18px);
   color: var(--m-on-surface);
   border-bottom: 1px solid var(--m-outline);
+  box-shadow: 0 2px 12px rgba(43, 79, 162, 0.05);
 }
 
 .m-appbar__inner {
@@ -188,14 +189,17 @@
   max-width: 380px;
 }
 
-/* Digikala Floating White Alarm Pill stacked directly above the dock */
+/* Digikala Floating White Alarm Pill stacked directly above the dock — matched subtle translucency with dock */
 .dk-alarm-pill {
   pointer-events: auto;
   width: 100%;
   min-height: 62px;
   padding: 8px 10px 8px 8px;
   border-radius: 9999px;
-  background-color: var(--m-surface);
+  background-color: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -207,10 +211,13 @@
 
 html[data-theme='dark'] .dk-alarm-pill,
 html.app-skin-dark .dk-alarm-pill {
-  background-color: #1c2638;
+  background-color: rgba(28, 38, 56, 0.84);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(148, 163, 184, 0.2);
   box-shadow:
     0 8px 20px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(148, 163, 184, 0.18);
+    0 0 0 1px rgba(148, 163, 184, 0.16);
 }
 
 .dk-alarm-pill__main {
@@ -364,7 +371,10 @@ html.app-skin-dark .dk-alarm-pill__avatar--success {
   height: 56px;
   padding: 4px;
   border-radius: 9999px;
-  background-color: var(--m-surface);
+  background-color: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -376,10 +386,13 @@ html.app-skin-dark .dk-alarm-pill__avatar--success {
 
 html[data-theme='dark'] .dk-dock-pill,
 html.app-skin-dark .dk-dock-pill {
-  background-color: #1c2638;
+  background-color: rgba(28, 38, 56, 0.84);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(148, 163, 184, 0.2);
   box-shadow:
     0 6px 18px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(148, 163, 184, 0.18);
+    0 0 0 1px rgba(148, 163, 184, 0.16);
 }
 
 .dk-dock-item {
@@ -448,8 +461,10 @@ html[data-theme='dark'] .dk-dock-item.is-active {
   min-width: 56px;
   min-height: 56px;
   border-radius: 9999px;
-  border: none;
-  background: linear-gradient(135deg, #7463ff 0%, #3d6bff 55%, #2484ff 100%);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: linear-gradient(135deg, rgba(116, 99, 255, 0.9) 0%, rgba(61, 107, 255, 0.9) 55%, rgba(36, 132, 255, 0.9) 100%);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
   color: #ffffff;
   display: inline-flex;
   align-items: center;

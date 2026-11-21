@@ -65,6 +65,7 @@ export interface RbacUserRecord {
   displayName: string;
   role: UserRoleId;
   blockId: string | null; // primary block: null = entire complex, 'A' | 'B' | 'C' = specific block
+  caretakerBlockIds?: string[]; // explicit list of blocks a caretaker account is authorized to access (persisted in NoSQL)
   assignedBlocks?: BlockAccessGrant[]; // additional blocks explicitly shared by their Block Managers!
   unitCode: string | null; // e.g. 'B-208' for resident
   phone?: string;
@@ -109,6 +110,8 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
       { id: 'guard', label: 'نگهبانی و گیت', icon: 'shield' },
     ],
     quickActions: [
+      { title: 'مدیریت اکسل بانکی', sub: 'پترن واریزی، نگاشت ستون‌ها و تطبیق شارژ', icon: 'table_view', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'finance?tab=excel' },
+      { title: 'مدیریت اکانت سرایداران', sub: 'تعریف نام کاربری، رمز عبور و دسترسی بلوک‌ها', icon: 'cleaning_services', tone: 'bg-primary-container/60 text-on-primary-container', route: 'block?tab=caretakers' },
       { title: 'تعریف مدیر / پرسنل', sub: 'ساخت مدیر بلوک، حسابدار یا سرایدار', icon: 'person_add', tone: 'bg-primary-container/60 text-on-primary-container', route: 'block?tab=staff' },
       { title: 'ثبت سند حسابداری', sub: 'دفتر روزنامه دوطرفه شهرک', icon: 'account_balance', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'finance?tab=accountant' },
       { title: 'ارسال اعلان به بلوک', sub: 'اطلاع‌رسانی مستقیم به ساکنین', icon: 'campaign', tone: 'bg-primary-container/50 text-on-primary-container', route: 'block?tab=overview' },
@@ -148,6 +151,7 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
       { id: 'letters', label: 'دبیرخانه', icon: 'mail' },
     ],
     quickActions: [
+      { title: 'مدیریت اکسل بانکی', sub: 'پترن واریزی و تطبیق خودکار با شارژ', icon: 'table_view', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'finance?tab=excel' },
       { title: 'ثبت سند دوطرفه', sub: 'صدور سند جدید در دفتر روزنامه', icon: 'menu_book', tone: 'bg-primary-container/60 text-on-primary-container', route: 'finance?tab=accountant' },
       { title: 'تایید فیش‌های ساکنین', sub: 'صف فیش‌های واریزی در انتظار سند', icon: 'payments', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'finance?tab=accountant' },
       { title: 'تنخواه و بودجه', sub: 'بررسی انحراف بودجه و شارژ تنخواه', icon: 'analytics', tone: 'bg-primary-container/50 text-on-primary-container', route: 'finance?tab=petty' },
@@ -202,6 +206,8 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
       { id: 'finance?tab=units', label: 'مالی بلوک', icon: 'wallet' },
     ],
     quickActions: [
+      { title: 'مدیریت اکسل بانکی', sub: 'پترن واریزی، نگاشت ستون‌ها و تسویه شارژ', icon: 'table_view', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'block?tab=excel' },
+      { title: 'مدیریت اکانت سرایداران', sub: 'نام کاربری، رمز عبور و دسترسی بلوک', icon: 'cleaning_services', tone: 'bg-primary-container/60 text-on-primary-container', route: 'block?tab=caretakers' },
       { title: 'تعریف سرایدار موقت', sub: 'دسترسی ۱۲ ساعته، ۱ روزه، ۲ روزه یا دلخواه', icon: 'schedule_send', tone: 'bg-primary-container/60 text-on-primary-container', route: 'block?tab=staff' },
       { title: 'ابلاغ تسک به سرایدار', sub: 'تعریف کار جدید و بررسی انجام کار', icon: 'assignment_add', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'block?tab=tasks' },
       { title: 'اعلان به ساکنین بلوک', sub: 'ارسال اطلاعیه به همه یا یک واحد', icon: 'campaign', tone: 'bg-primary-container/50 text-on-primary-container', route: 'block?tab=overview' },
@@ -235,6 +241,7 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
       { id: 'finance?tab=reconcile', label: 'تطبیق فیش', icon: 'clipboard' },
     ],
     quickActions: [
+      { title: 'مدیریت اکسل بانکی', sub: 'تطبیق اکسل بانک با شارژ واحدهای بلوک', icon: 'table_view', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'finance?tab=excel' },
       { title: 'تایید فیش‌های ساکنین', sub: 'ثبت خودکار سند در دفاتر بلوک', icon: 'payments', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'finance?tab=accountant' },
       { title: 'ثبت سند جدید', sub: 'ثبت سند دوطرفه هزینه‌های بلوک', icon: 'menu_book', tone: 'bg-primary-container/60 text-on-primary-container', route: 'finance?tab=accountant' },
       { title: 'معوقات واحدهای بلوک', sub: 'بررسی بدهکاران و ارسال یادآوری', icon: 'domain', tone: 'bg-error-container/75 text-on-error-container', route: 'finance?tab=units' },
@@ -504,7 +511,7 @@ export function formatRemainingDurationFa(remainingMs: number): string {
 }
 
 export function canAccessBlock(
-  user: Pick<RbacUserRecord, 'role' | 'blockId' | 'assignedBlocks'>,
+  user: Pick<RbacUserRecord, 'role' | 'blockId' | 'assignedBlocks' | 'caretakerBlockIds'>,
   targetBlockId: string | null,
 ): boolean {
   const def = ROLE_DEFINITIONS[user.role];
@@ -512,11 +519,12 @@ export function canAccessBlock(
   if (def.scopeLevel === 'complex') return true;
   if (!targetBlockId) return false;
   if (user.blockId === targetBlockId) return true;
+  if (user.caretakerBlockIds?.includes(targetBlockId)) return true;
   return Boolean(user.assignedBlocks?.some((g) => g.blockId === targetBlockId));
 }
 
 export function getUserAccessibleBlockIds(
-  user: Pick<RbacUserRecord, 'role' | 'blockId' | 'assignedBlocks'>,
+  user: Pick<RbacUserRecord, 'role' | 'blockId' | 'assignedBlocks' | 'caretakerBlockIds'>,
   allBlockIds: string[],
 ): string[] {
   const def = ROLE_DEFINITIONS[user.role];
@@ -524,6 +532,9 @@ export function getUserAccessibleBlockIds(
   if (def.scopeLevel === 'complex') return [...allBlockIds];
   const allowed = new Set<string>();
   if (user.blockId) allowed.add(user.blockId);
+  for (const id of user.caretakerBlockIds ?? []) {
+    if (id) allowed.add(id);
+  }
   for (const grant of user.assignedBlocks ?? []) {
     if (grant.blockId) allowed.add(grant.blockId);
   }

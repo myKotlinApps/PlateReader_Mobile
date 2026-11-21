@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { rbacApi, readFileAsDataUrl } from '../rbac/rbacApi';
 import { formatRemainingDurationFa, type RbacUserRecord } from '../rbac/roles';
+import { getCaretakerBlockIds } from '../utils/caretakerAccess';
 import type { CaretakerTaskDoc } from '../../server/nosqlStore';
 import {
   EmptyState,
@@ -45,7 +46,15 @@ export const CaretakerPanelPage: React.FC<Props> = ({
   const [completionNote, setCompletionNote] = useState('');
   const [completionPhoto, setCompletionPhoto] = useState('');
 
+  const assignedBlockIds = useMemo(() => {
+    const ids = getCaretakerBlockIds(currentUser);
+    return ids.length > 0 ? ids : [currentUser.blockId || 'B'];
+  }, [currentUser]);
+
+  const [selectedBlockFilter, setSelectedBlockFilter] = useState<string>('ALL');
+
   // Common area defect report state
+  const [repBlockId, setRepBlockId] = useState<string>(() => assignedBlockIds[0] || 'B');
   const [repTitle, setRepTitle] = useState('');
   const [repCategory, setRepCategory] = useState('روشنایی و برق مشاعات');
   const [repDesc, setRepDesc] = useState('');
@@ -94,10 +103,18 @@ export const CaretakerPanelPage: React.FC<Props> = ({
     void loadTasks();
   }, [loadTasks]);
 
-  const activeTasks = tasks.filter(
+  const visibleTasks = useMemo(
+    () =>
+      selectedBlockFilter === 'ALL'
+        ? tasks
+        : tasks.filter((t) => t.blockId === selectedBlockFilter),
+    [tasks, selectedBlockFilter],
+  );
+
+  const activeTasks = visibleTasks.filter(
     (t) => t.status === 'todo' || t.status === 'in_progress' || t.status === 'needs_fix',
   );
-  const doneTasks = tasks.filter(
+  const doneTasks = visibleTasks.filter(
     (t) => t.status === 'done_pending_review' || t.status === 'approved',
   );
 
@@ -157,7 +174,8 @@ export const CaretakerPanelPage: React.FC<Props> = ({
         title: repTitle.trim(),
         description: repDesc.trim(),
         photoDataUrl: repPhoto || undefined,
-        unitCode: `مشاعات بلوک ${currentUser.blockId || 'B'}`,
+        blockId: repBlockId,
+        unitCode: `مشاعات بلوک ${repBlockId}`,
       });
       setRepTitle('');
       setRepDesc('');
@@ -207,13 +225,21 @@ export const CaretakerPanelPage: React.FC<Props> = ({
       )}
 
       <HeroSummaryCard
-        title={`پنل سرایداری بلوک ${currentUser.blockId || 'B'} • ${currentUser.displayName}`}
+        title={
+          assignedBlockIds.length > 1
+            ? `پنل سرایداری بلوک‌های ${assignedBlockIds.join('، ')} • ${currentUser.displayName}`
+            : `پنل سرایداری بلوک ${assignedBlockIds[0]} • ${currentUser.displayName}`
+        }
         subtitle={
           currentUser.isTemporary
-            ? 'سرایدار موقت / کمکی • کارتابل وظایف شیفت'
-            : 'سرایدار دائم بلوک • چک‌لیست و گزارش انجام کار'
+            ? `سرایدار موقت / کمکی • دسترسی به ${assignedBlockIds.map((b) => `بلوک ${b}`).join('، ')}`
+            : `سرایدار دائم • دسترسی به ${assignedBlockIds.map((b) => `بلوک ${b}`).join('، ')}`
         }
-        badge={`بلوک ${currentUser.blockId || 'B'}`}
+        badge={
+          assignedBlockIds.length > 1
+            ? `بلوک‌های ${assignedBlockIds.join('، ')}`
+            : `بلوک ${assignedBlockIds[0]}`
+        }
         stats={[
           {
             label: 'وظایف باز',
@@ -222,15 +248,45 @@ export const CaretakerPanelPage: React.FC<Props> = ({
           },
           {
             label: 'منتظر تایید مدیر',
-            value: tasks.filter((t) => t.status === 'done_pending_review').length.toLocaleString('fa-IR'),
+            value: visibleTasks.filter((t) => t.status === 'done_pending_review').length.toLocaleString('fa-IR'),
           },
           {
             label: 'تاییدشده',
-            value: tasks.filter((t) => t.status === 'approved').length.toLocaleString('fa-IR'),
+            value: visibleTasks.filter((t) => t.status === 'approved').length.toLocaleString('fa-IR'),
             accent: 'positive',
           },
         ]}
       />
+
+      {assignedBlockIds.length > 1 && (
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <button
+            type="button"
+            onClick={() => setSelectedBlockFilter('ALL')}
+            className={`h-8 px-3 rounded-[var(--ui-btn-radius)] border text-[12px] font-semibold ${
+              selectedBlockFilter === 'ALL'
+                ? 'bg-primary text-on-primary border-primary'
+                : 'bg-surface-container-lowest text-on-surface border-outline-variant/60'
+            }`}
+          >
+            همه بلوک‌های مجاز ({assignedBlockIds.length.toLocaleString('fa-IR')})
+          </button>
+          {assignedBlockIds.map((bId) => (
+            <button
+              key={bId}
+              type="button"
+              onClick={() => setSelectedBlockFilter(bId)}
+              className={`h-8 px-3 rounded-[var(--ui-btn-radius)] border text-[12px] font-semibold ${
+                selectedBlockFilter === bId
+                  ? 'bg-primary text-on-primary border-primary'
+                  : 'bg-surface-container-lowest text-on-surface border-outline-variant/60'
+              }`}
+            >
+              بلوک {bId}
+            </button>
+          ))}
+        </div>
+      )}
 
       <SubMenuTabs
         active={tab}
@@ -379,6 +435,25 @@ export const CaretakerPanelPage: React.FC<Props> = ({
             icon="report_problem"
           />
           <form onSubmit={handleReportCommonArea} className="space-y-2.5">
+            {assignedBlockIds.length > 1 && (
+              <div>
+                <label htmlFor="cr-block" className="block text-[12px] font-semibold text-on-surface-variant mb-1">
+                  بلوک محل اشکال
+                </label>
+                <select
+                  id="cr-block"
+                  value={repBlockId}
+                  onChange={(e) => setRepBlockId(e.target.value)}
+                  className="w-full h-10 px-2.5 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                >
+                  {assignedBlockIds.map((bId) => (
+                    <option key={bId} value={bId}>
+                      بلوک {bId}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <div>
               <label htmlFor="cr-cat" className="block text-[12px] font-semibold text-on-surface-variant mb-1">
                 بخش مشاعات
@@ -461,10 +536,10 @@ export const CaretakerPanelPage: React.FC<Props> = ({
               value={completionNote}
               onChange={(e) => setCompletionNote(e.target.value)}
               placeholder="مثلاً: کل راهرو شستشو و ضدعفونی شد..."
-              className="w-full p-2.5 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+              className="w-full p-2.5 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
             />
           </div>
-          <label className="w-full h-10 rounded-[2px] bg-surface-container-low text-primary text-[12.5px] font-semibold flex items-center justify-center gap-1.5 border border-dashed border-outline-variant cursor-pointer">
+          <label className="w-full h-10 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-primary text-[12.5px] font-semibold flex items-center justify-center gap-1.5 border border-dashed border-outline-variant cursor-pointer">
             <span className="material-symbols-outlined text-[18px]">add_a_photo</span>
             <span>{completionPhoto ? 'عکس مدرک پیوست شد ✓' : 'آپلود عکس انجام کار (اختیاری)'}</span>
             <input
@@ -481,7 +556,7 @@ export const CaretakerPanelPage: React.FC<Props> = ({
             <img
               src={completionPhoto}
               alt="پیش‌نمایش عکس انجام کار"
-              className="w-full max-h-40 object-contain rounded-[2px] border border-outline-variant/45 bg-surface-container-low"
+              className="w-full max-h-40 object-contain rounded-[var(--ui-btn-radius)] border border-outline-variant/45 bg-surface-container-low"
             />
           )}
           <StitchButton type="submit" disabled={busy} icon="check_circle" className="w-full">

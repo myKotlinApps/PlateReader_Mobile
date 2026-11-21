@@ -19,6 +19,7 @@ import {
   stripUserSecrets,
   verifyPassword,
   verifySessionToken,
+  type CaretakerTaskDoc,
   type StoredUserDoc,
 } from './nosqlStore';
 import {
@@ -29,6 +30,14 @@ import {
   type ResidentOnboardingPayload,
   type ResidentVehicleEntry,
 } from '../mobile/utils/residentOnboarding';
+import {
+  buildCaretakerBlockGrants,
+  getCaretakerBlockIds,
+  isCaretakerRole,
+  normalizeCaretakerBlockIds,
+  validateCaretakerAccountInput,
+  type CaretakerRoleId,
+} from '../mobile/utils/caretakerAccess';
 
 interface AuthedRequest extends Request {
   authUser?: StoredUserDoc;
@@ -297,7 +306,9 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
       .list('users')
       .filter((u) => {
         if (def.scopeLevel === 'complex') return true;
-        if (def.scopeLevel === 'block') return u.blockId === user.blockId;
+        if (def.scopeLevel === 'block') {
+          return u.blockId === user.blockId || (user.blockId ? canAccessBlock(u, user.blockId) : false);
+        }
         return u.id === user.id;
       })
       .map((u) => {
@@ -503,15 +514,369 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
     res.json({ ok: true, user: updated ? stripUserSecrets(updated) : null });
   });
 
+  // 5b. Dedicated Caretaker Account Management (Username, Password, Specific Multi-Block Access -> Persisted in NoSQL)
+  app.get('/api/v1/rbac/caretakers', requireAuth, (req: AuthedRequest, res) => {
+    const actor = req.authUser!;
+    if (actor.role !== 'complex_manager' && actor.role !== 'block_manager') {
+      res.status(403).json({
+        error: { message: 'فقط مدیر کل ساختمان/شهرک یا مدیر بلوک مجاز به مدیریت اکانت‌های سرایدار است.' },
+      });
+      return;
+    }
+
+    const now = Date.now();
+    const allBlocks = nosql.list('blocks');
+    const manageableBlockIds =
+      actor.role === 'complex_manager'
+        ? allBlocks.map((b) => b.id)
+        : actor.blockId
+          ? [actor.blockId]
+          : [];
+
+    const items = nosql
+      .list('users')
+      .filter((u) => {
+        if (!isCaretakerRole(u.role)) return false;
+        if (actor.role === 'complex_manager') return true;
+        return actor.blockId ? canAccessBlock(u, actor.blockId) : false;
+      })
+      .map((u) => {
+        const access = isUserAccessActive(u, now);
+        const blockIds = getCaretakerBlockIds(u);
+        return {
+          ...stripUserSecrets(u),
+          caretakerBlockIds: blockIds,
+          isCurrentlyActive: access.active,
+          remainingMs: access.remainingMs ?? null,
+        };
+      });
+
+    res.json({
+      ok: true,
+      items,
+      blocks: allBlocks,
+      manageableBlockIds,
+    });
+  });
+
+  app.post('/api/v1/rbac/caretakers', requireAuth, (req: AuthedRequest, res) => {
+    const actor = req.authUser!;
+    if (actor.role !== 'complex_manager' && actor.role !== 'block_manager') {
+      res.status(403).json({
+        error: { message: 'فقط مدیر کل ساختمان/شهرک یا مدیر بلوک مجاز به تعریف سرایدار است.' },
+      });
+      return;
+    }
+
+    const body = (req.body || {}) as {
+      displayName?: string;
+      username?: string;
+      password?: string;
+      phone?: string;
+      role?: CaretakerRoleId;
+      blockIds?: string[];
+      durationPreset?: TempDurationPreset;
+      customFromMs?: number;
+      customUntilMs?: number;
+    };
+
+    const role: CaretakerRoleId = body.role === 'temp_caretaker' ? 'temp_caretaker' : 'block_caretaker';
+    const validBlockIds = nosql.list('blocks').map((b) => b.id);
+    const requestedBlockIds = Array.isArray(body.blockIds)
+      ? body.blockIds.map((b) => String(b || '').trim()).filter(Boolean)
+      : actor.blockId
+        ? [actor.blockId]
+        : [];
+
+    const blockCheck = normalizeCaretakerBlockIds({
+      requestedBlockIds,
+      validBlockIds,
+      actorRole: actor.role,
+      actorBlockId: actor.blockId,
+    });
+    if (!blockCheck.ok) {
+      res.status(403).json({ error: { message: blockCheck.reason || 'دسترسی بلوک‌های انتخابی مجاز نیست.' } });
+      return;
+    }
+
+    const validation = validateCaretakerAccountInput(
+      {
+        displayName: String(body.displayName || ''),
+        username: String(body.username || ''),
+        password: String(body.password || ''),
+        phone: String(body.phone || ''),
+        role,
+        blockIds: blockCheck.blockIds,
+      },
+      'create',
+    );
+    if (!validation.ok || !validation.cleaned) {
+      res.status(400).json({ error: { message: validation.errors[0] || 'اطلاعات سرایدار معتبر نیست.' } });
+      return;
+    }
+
+    const { displayName, username, password, phone, blockIds } = validation.cleaned;
+    if (nosql.list('users').some((u) => u.username.toLowerCase() === username)) {
+      res.status(409).json({ error: { message: `نام کاربری «${username}» قبلاً در سامانه ثبت شده است.` } });
+      return;
+    }
+
+    const now = Date.now();
+    const grants = buildCaretakerBlockGrants(blockIds, { id: actor.id, displayName: actor.displayName }, now);
+    const isTemporary = role === 'temp_caretaker';
+    let validFromMs: number | null = null;
+    let validUntilMs: number | null = null;
+    let accessDurationLabel: string | undefined;
+
+    if (isTemporary) {
+      const win = computeTempWindow(
+        body.durationPreset || 'one_day',
+        now,
+        body.customFromMs,
+        body.customUntilMs,
+      );
+      validFromMs = win.validFromMs;
+      validUntilMs = win.validUntilMs;
+      accessDurationLabel = win.label;
+    }
+
+    const created: StoredUserDoc = {
+      id: `u_ct_${now}_${Math.random().toString(16).slice(2, 6)}`,
+      username,
+      passwordHash: hashPassword(password!),
+      displayName,
+      role,
+      blockId: grants.primaryBlockId,
+      caretakerBlockIds: grants.caretakerBlockIds,
+      assignedBlocks: grants.assignedBlocks,
+      unitCode: null,
+      phone,
+      createdByUserId: actor.id,
+      createdByName: actor.displayName,
+      isTemporary,
+      accessDurationLabel,
+      validFromMs,
+      validUntilMs,
+      active: true,
+      createdAtMs: now,
+    };
+
+    nosql.insert('users', created, true);
+    const access = isUserAccessActive(created, now);
+    res.status(201).json({
+      ok: true,
+      caretaker: {
+        ...stripUserSecrets(created),
+        caretakerBlockIds: grants.caretakerBlockIds,
+        isCurrentlyActive: access.active,
+        remainingMs: access.remainingMs ?? null,
+      },
+    });
+  });
+
+  app.patch('/api/v1/rbac/caretakers/:id', requireAuth, (req: AuthedRequest, res) => {
+    const actor = req.authUser!;
+    if (actor.role !== 'complex_manager' && actor.role !== 'block_manager') {
+      res.status(403).json({
+        error: { message: 'فقط مدیر کل ساختمان/شهرک یا مدیر بلوک مجاز به ویرایش اکانت سرایدار است.' },
+      });
+      return;
+    }
+
+    const target = nosql.findById('users', req.params.id);
+    if (!target || !isCaretakerRole(target.role)) {
+      res.status(404).json({ error: { message: 'اکانت سرایدار مورد نظر یافت نشد.' } });
+      return;
+    }
+
+    if (actor.role === 'block_manager' && (!actor.blockId || !canAccessBlock(target, actor.blockId))) {
+      res.status(403).json({ error: { message: 'شما فقط مجاز به مدیریت سرایداران بلوک خود هستید.' } });
+      return;
+    }
+
+    const body = (req.body || {}) as {
+      displayName?: string;
+      username?: string;
+      password?: string;
+      phone?: string;
+      role?: CaretakerRoleId;
+      blockIds?: string[];
+      active?: boolean;
+      extendHours?: number;
+      durationPreset?: TempDurationPreset;
+      customFromMs?: number;
+      customUntilMs?: number;
+    };
+
+    const existingBlockIds = getCaretakerBlockIds(target);
+    const validBlockIds = nosql.list('blocks').map((b) => b.id);
+    let nextBlockIds = existingBlockIds;
+
+    if (Array.isArray(body.blockIds)) {
+      const blockCheck = normalizeCaretakerBlockIds({
+        requestedBlockIds: body.blockIds.map((b) => String(b || '').trim()).filter(Boolean),
+        validBlockIds,
+        actorRole: actor.role,
+        actorBlockId: actor.blockId,
+        existingBlockIds,
+      });
+      if (!blockCheck.ok) {
+        res.status(403).json({ error: { message: blockCheck.reason || 'دسترسی بلوک‌های انتخابی مجاز نیست.' } });
+        return;
+      }
+      nextBlockIds = blockCheck.blockIds;
+    }
+
+    const nextRole: CaretakerRoleId =
+      body.role && isCaretakerRole(body.role) ? body.role : (target.role as CaretakerRoleId);
+    const nextDisplayName =
+      typeof body.displayName === 'string' ? body.displayName : target.displayName;
+    const nextUsernameRaw =
+      typeof body.username === 'string' && body.username.trim() ? body.username : target.username;
+    const nextPasswordRaw = typeof body.password === 'string' ? body.password : '';
+    const nextPhone = typeof body.phone === 'string' ? body.phone : target.phone || '';
+
+    const validation = validateCaretakerAccountInput(
+      {
+        displayName: nextDisplayName,
+        username: nextUsernameRaw,
+        password: nextPasswordRaw,
+        phone: nextPhone,
+        role: nextRole,
+        blockIds: nextBlockIds,
+      },
+      'edit',
+    );
+    if (!validation.ok || !validation.cleaned) {
+      res.status(400).json({ error: { message: validation.errors[0] || 'اطلاعات ویرایشی معتبر نیست.' } });
+      return;
+    }
+
+    const cleaned = validation.cleaned;
+    if (
+      cleaned.username !== target.username.toLowerCase() &&
+      nosql.list('users').some((u) => u.id !== target.id && u.username.toLowerCase() === cleaned.username)
+    ) {
+      res.status(409).json({
+        error: { message: `نام کاربری «${cleaned.username}» قبلاً برای حساب دیگری ثبت شده است.` },
+      });
+      return;
+    }
+
+    const now = Date.now();
+    const grants = buildCaretakerBlockGrants(cleaned.blockIds, { id: actor.id, displayName: actor.displayName }, now);
+
+    const updated = nosql.updateById('users', target.id, (prev) => {
+      const next: StoredUserDoc = {
+        ...prev,
+        displayName: cleaned.displayName,
+        username: cleaned.username,
+        phone: cleaned.phone,
+        role: cleaned.role,
+        blockId: grants.primaryBlockId,
+        caretakerBlockIds: grants.caretakerBlockIds,
+        assignedBlocks: grants.assignedBlocks,
+      };
+      if (cleaned.password) {
+        next.passwordHash = hashPassword(cleaned.password);
+      }
+      if (typeof body.active === 'boolean') {
+        next.active = body.active;
+      }
+      if (cleaned.role === 'block_caretaker' && body.role === 'block_caretaker') {
+        next.isTemporary = false;
+        next.validFromMs = null;
+        next.validUntilMs = null;
+        next.accessDurationLabel = undefined;
+      } else if (typeof body.extendHours === 'number' && body.extendHours > 0) {
+        const base = Math.max(now, prev.validUntilMs || now);
+        next.isTemporary = true;
+        next.role = 'temp_caretaker';
+        next.active = true;
+        next.validFromMs = prev.validFromMs || now;
+        next.validUntilMs = base + body.extendHours * 3600_000;
+        next.accessDurationLabel = `تمدید شده (+${body.extendHours.toLocaleString('fa-IR')} ساعت)`;
+      } else if (body.durationPreset || cleaned.role === 'temp_caretaker') {
+        if (body.durationPreset || !prev.validUntilMs) {
+          const win = computeTempWindow(
+            body.durationPreset || 'one_day',
+            now,
+            body.customFromMs,
+            body.customUntilMs,
+          );
+          next.isTemporary = true;
+          next.validFromMs = win.validFromMs;
+          next.validUntilMs = win.validUntilMs;
+          next.accessDurationLabel = win.label;
+        } else {
+          next.isTemporary = true;
+        }
+      }
+      return next;
+    });
+
+    if (!updated) {
+      res.status(404).json({ error: { message: 'ذخیره‌سازی تغییرات انجام نشد.' } });
+      return;
+    }
+
+    const access = isUserAccessActive(updated, now);
+    res.json({
+      ok: true,
+      caretaker: {
+        ...stripUserSecrets(updated),
+        caretakerBlockIds: getCaretakerBlockIds(updated),
+        isCurrentlyActive: access.active,
+        remainingMs: access.remainingMs ?? null,
+      },
+    });
+  });
+
+  app.delete('/api/v1/rbac/caretakers/:id', requireAuth, (req: AuthedRequest, res) => {
+    const actor = req.authUser!;
+    if (actor.role !== 'complex_manager' && actor.role !== 'block_manager') {
+      res.status(403).json({
+        error: { message: 'فقط مدیر کل ساختمان/شهرک یا مدیر بلوک مجاز به حذف اکانت سرایدار است.' },
+      });
+      return;
+    }
+
+    const target = nosql.findById('users', req.params.id);
+    if (!target || !isCaretakerRole(target.role)) {
+      res.status(404).json({ error: { message: 'اکانت سرایدار مورد نظر یافت نشد.' } });
+      return;
+    }
+
+    if (actor.role === 'block_manager') {
+      const assigned = getCaretakerBlockIds(target);
+      const onlyOwnBlock =
+        Boolean(actor.blockId) &&
+        assigned.length <= 1 &&
+        assigned.every((b) => b === actor.blockId);
+      if (!onlyOwnBlock) {
+        res.status(403).json({
+          error: {
+            message:
+              'این سرایدار به بلوک‌های دیگر نیز دسترسی دارد؛ فقط مدیر کل شهرک می‌تواند این اکانت را حذف کند.',
+          },
+        });
+        return;
+      }
+    }
+
+    nosql.removeById('users', target.id);
+    res.json({ ok: true, deletedId: target.id });
+  });
+
   // 6. Caretaker Tasks (Block Manager -> Caretaker / Temp Caretaker -> Review)
   app.get('/api/v1/rbac/tasks', requireAuth, (req: AuthedRequest, res) => {
     const user = req.authUser!;
     const items = nosql.find('caretaker_tasks', (t) => {
       if (ROLE_DEFINITIONS[user.role].scopeLevel === 'complex') return true;
       if (user.role === 'block_caretaker' || user.role === 'temp_caretaker') {
-        return t.assignedToUserId === user.id || t.blockId === user.blockId;
+        return t.assignedToUserId === user.id || canAccessBlock(user, t.blockId);
       }
-      return t.blockId === user.blockId;
+      return canAccessBlock(user, t.blockId);
     });
     res.json({ ok: true, items });
   });
@@ -613,7 +978,7 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
     const items = nosql.find('resident_requests', (r) => {
       if (ROLE_DEFINITIONS[user.role].scopeLevel === 'complex') return true;
       if (user.role === 'resident') return r.unitCode === user.unitCode || r.residentUserId === user.id;
-      return r.blockId === user.blockId;
+      return canAccessBlock(user, r.blockId);
     });
     res.json({ ok: true, items });
   });
@@ -627,6 +992,7 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
       description?: string;
       photoDataUrl?: string;
       unitCode?: string;
+      blockId?: string;
     };
     const title = String(body.title || '').trim();
     if (!title) {
@@ -634,7 +1000,11 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
       return;
     }
     const now = Date.now();
-    const blockId = actor.blockId || 'B';
+    const requestedBlockId = typeof body.blockId === 'string' ? body.blockId.trim() : '';
+    const blockId =
+      requestedBlockId && canAccessBlock(actor, requestedBlockId)
+        ? requestedBlockId
+        : actor.blockId || 'B';
     const unitCode = actor.unitCode || String(body.unitCode || `بلوک ${blockId}`);
     const requestDoc = nosql.insert('resident_requests', {
       id: `req_${now}`,
@@ -1091,8 +1461,14 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
     }
     const body = (req.body || {}) as Omit<JournalEntry, 'id' | 'voucherNo'>;
     const check = validateJournalEntry(body.lines || []);
-    if (!check.ok) {
-      res.status(400).json({ error: { message: check.error || 'سند تراز نیست.' } });
+    if (!check.isValid) {
+      res.status(400).json({
+        error: {
+          message: !check.isBalanced
+            ? `سند تراز نیست (اختلاف: ${check.diff.toLocaleString('fa-IR')} تومان).`
+            : 'حداقل دو ردیف معتبر با مبلغ غیرصفر برای سند الزامی است.',
+        },
+      });
       return;
     }
     const entries = nosql.list('accounting_entries');
@@ -1184,11 +1560,11 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
     const check = nosql.insert('sayadi_checks', {
       id: `chk_${Date.now()}`,
       sayadiId,
-      direction: 'payable',
       payee,
-      bankName: String(body.bankName || 'بانک پاسارگاد').trim(),
       dueDate,
       amountTomans: amount,
+      bankAccountCode: '1102',
+      expenseAccountCode: body.expenseAccountCode || '5102',
       status: 'registered',
       voucherNo: nextNo,
     });
@@ -1219,7 +1595,7 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
       refCode: chk.sayadiId.slice(-6),
       lines: [
         { accountCode: '2102', subsidiary: chk.payee, description: 'تسویه اسناد پرداختنی', debit: chk.amountTomans, credit: 0 },
-        { accountCode: '1102', description: `برداشت از ${chk.bankName}`, debit: 0, credit: chk.amountTomans },
+        { accountCode: chk.bankAccountCode || '1102', description: `برداشت بانکی چک صیادی ${chk.sayadiId}`, debit: 0, credit: chk.amountTomans },
       ],
     };
     nosql.insert('accounting_entries', voucher, false);
@@ -1332,54 +1708,73 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
     res.json({ ok: true, items });
   });
 
+  const canUseExcelOnBlock = (actor: StoredUserDoc, blockId: string): boolean => {
+    if (['complex_manager', 'complex_accountant'].includes(actor.role)) return true;
+    if (['block_manager', 'block_accountant'].includes(actor.role)) {
+      return blockId === 'ALL' || canAccessBlock(actor, blockId);
+    }
+    return (actor.assignedBlocks || []).some(
+      (g) => (blockId === 'ALL' || g.blockId === blockId) && g.permissions.includes('excel_import'),
+    );
+  };
+
   app.post('/api/v1/rbac/excel-patterns', requireAuth, (req: AuthedRequest, res) => {
     const actor = req.authUser!;
-    if (!['complex_manager', 'complex_accountant', 'block_manager', 'block_accountant'].includes(actor.role)) {
-      res.status(403).json({ error: { message: 'فقط مدیر بلوک، مدیر شهرک یا حسابدار مجاز به ذخیره الگوی اکسل هستند.' } });
-      return;
-    }
     const body = (req.body || {}) as {
       name?: string;
       blockId?: string;
+      unitColumn?: string;
       amountColumn?: string;
       dateColumn?: string;
       traceColumn?: string;
       descriptionColumn?: string;
       currencyUnit?: 'tomans' | 'rials';
-      unitMatchMode?: 'last_digits' | 'last_digits_and_charge' | 'exact_charge';
+      unitMatchMode?: 'unit_column' | 'last_digits' | 'last_digits_and_charge' | 'exact_charge';
       suffixDigitCount?: 1 | 2 | 3;
       chargeToleranceTomans?: number;
       customFields?: Array<{
         id: string;
         fieldLabel: string;
-        sourceType: 'column' | 'unit_from_last_digits' | 'resident_from_unit';
+        sourceType: 'column' | 'unit_from_column' | 'unit_from_last_digits' | 'resident_from_unit';
         columnName?: string;
       }>;
     };
-    const name = String(body.name || '').trim();
-    const amountColumn = String(body.amountColumn || '').trim();
-    const dateColumn = String(body.dateColumn || '').trim();
-    if (!name || !amountColumn || !dateColumn) {
-      res.status(400).json({ error: { message: 'نام الگو، نام دقیق ستون واریز و ستون تاریخ الزامی است.' } });
+    const targetBlock = String(body.blockId || actor.blockId || 'B').trim();
+    if (!canUseExcelOnBlock(actor, targetBlock)) {
+      res.status(403).json({ error: { message: 'فقط مدیر بلوک، مدیر شهرک، حسابدار یا همکار دارای مجوز اکسل مجاز به ذخیره الگوی بانکی هستند.' } });
       return;
     }
-    const targetBlock = String(body.blockId || actor.blockId || 'B').trim();
-    if (targetBlock !== 'ALL' && !canAccessBlock(actor, targetBlock)) {
-      res.status(403).json({ error: { message: 'مجوز تعریف الگو برای این بلوک را ندارید.' } });
+    const name = String(body.name || '').trim().slice(0, 120);
+    const unitColumn = String(body.unitColumn || '').trim().slice(0, 80);
+    const amountColumn = String(body.amountColumn || '').trim().slice(0, 80);
+    const dateColumn = String(body.dateColumn || '').trim().slice(0, 80);
+    if (!name || !amountColumn || !dateColumn) {
+      res.status(400).json({ error: { message: 'نام الگو، نام دقیق ستون مبلغ/واریز و ستون تاریخ الزامی است.' } });
+      return;
+    }
+    const validModes = ['unit_column', 'last_digits', 'last_digits_and_charge', 'exact_charge'] as const;
+    const unitMatchMode =
+      typeof body.unitMatchMode === 'string' &&
+      (validModes as readonly string[]).includes(body.unitMatchMode)
+        ? (body.unitMatchMode as (typeof validModes)[number])
+        : 'unit_column';
+    if (unitMatchMode === 'unit_column' && !unitColumn) {
+      res.status(400).json({ error: { message: 'در حالت نگاشت مستقیم، وارد کردن نام ستون «شماره واحد» الزامی است.' } });
       return;
     }
     const created = nosql.insert('excel_bank_patterns', {
       id: `pat_${Date.now()}`,
       name,
       blockId: targetBlock,
+      unitColumn: unitColumn || undefined,
       amountColumn,
       dateColumn,
-      traceColumn: String(body.traceColumn || '').trim() || undefined,
-      descriptionColumn: String(body.descriptionColumn || '').trim() || undefined,
+      traceColumn: String(body.traceColumn || '').trim().slice(0, 80) || undefined,
+      descriptionColumn: String(body.descriptionColumn || '').trim().slice(0, 80) || undefined,
       currencyUnit: body.currencyUnit === 'tomans' ? 'tomans' : 'rials',
-      unitMatchMode: body.unitMatchMode || 'last_digits_and_charge',
+      unitMatchMode,
       suffixDigitCount: body.suffixDigitCount === 1 || body.suffixDigitCount === 3 ? body.suffixDigitCount : 2,
-      chargeToleranceTomans: Math.max(0, Number(body.chargeToleranceTomans ?? 2000)),
+      chargeToleranceTomans: Math.max(0, Math.min(50_000_000, Math.round(Number(body.chargeToleranceTomans ?? 2500)))),
       customFields: Array.isArray(body.customFields) ? body.customFields.slice(0, 8) : [],
       createdByUserId: actor.id,
       createdByName: actor.displayName,
@@ -1390,16 +1785,12 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
 
   app.delete('/api/v1/rbac/excel-patterns/:id', requireAuth, (req: AuthedRequest, res) => {
     const actor = req.authUser!;
-    if (!['complex_manager', 'complex_accountant', 'block_manager', 'block_accountant'].includes(actor.role)) {
-      res.status(403).json({ error: { message: 'مجوز حذف الگو ندارید.' } });
-      return;
-    }
     const existing = nosql.findById('excel_bank_patterns', req.params.id);
     if (!existing) {
       res.status(404).json({ error: { message: 'الگو یافت نشد.' } });
       return;
     }
-    if (existing.blockId !== 'ALL' && !canAccessBlock(actor, existing.blockId)) {
+    if (!canUseExcelOnBlock(actor, existing.blockId)) {
       res.status(403).json({ error: { message: 'مجوز حذف الگوی این بلوک را ندارید.' } });
       return;
     }
@@ -1420,10 +1811,6 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
 
   app.post('/api/v1/rbac/excel-imports/commit', requireAuth, (req: AuthedRequest, res) => {
     const actor = req.authUser!;
-    if (!['complex_manager', 'complex_accountant', 'block_manager', 'block_accountant'].includes(actor.role)) {
-      res.status(403).json({ error: { message: 'فقط مدیر بلوک یا حسابدار مجاز به ثبت پرداخت‌های اکسل هستند.' } });
-      return;
-    }
     const body = (req.body || {}) as {
       blockId?: string;
       periodLabel?: string;
@@ -1442,22 +1829,22 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
       }>;
     };
     const blockId = String(body.blockId || actor.blockId || 'B').trim();
-    if (!canAccessBlock(actor, blockId)) {
+    if (!canUseExcelOnBlock(actor, blockId)) {
       res.status(403).json({ error: { message: `شما مجوز ثبت اکسل بانکی برای بلوک ${blockId} را ندارید.` } });
       return;
     }
-    const validRows = (body.matchedRows || []).filter(
-      (r) => r.unitCode && Number(r.amountTomans) > 0,
-    );
+    const validRows = (Array.isArray(body.matchedRows) ? body.matchedRows : [])
+      .slice(0, 500)
+      .filter((r) => r && r.unitCode && Number.isFinite(Number(r.amountTomans)) && Number(r.amountTomans) > 0);
     if (validRows.length === 0) {
       res.status(400).json({ error: { message: 'هیچ ردیف تطبیق‌یافته‌ای برای ثبت در دیتابیس وجود ندارد.' } });
       return;
     }
 
     const bankCode: '1102' | '1103' = body.bankAccountCode === '1103' ? '1103' : '1102';
-    const periodLabel = String(body.periodLabel || 'دوره ماهانه جاری').trim();
-    const patternName = String(body.patternName || 'الگوی دستی').trim();
-    const fileName = String(body.fileName || 'bank-statement.xlsx').trim();
+    const periodLabel = String(body.periodLabel || 'دوره ماهانه جاری').trim().slice(0, 100);
+    const patternName = String(body.patternName || 'الگوی دستی').trim().slice(0, 120);
+    const fileName = String(body.fileName || 'bank-statement.xlsx').trim().slice(0, 140);
     const now = Date.now();
     const totalTomans = validRows.reduce((s, r) => s + Math.round(Number(r.amountTomans)), 0);
 
@@ -1572,11 +1959,11 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
     ] as const;
 
     const nextCorner: 'sharp' | 'curved' =
-      body.cornerStyle === 'curved'
-        ? 'curved'
-        : body.cornerStyle === 'sharp'
-          ? 'sharp'
-          : actor.preferences?.cornerStyle || 'sharp';
+      body.cornerStyle === 'sharp'
+        ? 'sharp'
+        : body.cornerStyle === 'curved'
+          ? 'curved'
+          : actor.preferences?.cornerStyle || 'curved';
 
     const nextPalette =
       typeof body.paletteId === 'string' &&

@@ -208,6 +208,63 @@ export const rbacApi = {
       },
     ),
 
+  // Dedicated Caretaker Accounts Management (Credentials + Specific Block Access in NoSQL)
+  listCaretakers: () =>
+    rbacRequest<{
+      ok: boolean;
+      items: ListedUserDoc[];
+      blocks: BlockDoc[];
+      manageableBlockIds: string[];
+    }>('/api/v1/rbac/caretakers'),
+
+  createCaretaker: (payload: {
+    displayName: string;
+    username: string;
+    password: string;
+    phone?: string;
+    role: 'block_caretaker' | 'temp_caretaker';
+    blockIds: string[];
+    durationPreset?: TempDurationPreset;
+    customFromMs?: number;
+    customUntilMs?: number;
+  }) =>
+    rbacRequest<{ ok: boolean; caretaker: ListedUserDoc }>('/api/v1/rbac/caretakers', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+
+  updateCaretaker: (
+    id: string,
+    payload: {
+      displayName?: string;
+      username?: string;
+      password?: string;
+      phone?: string;
+      role?: 'block_caretaker' | 'temp_caretaker';
+      blockIds?: string[];
+      active?: boolean;
+      extendHours?: number;
+      durationPreset?: TempDurationPreset;
+      customFromMs?: number;
+      customUntilMs?: number;
+    },
+  ) =>
+    rbacRequest<{ ok: boolean; caretaker: ListedUserDoc }>(
+      `/api/v1/rbac/caretakers/${encodeURIComponent(id)}`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      },
+    ),
+
+  deleteCaretaker: (id: string) =>
+    rbacRequest<{ ok: boolean; deletedId: string }>(
+      `/api/v1/rbac/caretakers/${encodeURIComponent(id)}`,
+      {
+        method: 'DELETE',
+      },
+    ),
+
   listTasks: () =>
     rbacRequest<{ ok: boolean; items: CaretakerTaskDoc[] }>('/api/v1/rbac/tasks'),
 
@@ -252,6 +309,7 @@ export const rbacApi = {
     description?: string;
     photoDataUrl?: string;
     unitCode?: string;
+    blockId?: string;
   }) =>
     rbacRequest<{ ok: boolean; request: ResidentRequestDoc }>('/api/v1/rbac/resident-requests', {
       method: 'POST',

@@ -1,6 +1,7 @@
 import type { UnitDoc } from '../../server/nosqlStore';
 
 export type ExcelUnitMatchMode =
+  | 'unit_column'
   | 'last_digits'
   | 'last_digits_and_charge'
   | 'exact_charge';
@@ -8,7 +9,7 @@ export type ExcelUnitMatchMode =
 export interface ExcelCustomFieldMapping {
   id: string;
   fieldLabel: string;
-  sourceType: 'column' | 'unit_from_last_digits' | 'resident_from_unit';
+  sourceType: 'column' | 'unit_from_column' | 'unit_from_last_digits' | 'resident_from_unit';
   columnName?: string;
 }
 
@@ -16,6 +17,7 @@ export interface ExcelBankPatternConfig {
   id?: string;
   name: string;
   blockId: string; // 'ALL' or 'A' | 'B' | 'C'
+  unitColumn?: string;
   amountColumn: string;
   dateColumn: string;
   traceColumn?: string;
@@ -36,6 +38,7 @@ export type BankRowMatchStatus =
 
 export interface MatchedBankRow {
   rowIndex: number;
+  rawUnitRef: string;
   rawAmountStr: string;
   rawNumericAmount: number;
   amountTomans: number;
@@ -87,6 +90,18 @@ export function normalizeDigits(input: unknown): string {
   return out;
 }
 
+/**
+ * Strips potentially dangerous leading spreadsheet formula prefixes (=, +, @)
+ * and limits text length to protect display & NoSQL storage.
+ */
+export function sanitizeCellText(raw: unknown, maxLen = 180): string {
+  let s = String(raw ?? '').trim();
+  while (s.length > 0 && (s[0] === '=' || s[0] === '+' || s[0] === '@')) {
+    s = s.slice(1).trim();
+  }
+  return s.slice(0, maxLen);
+}
+
 export function parseBankAmount(raw: unknown): number {
   if (typeof raw === 'number' && Number.isFinite(raw)) {
     return Math.round(Math.abs(raw));
@@ -97,6 +112,51 @@ export function parseBankAmount(raw: unknown): number {
   if (!cleaned) return 0;
   const parsed = Number(cleaned);
   return Number.isFinite(parsed) ? Math.round(Math.abs(parsed)) : 0;
+}
+
+/**
+ * Parses a unit identifier cell from bank Excel statements.
+ * Examples:
+ *  - "B-208" -> { blockHint: "B", unitNum: 208, normalizedCode: "B-208" }
+ *  - "واحد ۸" -> { blockHint: null, unitNum: 8, normalizedCode: "8" }
+ *  - "بلوک A واحد ۱۰۱" -> { blockHint: "A", unitNum: 101, normalizedCode: "A-101" }
+ *  - "۰۱۱" -> { blockHint: null, unitNum: 11, normalizedCode: "11" }
+ */
+export function parseUnitReference(raw: unknown): {
+  blockHint: string | null;
+  unitNum: number | null;
+  normalizedCode: string;
+} {
+  const clean = normalizeDigits(sanitizeCellText(raw, 60)).toUpperCase();
+  if (!clean) {
+    return { blockHint: null, unitNum: null, normalizedCode: '' };
+  }
+  const blockMatch = clean.match(/\b([A-Z])\s*[-_/\s]?\s*(\d{1,4})\b/);
+  if (blockMatch) {
+    const blk = blockMatch[1];
+    const num = Number(blockMatch[2]);
+    return {
+      blockHint: blk,
+      unitNum: Number.isFinite(num) && num > 0 ? num : null,
+      normalizedCode: `${blk}-${blockMatch[2]}`,
+    };
+  }
+  const blockWordMatch = clean.match(/(?:بلوک|BLOCK)\s*([A-Z])/);
+  const blockHint = blockWordMatch ? blockWordMatch[1] : null;
+  const numMatches = clean.match(/\d{1,4}/g);
+  const lastNumStr = numMatches ? numMatches[numMatches.length - 1] : null;
+  const unitNum = lastNumStr ? Number(lastNumStr) : null;
+  const validNum = unitNum !== null && Number.isFinite(unitNum) && unitNum > 0 ? unitNum : null;
+  return {
+    blockHint,
+    unitNum: validNum,
+    normalizedCode:
+      blockHint && validNum !== null
+        ? `${blockHint}-${validNum}`
+        : validNum !== null
+          ? String(validNum)
+          : clean,
+  };
 }
 
 /**
@@ -136,17 +196,46 @@ function getColumnValue(row: Record<string, unknown>, colName?: string): string 
   if (!colName || !colName.trim()) return '';
   const target = colName.trim();
   if (Object.prototype.hasOwnProperty.call(row, target)) {
-    return String(row[target] ?? '').trim();
+    return sanitizeCellText(row[target]);
   }
   // Case/whitespace-insensitive fallback for messy bank Excel headers
   const targetNorm = normalizeDigits(target).replace(/\s+/g, ' ').toLowerCase();
   for (const key of Object.keys(row)) {
     const keyNorm = normalizeDigits(key).trim().replace(/\s+/g, ' ').toLowerCase();
     if (keyNorm === targetNorm) {
-      return String(row[key] ?? '').trim();
+      return sanitizeCellText(row[key]);
     }
   }
   return '';
+}
+
+function findUnitByReference(
+  ref: { blockHint: string | null; unitNum: number | null; normalizedCode: string },
+  scopedUnits: UnitDoc[],
+  unitByNum: Map<number, UnitDoc>,
+): UnitDoc | null {
+  if (!ref.normalizedCode && ref.unitNum === null) return null;
+
+  // 1. Exact unitCode match (case/digit normalized), e.g., "B-08" or "B-208"
+  const exact = scopedUnits.find(
+    (u) => normalizeDigits(u.unitCode).trim().toUpperCase() === ref.normalizedCode,
+  );
+  if (exact) return exact;
+
+  // 2. Match by blockHint + numeric unit number (handles "B-8" matching "B-08")
+  if (ref.blockHint && ref.unitNum !== null) {
+    const byBlockAndNum = scopedUnits.find(
+      (u) => u.blockId.toUpperCase() === ref.blockHint && extractNumericUnitId(u) === ref.unitNum,
+    );
+    if (byBlockAndNum) return byBlockAndNum;
+  }
+
+  // 3. Match by numeric unit number within scoped units
+  if (ref.unitNum !== null) {
+    return unitByNum.get(ref.unitNum) ?? null;
+  }
+
+  return null;
 }
 
 export function matchBankStatementRows(
@@ -162,7 +251,7 @@ export function matchBankStatementRows(
   const unitByNum = new Map<number, UnitDoc>();
   for (const u of scopedUnits) {
     const num = extractNumericUnitId(u);
-    if (num !== null) {
+    if (num !== null && !unitByNum.has(num)) {
       unitByNum.set(num, u);
     }
   }
@@ -172,6 +261,7 @@ export function matchBankStatementRows(
 
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
+    const rawUnitRef = getColumnValue(row, pattern.unitColumn);
     const rawAmountStr = getColumnValue(row, pattern.amountColumn);
     const rawNumericAmount = parseBankAmount(rawAmountStr);
     const depositDate = getColumnValue(row, pattern.dateColumn) || 'بدون تاریخ';
@@ -182,6 +272,7 @@ export function matchBankStatementRows(
     if (rawNumericAmount <= 0) {
       matchedRows.push({
         rowIndex: i + 1,
+        rawUnitRef,
         rawAmountStr,
         rawNumericAmount: 0,
         amountTomans: 0,
@@ -210,7 +301,21 @@ export function matchBankStatementRows(
     let extractedUnitNum: number | null = null;
     let matchedUnit: UnitDoc | null = null;
 
-    if (pattern.unitMatchMode === 'exact_charge') {
+    if (pattern.unitMatchMode === 'unit_column') {
+      const parsedRef = parseUnitReference(rawUnitRef);
+      extractedUnitNum = parsedRef.unitNum;
+      matchedUnit = findUnitByReference(parsedRef, scopedUnits, unitByNum);
+      // Fallback: if unit column is empty on a row, try exact charge match within tolerance
+      if (!matchedUnit && !rawUnitRef) {
+        matchedUnit =
+          scopedUnits.find(
+            (u) =>
+              u.expectedChargeTomans &&
+              Math.abs(amountTomans - u.expectedChargeTomans) <= tolerance,
+          ) ?? null;
+        if (matchedUnit) extractedUnitNum = extractNumericUnitId(matchedUnit);
+      }
+    } else if (pattern.unitMatchMode === 'exact_charge') {
       matchedUnit =
         scopedUnits.find(
           (u) =>
@@ -231,12 +336,20 @@ export function matchBankStatementRows(
       if (extractedUnitNum !== null) {
         matchedUnit = unitByNum.get(extractedUnitNum) ?? null;
       }
+      // Bonus fallback: if unitColumn was also mapped and suffix didn't match, check unitColumn
+      if (!matchedUnit && rawUnitRef) {
+        const parsedRef = parseUnitReference(rawUnitRef);
+        extractedUnitNum = parsedRef.unitNum ?? extractedUnitNum;
+        matchedUnit = findUnitByReference(parsedRef, scopedUnits, unitByNum);
+      }
     }
 
     let status: BankRowMatchStatus = 'unmatched_unit';
-    let statusLabel = extractedUnitNum
-      ? `واحد ${extractedUnitNum.toLocaleString('fa-IR')} در بلوک یافت نشد`
-      : 'شماره واحد قابل تشخیص نیست';
+    let statusLabel = rawUnitRef
+      ? `واحد «${rawUnitRef}» یافت نشد`
+      : extractedUnitNum
+        ? `واحد ${extractedUnitNum.toLocaleString('fa-IR')} در بلوک یافت نشد`
+        : 'شماره واحد قابل تشخیص نیست';
     let expectedChargeTomans: number | null = null;
     let diffTomans: number | null = null;
 
@@ -250,7 +363,10 @@ export function matchBankStatementRows(
       diffTomans = amountTomans - expectedChargeTomans;
 
       // In suffix-coded deposits (like 1,450,008 for 1,450,000 charge), a small suffix offset <= tolerance is treated as exact match!
-      const effectiveTolerance = Math.max(tolerance, Math.pow(10, pattern.suffixDigitCount));
+      const effectiveTolerance =
+        pattern.unitMatchMode === 'unit_column' || pattern.unitMatchMode === 'exact_charge'
+          ? tolerance
+          : Math.max(tolerance, Math.pow(10, pattern.suffixDigitCount));
       if (Math.abs(diffTomans) <= effectiveTolerance) {
         status = 'matched_exact';
         statusLabel = 'تطابق کامل شارژ ✓';
@@ -263,16 +379,14 @@ export function matchBankStatementRows(
       }
     }
 
-    // Build custom user-defined extracted fields record (e.g. 3 custom fields configured by manager)
+    // Build custom user-defined extracted fields record
     const customRecord: Record<string, string> = {};
     for (const cf of pattern.customFields || []) {
       if (!cf.fieldLabel.trim()) continue;
-      if (cf.sourceType === 'unit_from_last_digits') {
+      if (cf.sourceType === 'unit_from_column' || cf.sourceType === 'unit_from_last_digits') {
         customRecord[cf.fieldLabel] = matchedUnit
           ? matchedUnit.unitCode
-          : extractedUnitNum !== null
-            ? `واحد ${extractedUnitNum.toLocaleString('fa-IR')}`
-            : 'نامشخص';
+          : rawUnitRef || (extractedUnitNum !== null ? `واحد ${extractedUnitNum.toLocaleString('fa-IR')}` : 'نامشخص');
       } else if (cf.sourceType === 'resident_from_unit') {
         customRecord[cf.fieldLabel] = matchedUnit?.residentName || 'ثبت‌نشده';
       } else if (cf.columnName) {
@@ -282,6 +396,7 @@ export function matchBankStatementRows(
 
     matchedRows.push({
       rowIndex: i + 1,
+      rawUnitRef,
       rawAmountStr,
       rawNumericAmount,
       amountTomans,
@@ -316,8 +431,50 @@ export function matchBankStatementRows(
 }
 
 /**
- * Realistic sample Iranian bank statement rows matching the user's exact pattern:
- * - Last 2 digits encode unit number (e.g. 12356008 -> Unit 8, 54430011 -> Unit 11, 1450008 / 1850011)
+ * Sample 1: Standard bank Excel file with explicit Unit Number & Amount columns
+ * (نگاشت مستقیم ستون شماره واحد + مبلغ واریزی و تطبیق خودکار با شارژ واحدها)
+ */
+export const SAMPLE_UNIT_COLUMN_BANK_ROWS: Array<Record<string, string | number>> = [
+  {
+    'شماره واحد': 'B-08',
+    'مبلغ واریزی': '1450000',
+    'تاریخ واریز': '۱۴۰۵/۰۸/۰۵ - ۱۰:۲۴',
+    'شماره پیگیری': 'SHB-9910421',
+    'شرح تراکنش': 'واریز پایا شارژ ماهانه آبان — واحد ۸',
+  },
+  {
+    'شماره واحد': 'B-11',
+    'مبلغ واریزی': '1550000',
+    'تاریخ واریز': '۱۴۰۵/۰۸/۰۷ - ۱۴:۱۵',
+    'شماره پیگیری': 'SHB-9910488',
+    'شرح تراکنش': 'کارت به کارت شارژ آبان — واحد ۱۱',
+  },
+  {
+    'شماره واحد': 'واحد ۲۰۸',
+    'مبلغ واریزی': '1250000',
+    'تاریخ واریز': '۱۴۰۵/۰۸/۰۹ - ۱۱:۳۰',
+    'شماره پیگیری': 'SHB-9910530',
+    'شرح تراکنش': 'واریز بخشی از شارژ آبان واحد ۲۰۸',
+  },
+  {
+    'شماره واحد': 'B-15',
+    'مبلغ واریزی': '2400000',
+    'تاریخ واریز': '۱۴۰۵/۰۸/۱۲ - ۱۶:۴۵',
+    'شماره پیگیری': 'SHB-9910612',
+    'شرح تراکنش': 'تسویه شارژ جاری و معوقه واحد ۱۵',
+  },
+  {
+    'شماره واحد': '—',
+    'مبلغ واریزی': '0',
+    'تاریخ واریز': '۱۴۰۵/۰۸/۱۴ - ۰۸:۵۰',
+    'شماره پیگیری': 'CHK-90211',
+    'شرح تراکنش': 'برداشت بابت سرویس دوره‌ای آسانسور',
+  },
+];
+
+/**
+ * Sample 2: Realistic Iranian bank statement rows where the last 2 digits encode the unit number
+ * (e.g. 12356008 -> Unit 8, 54430011 -> Unit 11, 14500008 -> Unit 8 exact charge)
  */
 export const SAMPLE_BANK_STATEMENT_ROWS: Array<Record<string, string | number>> = [
   {

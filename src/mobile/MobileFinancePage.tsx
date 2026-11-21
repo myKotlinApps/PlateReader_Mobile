@@ -6,6 +6,7 @@ import { FinanceReconcileTab } from './finance/FinanceReconcileTab';
 import { FinanceLobbyPosterTab } from './finance/FinanceLobbyPosterTab';
 import { FinanceAccountantTab } from './finance/FinanceAccountantTab';
 import { FinancePettyCashTab } from './finance/FinancePettyCashTab';
+import { StandaloneExcelManagerTab } from './finance/FinanceBankExcelTab';
 import {
   EmptyState,
   HeroSummaryCard,
@@ -22,6 +23,7 @@ import { ComplexPageLoader } from './ui/ComplexSpinner';
 
 type FinanceTab =
   | 'units'
+  | 'excel'
   | 'charge'
   | 'reconcile'
   | 'lobby'
@@ -107,6 +109,7 @@ const DEFAULT_META_BY_ID: Record<string, Partial<EnrichedUnit>> = {
 
 const VALID_TABS: FinanceTab[] = [
   'units',
+  'excel',
   'charge',
   'reconcile',
   'lobby',
@@ -236,6 +239,7 @@ export const MobileFinancePage: React.FC<Props> = ({ onNavigate, onSyncChanged }
         onChange={(id) => switchTab(id as FinanceTab)}
         items={[
           { id: 'units', label: 'واحدها', icon: 'domain' },
+          { id: 'excel', label: 'مدیریت اکسل', icon: 'table_view' },
           { id: 'charge', label: 'شارژ و صندوق', icon: 'calculate' },
           { id: 'reconcile', label: 'تطبیق بانکی', icon: 'document_scanner' },
           { id: 'lobby', label: 'پوستر لابی', icon: 'print' },
@@ -426,6 +430,18 @@ export const MobileFinancePage: React.FC<Props> = ({ onNavigate, onSyncChanged }
             </div>
           )}
         </div>
+      )}
+
+      {/* TAB 1B: Dedicated Bank Excel Pattern & Auto-Payment Module */}
+      {subTab === 'excel' && (
+        <StandaloneExcelManagerTab
+          initialBlockId={blockFilter === 'ALL' ? 'B' : blockFilter}
+          onSyncChanged={() => {
+            onSyncChanged?.();
+            void load();
+          }}
+          onFeedback={setFeedback}
+        />
       )}
 
       {/* TAB 2: Stitch _2 — Charge Accounting */}

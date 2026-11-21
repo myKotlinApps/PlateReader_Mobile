@@ -319,9 +319,9 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
                 key={item.id}
                 type="button"
                 onClick={() => switchTab(item.id as ResidentTab)}
-                className="bg-surface-container-lowest rounded-[2px] border border-outline-variant/60 p-3 text-right hover:border-primary/65 active:scale-[0.98] transition-[transform,border-color] space-y-1.5"
+                className="bg-surface-container-lowest rounded-[var(--ui-btn-radius)] border border-outline-variant/60 p-3 text-right hover:border-primary/65 active:scale-[0.98] transition-[transform,border-color] space-y-1.5"
               >
-                <span className="w-9 h-9 rounded-[2px] bg-primary-container/60 text-on-primary-container flex items-center justify-center">
+                <span className="w-9 h-9 rounded-[var(--ui-btn-radius)] bg-primary-container/60 text-on-primary-container flex items-center justify-center">
                   <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
                 </span>
                 <strong className="text-[13px] font-bold text-on-surface block truncate">
@@ -345,7 +345,7 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
                 {notices.map((n) => (
                   <div
                     key={n.id}
-                    className={`p-3 rounded-[2px] border space-y-1 ${
+                    className={`p-3 rounded-[var(--ui-btn-radius)] border space-y-1 ${
                       n.severity === 'urgent'
                         ? 'bg-error-container/50 border-error/30'
                         : n.severity === 'warning'
@@ -502,7 +502,7 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
                 {receipts.map((r) => (
                   <div
                     key={r.id}
-                    className="p-3 rounded-[2px] bg-surface-container-low/80 border border-outline-variant/45 flex items-center justify-between gap-2"
+                    className="p-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low/80 border border-outline-variant/45 flex items-center justify-between gap-2"
                   >
                     <div className="min-w-0">
                       <strong className="text-[13.5px] font-bold font-numeric-stat text-on-surface block">
@@ -555,7 +555,7 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
                   value={guestName}
                   onChange={(e) => setGuestName(e.target.value)}
                   placeholder="مثلاً: مهندس سعید فرهادی"
-                  className="w-full h-10 px-3 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                  className="w-full h-10 px-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
                 />
               </div>
 
@@ -624,7 +624,7 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
                 {permits.map((p) => (
                   <div
                     key={p.id}
-                    className="p-3 rounded-[2px] bg-surface-container-low/80 border border-outline-variant/45 space-y-2"
+                    className="p-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low/80 border border-outline-variant/45 space-y-2"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0 space-y-1">
@@ -686,7 +686,7 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
                   id="ur-cat"
                   value={repCategory}
                   onChange={(e) => setRepCategory(e.target.value)}
-                  className="w-full h-10 px-2.5 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                  className="w-full h-10 px-2.5 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
                 >
                   <option value="لوله‌کشی و نشتی">لوله‌کشی و نشتی</option>
                   <option value="برق و روشنایی">برق و روشنایی</option>
@@ -706,7 +706,7 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
                   value={repTitle}
                   onChange={(e) => setRepTitle(e.target.value)}
                   placeholder="مثلاً: نشتی جزئی زیر سینک آشپزخانه"
-                  className="w-full h-10 px-3 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                  className="w-full h-10 px-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
                 />
               </div>
               <div>
@@ -720,10 +720,10 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
                   value={repDesc}
                   onChange={(e) => setRepDesc(e.target.value)}
                   placeholder="زمان مناسب حضور تکنسین و شرح مشکل..."
-                  className="w-full p-2.5 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55"
+                  className="w-full p-2.5 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
                 />
               </div>
-              <label className="w-full h-10 rounded-[2px] bg-surface-container-low text-primary text-[12.5px] font-semibold flex items-center justify-center gap-1.5 border border-dashed border-outline-variant cursor-pointer">
+              <label className="w-full h-10 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-primary text-[12.5px] font-semibold flex items-center justify-center gap-1.5 border border-dashed border-outline-variant cursor-pointer">
                 <span className="material-symbols-outlined text-[18px]">add_a_photo</span>
                 <span>{repPhoto ? 'تصویر خرابی پیوست شد ✓' : 'انتخاب یا گرفتن عکس از خرابی'}</span>
                 <input
@@ -740,7 +740,7 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
                 <img
                   src={repPhoto}
                   alt="پیش‌نمایش عکس خرابی"
-                  className="w-full max-h-40 object-contain rounded-[2px] border border-outline-variant/45 bg-surface-container-low"
+                  className="w-full max-h-40 object-contain rounded-[var(--ui-btn-radius)] border border-outline-variant/45 bg-surface-container-low"
                 />
               )}
               <StitchButton type="submit" disabled={busy} icon="send" className="w-full">
@@ -760,7 +760,7 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
                 {requests.map((r) => (
                   <div
                     key={r.id}
-                    className="p-3 rounded-[2px] bg-surface-container-low/80 border border-outline-variant/45 space-y-1.5"
+                    className="p-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low/80 border border-outline-variant/45 space-y-1.5"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <strong className="text-[13.5px] font-bold text-on-surface">{r.title}</strong>
@@ -779,7 +779,7 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
                     </div>
                     <p className="text-[12.5px] text-on-surface-variant mb-0">{r.description}</p>
                     {r.managerReply && (
-                      <div className="p-2 rounded-[2px] bg-surface-container-lowest border border-outline-variant/35 text-[12px]">
+                      <div className="p-2 rounded-[var(--ui-btn-radius)] bg-surface-container-lowest border border-outline-variant/35 text-[12px]">
                         <strong>پاسخ مدیریت:</strong> {r.managerReply}
                       </div>
                     )}

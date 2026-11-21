@@ -67,9 +67,10 @@ import {
 } from './theme/palettes';
 import { NoticeBanner, StatusPill, StitchButton, StitchModal } from './ui/StitchKit';
 import {
+  DEFAULT_ALARM_DURATION_MS,
   dismissDockAlarm,
   registerDockAlarmHost,
-  subscribeDockAlarm,
+  subscribeDockAlarms,
   type DockAlarmToast,
 } from './ui/dockAlarmBus';
 import {
@@ -142,14 +143,14 @@ export const MobileShell: React.FC = () => {
     }
     return document.documentElement.getAttribute('data-theme') === 'dark';
   });
-  const [alarmDismissed, setAlarmDismissed] = useState(false);
-  const [dockToast, setDockToast] = useState<DockAlarmToast | null>(null);
+  const [dismissedContextKeys, setDismissedContextKeys] = useState<Record<string, boolean>>({});
+  const [dockToasts, setDockToasts] = useState<DockAlarmToast[]>([]);
   const [quickActionsOpen, setQuickActionsOpen] = useState(false);
   const [appearanceOpen, setAppearanceOpen] = useState(false);
 
   useEffect(() => {
     registerDockAlarmHost(true);
-    const unsub = subscribeDockAlarm(setDockToast);
+    const unsub = subscribeDockAlarms(setDockToasts);
     return () => {
       unsub();
       registerDockAlarmHost(false);
@@ -242,6 +243,44 @@ export const MobileShell: React.FC = () => {
     applyAppearancePrefs(rbacSession?.user.preferences ?? DEFAULT_APPEARANCE_PREFS, dark);
   }, [rbacSession?.user.id, rbacSession?.user.preferences, dark]);
 
+  // Compute active contextual alarm ID BEFORE any early returns so hooks run unconditionally
+  const preActiveLeaksCount = bootstrap?.counters.active_leaks ?? 0;
+  const prePendingReceipts = rbacCounters?.pendingReceipts ?? 0;
+  const prePendingPermits = rbacCounters?.pendingPermits ?? 0;
+  const prePendingTasks = rbacCounters?.pendingTasks ?? 0;
+  const preActiveUser = rbacSession?.user ?? null;
+  const preRoleDef = preActiveUser ? ROLE_DEFINITIONS[preActiveUser.role] : null;
+  const rawContextAlarmId: string | null = !preActiveUser || !preRoleDef
+    ? null
+    : preActiveUser.role === 'temp_caretaker' && typeof rbacSession?.remainingMs === 'number'
+      ? `ctx-temp-caretaker-${preActiveUser.id}`
+      : preActiveUser.role === 'resident' && latestNotice
+        ? `ctx-notice-${latestNotice.id}`
+        : preActiveUser.role === 'gate_guard' && prePendingPermits > 0
+          ? `ctx-guard-permits-${prePendingPermits}`
+          : (preActiveUser.role === 'complex_accountant' || preActiveUser.role === 'block_accountant') &&
+              prePendingReceipts > 0
+            ? `ctx-acc-receipts-${prePendingReceipts}`
+            : preActiveUser.role === 'block_manager' && prePendingTasks > 0
+              ? `ctx-bm-tasks-${preActiveUser.blockId || 'B'}-${prePendingTasks}`
+              : preActiveLeaksCount > 0 &&
+                  section !== 'facilities' &&
+                  preRoleDef.allowedSections.includes('facilities')
+                ? `ctx-leak-${preActiveLeaksCount}`
+                : null;
+
+  const activeContextId =
+    rawContextAlarmId && !dismissedContextKeys[rawContextAlarmId] ? rawContextAlarmId : null;
+
+  // Independently auto-dismiss contextual alarm after 5 seconds
+  useEffect(() => {
+    if (!activeContextId) return;
+    const timer = window.setTimeout(() => {
+      setDismissedContextKeys((prev) => ({ ...prev, [activeContextId]: true }));
+    }, DEFAULT_ALARM_DURATION_MS);
+    return () => window.clearTimeout(timer);
+  }, [activeContextId]);
+
   const handleAppearanceChange = (next: UserAppearancePrefs) => {
     setRbacSession((prev) =>
       prev
@@ -264,7 +303,7 @@ export const MobileShell: React.FC = () => {
     setRbacSession(session);
     setPortalOpen(false);
     setSwitcherOpen(false);
-    setAlarmDismissed(false);
+    setDismissedContextKeys({});
     setQuickActionsOpen(false);
     navigate(session.roleDef.defaultRoute, { replace: true });
     void refreshRbacMe();
@@ -471,112 +510,144 @@ export const MobileShell: React.FC = () => {
     ),
   };
 
-  // Role-aware Digikala-style floating alarm pill stacked directly above the dock.
-  // Transient confirmation/error alerts (NoticeBanner) take immediate top priority in this exact Digikala Alarm Pill!
-  const activeDockAlarm: MDockAlarm | null = dockToast
-    ? {
-        id: dockToast.id,
-        title:
-          dockToast.title ||
-          (dockToast.tone === 'success'
-            ? 'عملیات با موفقیت انجام شد'
-            : dockToast.tone === 'danger'
-              ? 'نیاز به بررسی و اصلاح'
-              : 'اعلان سامانه'),
-        subtitle: dockToast.message,
-        actionLabel: 'باشه',
-        tone:
-          dockToast.tone === 'danger'
-            ? 'danger'
-            : dockToast.tone === 'success'
-              ? 'success'
-              : 'primary',
-        icon:
-          dockToast.tone === 'danger' ? (
-            <AlertCircle size={20} strokeWidth={2.2} />
-          ) : dockToast.tone === 'success' ? (
-            <CheckCircle2 size={20} strokeWidth={2.2} />
-          ) : (
-            <Info size={20} strokeWidth={2.2} />
-          ),
-        onAction: () => dismissDockAlarm(dockToast.id),
-        onDismiss: () => dismissDockAlarm(dockToast.id),
-      }
-    : alarmDismissed
-      ? null
-    : activeUser.role === 'temp_caretaker' && typeof rbacSession.remainingMs === 'number'
+  // Compute optional contextual role alarm (independent 5-second auto-dismiss per alarm key)
+  const rawContextAlarm: MDockAlarm | null =
+    activeUser.role === 'temp_caretaker' && typeof rbacSession.remainingMs === 'number'
       ? {
-          id: 'temp-caretaker-alarm',
+          id: `ctx-temp-caretaker-${activeUser.id}`,
           title: `شیفت موقت فعال • ${formatRemainingDurationFa(rbacSession.remainingMs)} باقی‌مانده`,
           subtitle: `${pendingTasks.toLocaleString('fa-IR')} وظیفه در انتظار انجام در بلوک ${activeUser.blockId || 'B'}`,
-          actionLabel: 'وظایف',
           tone: 'warning',
           icon: <ClipboardCheck size={20} strokeWidth={2.2} />,
-          onAction: () => goTab('caretaker?tab=tasks'),
-          onDismiss: () => setAlarmDismissed(true),
+          onAction: () => {
+            setDismissedContextKeys((prev) => ({ ...prev, [`ctx-temp-caretaker-${activeUser.id}`]: true }));
+            goTab('caretaker?tab=tasks');
+          },
+          onDismiss: () =>
+            setDismissedContextKeys((prev) => ({ ...prev, [`ctx-temp-caretaker-${activeUser.id}`]: true })),
         }
       : activeUser.role === 'resident' && latestNotice
         ? {
-            id: `notice-${latestNotice.id}`,
+            id: `ctx-notice-${latestNotice.id}`,
             title: latestNotice.title,
             subtitle: `از ${latestNotice.senderName} (${latestNotice.senderRoleTitle})`,
-            actionLabel: 'مشاهده',
             tone: latestNotice.severity === 'urgent' ? 'danger' : 'primary',
             icon: <Bell size={20} strokeWidth={2.1} />,
-            onAction: () => goTab('resident?tab=home'),
-            onDismiss: () => setAlarmDismissed(true),
+            onAction: () => {
+              setDismissedContextKeys((prev) => ({ ...prev, [`ctx-notice-${latestNotice.id}`]: true }));
+              goTab('resident?tab=home');
+            },
+            onDismiss: () =>
+              setDismissedContextKeys((prev) => ({ ...prev, [`ctx-notice-${latestNotice.id}`]: true })),
           }
         : activeUser.role === 'gate_guard' && pendingPermits > 0
           ? {
-              id: 'guard-permits-alarm',
+              id: `ctx-guard-permits-${pendingPermits}`,
               title: `${pendingPermits.toLocaleString('fa-IR')} مهمان در انتظار ورود در گیت`,
               subtitle: 'ثبت‌شده توسط ساکنین با پلاک خودرو',
-              actionLabel: 'بررسی',
               tone: 'primary',
               icon: <Car size={20} strokeWidth={2.1} />,
-              onAction: () => goTab('guard?tab=permits'),
-              onDismiss: () => setAlarmDismissed(true),
+              onAction: () => {
+                setDismissedContextKeys((prev) => ({ ...prev, [`ctx-guard-permits-${pendingPermits}`]: true }));
+                goTab('guard?tab=permits');
+              },
+              onDismiss: () =>
+                setDismissedContextKeys((prev) => ({ ...prev, [`ctx-guard-permits-${pendingPermits}`]: true })),
             }
           : (activeUser.role === 'complex_accountant' || activeUser.role === 'block_accountant') &&
               pendingReceipts > 0
             ? {
-                id: 'acc-receipts-alarm',
+                id: `ctx-acc-receipts-${pendingReceipts}`,
                 title: `${pendingReceipts.toLocaleString('fa-IR')} فیش واریزی ساکنین در صف تایید`,
                 subtitle: 'آماده تایید و صدور خودکار سند روزنامه',
-                actionLabel: 'تایید',
                 tone: 'warning',
                 icon: <Wallet size={20} strokeWidth={2.1} />,
-                onAction: () => goTab('finance?tab=accountant'),
-                onDismiss: () => setAlarmDismissed(true),
+                onAction: () => {
+                  setDismissedContextKeys((prev) => ({ ...prev, [`ctx-acc-receipts-${pendingReceipts}`]: true }));
+                  goTab('finance?tab=accountant');
+                },
+                onDismiss: () =>
+                  setDismissedContextKeys((prev) => ({ ...prev, [`ctx-acc-receipts-${pendingReceipts}`]: true })),
               }
             : activeUser.role === 'block_manager' && pendingTasks > 0
               ? {
-                  id: 'bm-tasks-alarm',
+                  id: `ctx-bm-tasks-${activeUser.blockId || 'B'}-${pendingTasks}`,
                   title: `${pendingTasks.toLocaleString('fa-IR')} وظیفه فعال سرایداران بلوک ${activeUser.blockId || 'B'}`,
                   subtitle: 'بررسی گزارش‌های انجام‌شده و ابلاغ کار جدید',
-                  actionLabel: 'کارتابل',
                   tone: 'primary',
                   icon: <ClipboardCheck size={20} strokeWidth={2.1} />,
-                  onAction: () => goTab('block?tab=tasks'),
-                  onDismiss: () => setAlarmDismissed(true),
+                  onAction: () => {
+                    setDismissedContextKeys((prev) => ({
+                      ...prev,
+                      [`ctx-bm-tasks-${activeUser.blockId || 'B'}-${pendingTasks}`]: true,
+                    }));
+                    goTab('block?tab=tasks');
+                  },
+                  onDismiss: () =>
+                    setDismissedContextKeys((prev) => ({
+                      ...prev,
+                      [`ctx-bm-tasks-${activeUser.blockId || 'B'}-${pendingTasks}`]: true,
+                    })),
                 }
               : activeLeaksCount > 0 && section !== 'facilities' && roleDef.allowedSections.includes('facilities')
                 ? {
-                    id: 'leak-alarm',
+                    id: `ctx-leak-${activeLeaksCount}`,
                     title: 'هشدار نشتی آب • واحد ۳۰۲ بلوک B',
                     subtitle: `${activeLeaksCount.toLocaleString('fa-IR')} پرونده فعال • شیر فلکه قطع شد`,
-                    actionLabel: 'بررسی',
                     tone: 'danger',
                     icon: <Droplets size={21} strokeWidth={2.2} />,
-                    onAction: () => goTab('facilities?tab=leaks'),
-                    onDismiss: () => setAlarmDismissed(true),
+                    onAction: () => {
+                      setDismissedContextKeys((prev) => ({ ...prev, [`ctx-leak-${activeLeaksCount}`]: true }));
+                      goTab('facilities?tab=leaks');
+                    },
+                    onDismiss: () =>
+                      setDismissedContextKeys((prev) => ({ ...prev, [`ctx-leak-${activeLeaksCount}`]: true })),
                   }
                 : null;
+
+  const contextAlarm = activeContextId ? rawContextAlarm : null;
+
+  // Stack newest toast alarms ABOVE earlier/contextual alarms (no "بررسی >" CTA; tap alarm directly)
+  const stackedDockAlarms: MDockAlarm[] = [
+    ...dockToasts.map((toast): MDockAlarm => ({
+      id: toast.id,
+      title:
+        toast.title ||
+        (toast.tone === 'success'
+          ? 'عملیات با موفقیت انجام شد'
+          : toast.tone === 'danger'
+            ? 'نیاز به بررسی و اصلاح'
+            : 'اعلان سامانه'),
+      subtitle: toast.message,
+      tone:
+        toast.tone === 'danger'
+          ? 'danger'
+          : toast.tone === 'success'
+            ? 'success'
+            : 'primary',
+      icon:
+        toast.tone === 'danger' ? (
+          <AlertCircle size={20} strokeWidth={2.2} />
+        ) : toast.tone === 'success' ? (
+          <CheckCircle2 size={20} strokeWidth={2.2} />
+        ) : (
+          <Info size={20} strokeWidth={2.2} />
+        ),
+      onAction: () => {
+        if (toast.onAction) {
+          toast.onAction();
+        }
+        dismissDockAlarm(toast.id);
+      },
+      onDismiss: () => dismissDockAlarm(toast.id),
+    })),
+    ...(contextAlarm ? [contextAlarm] : []),
+  ];
 
   const showComplexLoader = slowFetchVisible;
 
   return (
-    <div className={`alpr-mobile-shell ${activeDockAlarm ? 'has-alarm-pill' : ''}`} dir="rtl">
+    <div className={`alpr-mobile-shell ${stackedDockAlarms.length > 0 ? 'has-alarm-pill' : ''}`} dir="rtl">
       <a href="#mobile-main" className="m-skip-link">
         رفتن به محتوای اصلی
       </a>
@@ -757,7 +828,7 @@ export const MobileShell: React.FC = () => {
           goTab(id);
         }}
         fabItem={quickActionFabItem}
-        alarm={activeDockAlarm}
+        alarms={stackedDockAlarms}
       />
 
       {/* Role-Aware Quick Actions Modal */}

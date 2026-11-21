@@ -26,7 +26,7 @@ export const AppearanceSettingsPanel: React.FC<Props> = ({
   const [saving, setSaving] = useState(false);
   const [statusMsg, setStatusMsg] = useState('');
 
-  const currentCorner: CornerStyle = prefs?.cornerStyle === 'curved' ? 'curved' : 'sharp';
+  const currentCorner: CornerStyle = prefs?.cornerStyle === 'sharp' ? 'sharp' : 'curved';
   const currentPalette: ThemePaletteId = prefs?.paletteId || DEFAULT_APPEARANCE_PREFS.paletteId;
 
   const commitPrefs = async (next: UserAppearancePrefs, label: string) => {
@@ -92,7 +92,7 @@ export const AppearanceSettingsPanel: React.FC<Props> = ({
             </div>
             <div>
               <strong className="text-[13px] font-bold text-on-surface block">
-                تیز و گوشه‌دار (پیش‌فرض)
+                تیز و گوشه‌دار
               </strong>
               <span className="text-[11px] text-on-surface-variant block mt-0.5">
                 کارت‌ها و دکمه‌های مدرن زاویه‌دار
@@ -106,7 +106,7 @@ export const AppearanceSettingsPanel: React.FC<Props> = ({
             onClick={() =>
               void commitPrefs(
                 { cornerStyle: 'curved', paletteId: currentPalette },
-                'حالت منحنی (Curve) کارت‌ها و دکمه‌ها',
+                'حالت منحنی نرم (Curve) کارت‌ها و دکمه‌ها',
               )
             }
             className={`p-3 border text-right transition-colors rounded-[14px] flex flex-col gap-2 ${
@@ -123,10 +123,10 @@ export const AppearanceSettingsPanel: React.FC<Props> = ({
             </div>
             <div>
               <strong className="text-[13px] font-bold text-on-surface block">
-                منحنی (Curve)
+                منحنی نرم (Curve — پیش‌فرض)
               </strong>
               <span className="text-[11px] text-on-surface-variant block mt-0.5">
-                کارت‌ها و دکمه‌های نرم با گوشه گرد
+                کارت‌ها و دکمه‌های نرم با گوشه گرد متعادل
               </span>
             </div>
           </button>

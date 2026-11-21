@@ -51,7 +51,7 @@ export const UserProfilePanel: React.FC<Props> = ({
     setUploadingPhoto(true);
     setFeedback(null);
     try {
-      const compressed = await compressImageFileToBase64(file, 480, 0.82);
+      const compressed = await compressImageFileToBase64(file);
       setAvatarDataUrl(compressed);
       const res = await rbacApi.updateMyProfile({ avatarDataUrl: compressed });
       onUserUpdated(res.user);

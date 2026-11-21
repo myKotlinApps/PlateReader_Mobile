@@ -90,31 +90,31 @@ export const RolePortalPage: React.FC<Props> = ({
 
   return (
     <div className="min-h-dvh bg-surface text-on-surface px-3.5 py-5 sm:py-7" dir="rtl">
-      <div className="w-full max-w-[980px] mx-auto space-y-5">
+      <div className="w-full max-w-[980px] mx-auto space-y-5 min-w-0">
         {/* Architectural Portal Header */}
-        <header className="bg-surface-container-lowest rounded-[2px] border border-outline-variant/60 p-4 sm:p-5 shadow-[var(--shadow-surface-ring)]">
-          <div className="flex items-start justify-between gap-3 flex-wrap">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-11 h-11 rounded-[2px] bg-primary text-on-primary flex items-center justify-center shrink-0">
+        <header className="bg-surface-container-lowest rounded-[var(--ui-card-radius)] border border-outline-variant/60 p-4 sm:p-5 shadow-[var(--shadow-surface-ring)] overflow-hidden min-w-0 max-w-full">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 min-w-0">
+            <div className="flex items-start gap-3 min-w-0 flex-1">
+              <div className="w-11 h-11 rounded-[var(--ui-btn-radius)] bg-primary text-on-primary flex items-center justify-center shrink-0">
                 <span className="material-symbols-outlined text-[24px]">domain</span>
               </div>
-              <div className="min-w-0">
-                <h1 className="text-[17px] sm:text-[19px] font-extrabold text-on-surface mb-0 leading-snug">
+              <div className="min-w-0 flex-1">
+                <h1 className="text-[17px] sm:text-[19px] font-extrabold text-on-surface mb-0 leading-snug break-words">
                   درگاه نقش‌ها و ورود سامانه مجتمع نیلوفر
                 </h1>
-                <p className="text-[12.5px] text-on-surface-variant mb-0 mt-0.5 leading-normal">
+                <p className="text-[12.5px] text-on-surface-variant mb-0 mt-0.5 leading-normal break-words">
                   با نام کاربری تعریف‌شده توسط مدیر وارد شوید یا هر یک از ۱۰ نقش زیر را برای مشاهده منو و پنل اختصاصی انتخاب کنید.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0 flex-wrap">
+            <div className="flex items-center gap-2 flex-wrap max-w-full min-w-0 md:justify-end">
               <a
                 href="/resident-app?block=B"
-                className="h-9 px-3 rounded-[var(--ui-btn-radius)] border border-primary/50 bg-primary-container/50 hover:bg-primary-container text-on-primary-container text-[12px] font-bold inline-flex items-center gap-1.5 transition-colors"
+                className="min-h-9 py-1.5 px-3 rounded-[var(--ui-btn-radius)] border border-primary/50 bg-primary-container/50 hover:bg-primary-container text-on-primary-container text-[12px] font-bold inline-flex items-center gap-1.5 transition-colors max-w-full min-w-0"
               >
-                <span className="material-symbols-outlined text-[17px]">qr_code_scanner</span>
-                <span>اپلیکیشن اختصاصی ساکنین (QR)</span>
+                <span className="material-symbols-outlined text-[17px] shrink-0">qr_code_scanner</span>
+                <span className="truncate">اپلیکیشن اختصاصی ساکنین (QR)</span>
               </a>
               {totalUsers > 0 && (
                 <StatusPill
@@ -130,9 +130,9 @@ export const RolePortalPage: React.FC<Props> = ({
             </div>
           </div>
           {storageEngine && (
-            <div className="mt-3 pt-2.5 border-t border-outline-variant/35 flex items-center justify-between gap-2 text-[11.5px] text-on-surface-variant flex-wrap">
-              <span>دیتابیس سمت سرور فعال: {storageEngine}</span>
-              <span>رمز پیش‌فرض حساب‌های نمونه: ۱۲۳۴</span>
+            <div className="mt-3 pt-2.5 border-t border-outline-variant/35 flex items-center justify-between gap-2 text-[11.5px] text-on-surface-variant flex-wrap min-w-0">
+              <span className="break-words min-w-0">دیتابیس سمت سرور فعال: {storageEngine}</span>
+              <span className="shrink-0">رمز پیش‌فرض حساب‌های نمونه: ۱۲۳۴</span>
             </div>
           )}
         </header>
@@ -157,7 +157,7 @@ export const RolePortalPage: React.FC<Props> = ({
             onSubmit={handlePasswordLogin}
             className="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-end"
           >
-            <div className="sm:col-span-5">
+            <div className="sm:col-span-5 min-w-0">
               <label
                 htmlFor="portal-username"
                 className="block text-[12px] font-semibold text-on-surface-variant mb-1"
@@ -171,10 +171,10 @@ export const RolePortalPage: React.FC<Props> = ({
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="مثلاً: block_b_mgr یا res_b208 یا نام سرایدار جدید"
-                className="w-full h-10 px-3 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                className="w-full h-10 px-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
               />
             </div>
-            <div className="sm:col-span-4">
+            <div className="sm:col-span-4 min-w-0">
               <label
                 htmlFor="portal-password"
                 className="block text-[12px] font-semibold text-on-surface-variant mb-1"
@@ -188,10 +188,10 @@ export const RolePortalPage: React.FC<Props> = ({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="1234"
-                className="w-full h-10 px-3 rounded-[2px] bg-surface-container-low text-[13px] border border-outline-variant/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                className="w-full h-10 px-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
               />
             </div>
-            <div className="sm:col-span-3">
+            <div className="sm:col-span-3 min-w-0">
               <StitchButton
                 type="submit"
                 disabled={submitting}
@@ -234,21 +234,21 @@ export const RolePortalPage: React.FC<Props> = ({
                       return (
                         <article
                           key={card.roleId}
-                          className={`bg-surface-container-lowest rounded-[2px] border p-4 flex flex-col justify-between gap-3 shadow-[var(--shadow-surface-ring)] transition-colors ${
+                          className={`bg-surface-container-lowest rounded-[var(--ui-card-radius)] border p-4 flex flex-col justify-between gap-3 shadow-[var(--shadow-card)] transition-colors overflow-hidden min-w-0 max-w-full ${
                             isCurrent
                               ? 'border-primary ring-1 ring-primary/35'
                               : 'border-outline-variant/60 hover:border-primary/60'
                           }`}
                         >
-                          <div className="space-y-2.5">
-                            <div className="flex items-start justify-between gap-2">
-                              <div className="flex items-center gap-2.5 min-w-0">
-                                <span className="w-9 h-9 rounded-[2px] bg-primary-container/65 text-on-primary-container flex items-center justify-center shrink-0">
+                          <div className="space-y-2.5 min-w-0">
+                            <div className="flex items-start justify-between gap-2 min-w-0">
+                              <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                                <span className="w-9 h-9 rounded-[var(--ui-btn-radius)] bg-primary-container/65 text-on-primary-container flex items-center justify-center shrink-0">
                                   <span className="material-symbols-outlined text-[20px]">
                                     {card.icon}
                                   </span>
                                 </span>
-                                <div className="min-w-0">
+                                <div className="min-w-0 flex-1">
                                   <h3 className="text-[14px] font-bold text-on-surface mb-0 truncate">
                                     {card.title}
                                   </h3>
@@ -263,36 +263,40 @@ export const RolePortalPage: React.FC<Props> = ({
                                 </div>
                               </div>
                               {card.isTemporary ? (
-                                <StatusPill
-                                  label={
-                                    typeof card.remainingMs === 'number'
-                                      ? formatRemainingDurationFa(card.remainingMs)
-                                      : 'موقت'
-                                  }
-                                  tone="danger"
-                                />
+                                <div className="shrink-0 max-w-[44%]">
+                                  <StatusPill
+                                    label={
+                                      typeof card.remainingMs === 'number'
+                                        ? formatRemainingDurationFa(card.remainingMs)
+                                        : 'موقت'
+                                    }
+                                    tone="danger"
+                                  />
+                                </div>
                               ) : card.canCreateCount > 0 ? (
-                                <StatusPill
-                                  label={`+${card.canCreateCount.toLocaleString('fa-IR')} نقش`}
-                                  tone="primary"
-                                />
+                                <div className="shrink-0 max-w-[44%]">
+                                  <StatusPill
+                                    label={`+${card.canCreateCount.toLocaleString('fa-IR')} نقش`}
+                                    tone="primary"
+                                  />
+                                </div>
                               ) : null}
                             </div>
 
-                            <p className="text-[12px] text-on-surface-variant mb-0 leading-relaxed">
+                            <p className="text-[12px] text-on-surface-variant mb-0 leading-relaxed break-words">
                               {card.description}
                             </p>
 
                             {/* Menu Preview */}
-                            <div className="pt-2 border-t border-outline-variant/35 space-y-1.5">
+                            <div className="pt-2 border-t border-outline-variant/35 space-y-1.5 min-w-0">
                               <span className="text-[11px] font-semibold text-on-surface-variant block">
                                 منوهای فعال این نقش در داک:
                               </span>
-                              <div className="flex flex-wrap gap-1">
+                              <div className="flex flex-wrap gap-1 min-w-0">
                                 {card.dockLabels.map((lbl) => (
                                   <span
                                     key={lbl}
-                                    className="px-2 py-0.5 rounded-[2px] bg-surface-container-low border border-outline-variant/45 text-[11px] font-medium text-on-surface"
+                                    className="px-2 py-0.5 rounded-[var(--ui-btn-radius)] bg-surface-container-low border border-outline-variant/45 text-[11px] font-medium text-on-surface max-w-full truncate"
                                   >
                                     {lbl}
                                   </span>
@@ -301,14 +305,14 @@ export const RolePortalPage: React.FC<Props> = ({
                             </div>
                           </div>
 
-                          <div className="pt-2.5 border-t border-outline-variant/35 flex items-center justify-between gap-2">
+                          <div className="pt-2.5 border-t border-outline-variant/35 flex items-center justify-between gap-2 min-w-0">
                             <button
                               type="button"
                               onClick={() => {
                                 setUsername(card.sampleUsername);
                                 setPassword('1234');
                               }}
-                              className="text-[11.5px] font-mono text-on-surface-variant hover:text-primary underline-offset-2 hover:underline"
+                              className="text-[11.5px] font-mono text-on-surface-variant hover:text-primary underline-offset-2 hover:underline truncate min-w-0"
                               dir="ltr"
                               title="قرار دادن در فرم ورود"
                             >
@@ -319,7 +323,7 @@ export const RolePortalPage: React.FC<Props> = ({
                               variant={isCurrent ? 'secondary' : 'primary'}
                               disabled={Boolean(busyRole)}
                               onClick={() => void handleSelectRole(card.roleId)}
-                              className="rounded-[var(--ui-btn-radius)]"
+                              className="rounded-[var(--ui-btn-radius)] shrink-0"
                               aria-label={`ورود به پنل ${card.title}`}
                             >
                               {isBusy
