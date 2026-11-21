@@ -5,6 +5,7 @@ import {
   SectionHeader,
   StatusPill,
   StitchButton,
+  StitchModal,
   SurfaceCard,
 } from '../ui/StitchKit';
 
@@ -147,80 +148,65 @@ export const FinanceChargeTab: React.FC<Props> = ({ onNavigate, onFeedback }) =>
       </SurfaceCard>
 
       {/* Issue New Period Modal */}
-      {showIssueModal && (
-        <div
-          className="fixed inset-0 z-50 bg-black/45 flex items-end sm:items-center justify-center p-3"
-          role="dialog"
-          aria-modal="true"
-          aria-label="صدور قبوض دوره جدید"
-        >
-          <div className="bg-surface-container-lowest rounded-2xl w-full max-w-md p-4 shadow-floating space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-[14px] font-bold text-on-surface mb-0">
-                صدور جمعی قبوض شارژ ماهانه
-              </h3>
-              <button
-                type="button"
-                aria-label="بستن"
-                onClick={() => setShowIssueModal(false)}
-                className="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center"
-              >
-                <span className="material-symbols-outlined text-[18px]">close</span>
-              </button>
-            </div>
+      <StitchModal
+        open={showIssueModal}
+        onClose={() => setShowIssueModal(false)}
+        title="صدور جمعی قبوض شارژ ماهانه"
+        subtitle="محاسبه خودکار برای ۴۸ واحد مجتمع نیلوفر"
+      >
+        <div className="space-y-3">
+          <div>
+            <label className="block text-[12px] font-semibold text-on-surface-variant mb-1">
+              عنوان دوره
+            </label>
+            <input
+              type="text"
+              value={period}
+              onChange={(e) => setPeriod(e.target.value)}
+              className="w-full h-10 px-3 rounded-xl bg-surface-container-low text-[13px] border border-outline-variant/45"
+            />
+          </div>
+          <div className="grid grid-cols-3 gap-2">
             <div>
-              <label className="block text-[11.5px] font-semibold text-on-surface-variant mb-1">
-                عنوان دوره
-              </label>
+              <label className="block text-[11px] text-on-surface-variant mb-1">پایه ثابت</label>
               <input
-                type="text"
-                value={period}
-                onChange={(e) => setPeriod(e.target.value)}
-                className="w-full h-10 px-3 rounded-xl bg-surface-container-low text-[12.5px] border border-outline-variant/30"
+                type="number"
+                value={baseFixed}
+                onChange={(e) => setBaseFixed(Number(e.target.value) || 0)}
+                className="w-full h-10 px-2 rounded-lg bg-surface-container-low text-[12.5px] font-numeric-stat border border-outline-variant/45"
               />
             </div>
-            <div className="grid grid-cols-3 gap-2">
-              <div>
-                <label className="block text-[10.5px] text-on-surface-variant mb-1">پایه ثابت</label>
-                <input
-                  type="number"
-                  value={baseFixed}
-                  onChange={(e) => setBaseFixed(Number(e.target.value) || 0)}
-                  className="w-full h-9 px-2 rounded-lg bg-surface-container-low text-[12px] font-numeric-stat border border-outline-variant/30"
-                />
-              </div>
-              <div>
-                <label className="block text-[10.5px] text-on-surface-variant mb-1">ضریب متراژ</label>
-                <input
-                  type="number"
-                  value={ratePerSqm}
-                  onChange={(e) => setRatePerSqm(Number(e.target.value) || 0)}
-                  className="w-full h-9 px-2 rounded-lg bg-surface-container-low text-[12px] font-numeric-stat border border-outline-variant/30"
-                />
-              </div>
-              <div>
-                <label className="block text-[10.5px] text-on-surface-variant mb-1">سرانه نفر</label>
-                <input
-                  type="number"
-                  value={perOccupant}
-                  onChange={(e) => setPerOccupant(Number(e.target.value) || 0)}
-                  className="w-full h-9 px-2 rounded-lg bg-surface-container-low text-[12px] font-numeric-stat border border-outline-variant/30"
-                />
-              </div>
+            <div>
+              <label className="block text-[11px] text-on-surface-variant mb-1">ضریب متراژ</label>
+              <input
+                type="number"
+                value={ratePerSqm}
+                onChange={(e) => setRatePerSqm(Number(e.target.value) || 0)}
+                className="w-full h-10 px-2 rounded-lg bg-surface-container-low text-[12.5px] font-numeric-stat border border-outline-variant/45"
+              />
             </div>
-            <StitchButton
-              className="w-full"
-              icon="check_circle"
-              onClick={() => {
-                setShowIssueModal(false);
-                onFeedback(`قبوض شارژ دوره «${period}» برای ۴۸ واحد صادر و پیامک ابلاغ شد.`);
-              }}
-            >
-              صدور و ارسال پیامک ابلاغ
-            </StitchButton>
+            <div>
+              <label className="block text-[11px] text-on-surface-variant mb-1">سرانه نفر</label>
+              <input
+                type="number"
+                value={perOccupant}
+                onChange={(e) => setPerOccupant(Number(e.target.value) || 0)}
+                className="w-full h-10 px-2 rounded-lg bg-surface-container-low text-[12.5px] font-numeric-stat border border-outline-variant/45"
+              />
+            </div>
           </div>
+          <StitchButton
+            className="w-full"
+            icon="check_circle"
+            onClick={() => {
+              setShowIssueModal(false);
+              onFeedback(`قبوض شارژ دوره «${period}» برای ۴۸ واحد صادر و پیامک ابلاغ شد.`);
+            }}
+          >
+            صدور و ارسال پیامک ابلاغ
+          </StitchButton>
         </div>
-      )}
+      </StitchModal>
     </div>
   );
 };

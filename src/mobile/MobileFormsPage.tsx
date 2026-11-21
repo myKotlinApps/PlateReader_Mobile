@@ -9,6 +9,7 @@ import {
   SubMenuTabs,
   SurfaceCard,
 } from './ui/StitchKit';
+import { IranPlateInput } from './ui/IranPlate';
 
 const DRAFTS_KEY = 'alpr_mobile_form_drafts_v1';
 
@@ -315,6 +316,17 @@ export const MobileFormsPage: React.FC<Props> = ({
                             </option>
                           ))}
                         </select>
+                      </div>
+                    );
+                  }
+                  if (field.name.toLowerCase().includes('plate')) {
+                    return (
+                      <div key={field.name} className="pt-1">
+                        <IranPlateInput
+                          label={field.label}
+                          value={val}
+                          onChange={(formatted) => updateField(currentForm.id, field.name, formatted)}
+                        />
                       </div>
                     );
                   }

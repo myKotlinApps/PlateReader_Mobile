@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { mobileApi, type MobileBootstrap } from './mobileApi';
 import { captureNativePhotoBase64, compressImageFileToBase64 } from './nativeBridge';
 import {
+  EmptyState,
   HeroSummaryCard,
   NoticeBanner,
   SectionHeader,
@@ -11,6 +12,7 @@ import {
   SubMenuTabs,
   SurfaceCard,
 } from './ui/StitchKit';
+import { IranPlateBadge, IranPlateInput } from './ui/IranPlate';
 
 type GuardTab = 'gate' | 'directives' | 'incident';
 const VALID_TABS: GuardTab[] = ['gate', 'directives', 'incident'];
@@ -252,7 +254,7 @@ export const MobileGuardPage: React.FC<Props> = ({
       )}
 
       {tab === 'gate' && (
-        <div className="space-y-3.5">
+        <div className="space-y-3.5 m-panel-in lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0 lg:items-start">
           <SurfaceCard className="space-y-3">
             <SectionHeader
               title="ثبت تردد خودرو و مهمان"
@@ -285,13 +287,11 @@ export const MobileGuardPage: React.FC<Props> = ({
               }
             />
 
-            <form onSubmit={submitEntryExit} className="space-y-2.5">
-              <input
-                type="text"
+            <form onSubmit={submitEntryExit} className="space-y-3">
+              <IranPlateInput
+                label="پلاک خودرو یا وسیله نقلیه"
                 value={plateText}
-                onChange={(e) => setPlateText(e.target.value)}
-                placeholder="پلاک خودرو (مثلاً ۱۲ب۳۴۵-۴۴)"
-                className="w-full h-10 px-3 rounded-xl bg-surface-container-low text-[12.5px] font-numeric-stat border border-outline-variant/30"
+                onChange={setPlateText}
               />
               <div className="grid grid-cols-2 gap-2">
                 <input
@@ -330,36 +330,46 @@ export const MobileGuardPage: React.FC<Props> = ({
 
           <SurfaceCard className="space-y-2.5">
             <SectionHeader title="دفتر تردد اخیر گیت" icon="history" />
-            <div className="divide-y divide-surface-container-high">
-              {(summary?.recent_events ?? []).slice(0, 8).map((ev) => {
-                const isExit = ev.direction === 'exit';
-                return (
-                  <div
-                    key={ev.id}
-                    className="py-2.5 flex items-center justify-between gap-2.5"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <strong className="text-[14px] font-semibold text-on-surface font-numeric-stat block truncate">
-                        {ev.plate_text || ev.guest_name || 'بدون پلاک'}
-                      </strong>
-                      <span className="text-[13px] text-on-surface-variant block truncate mt-0.5">
-                        {ev.unit_label || 'گیت اصلی'} {ev.guest_name ? `• ${ev.guest_name}` : ''}
-                      </span>
+            {(summary?.recent_events ?? []).length === 0 ? (
+              <p className="text-[13px] text-on-surface-variant text-center py-6 mb-0">
+                هنوز ترددی در این شیفت ثبت نشده است.
+              </p>
+            ) : (
+              <div className="divide-y divide-surface-container-high">
+                {(summary?.recent_events ?? []).slice(0, 8).map((ev) => {
+                  const isExit = ev.direction === 'exit';
+                  return (
+                    <div
+                      key={ev.id}
+                      className="py-2.5 flex items-center justify-between gap-2.5"
+                    >
+                      <div className="min-w-0 flex-1 space-y-1">
+                        {ev.plate_text ? (
+                          <IranPlateBadge value={ev.plate_text} size="sm" showTypeLabel />
+                        ) : (
+                          <strong className="text-[14px] font-semibold text-on-surface block truncate">
+                            {ev.guest_name || 'بدون پلاک'}
+                          </strong>
+                        )}
+                        <span className="text-[12.5px] text-on-surface-variant block truncate">
+                          {ev.unit_label || 'گیت اصلی'} {ev.guest_name ? `• ${ev.guest_name}` : ''}
+                        </span>
+                      </div>
+                      <StatusPill
+                        label={isExit ? 'خروج' : 'ورود'}
+                        tone={isExit ? 'neutral' : 'positive'}
+                      />
                     </div>
-                    <StatusPill
-                      label={isExit ? 'خروج' : 'ورود'}
-                      tone={isExit ? 'neutral' : 'positive'}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </SurfaceCard>
         </div>
       )}
 
       {tab === 'directives' && (
-        <div className="space-y-3.5">
+        <div className="space-y-3.5 m-panel-in">
           <SurfaceCard className="space-y-3">
             <SectionHeader title="ابلاغ دستور به گیت" icon="campaign" />
             <form onSubmit={submitDirective} className="space-y-2.5">
@@ -371,24 +381,22 @@ export const MobileGuardPage: React.FC<Props> = ({
                 placeholder="موضوع دستور..."
                 className="w-full h-10 px-3 rounded-xl bg-surface-container-low text-[12.5px] border border-outline-variant/30"
               />
-              <div className="grid grid-cols-2 gap-2">
-                <input
-                  type="text"
-                  value={dirPlate}
-                  onChange={(e) => setDirPlate(e.target.value)}
-                  placeholder="پلاک مرتبط (اختیاری)"
-                  className="w-full h-10 px-3 rounded-xl bg-surface-container-low text-[12.5px] border border-outline-variant/30"
-                />
-                <select
-                  value={dirPriority}
-                  onChange={(e) => setDirPriority(e.target.value as typeof dirPriority)}
-                  className="w-full h-10 px-2.5 rounded-xl bg-surface-container-low text-[12px] border border-outline-variant/30"
-                >
-                  <option value="normal">عادی</option>
-                  <option value="urgent">فوری</option>
-                  <option value="immediate">آنی</option>
-                </select>
-              </div>
+              <IranPlateInput
+                label="پلاک مرتبط با دستور (اختیاری)"
+                value={dirPlate}
+                onChange={setDirPlate}
+                compact
+              />
+              <select
+                aria-label="فوریت دستور"
+                value={dirPriority}
+                onChange={(e) => setDirPriority(e.target.value as typeof dirPriority)}
+                className="w-full h-10 px-2.5 rounded-xl bg-surface-container-low text-[12.5px] border border-outline-variant/45"
+              >
+                <option value="normal">فوریت: عادی</option>
+                <option value="urgent">فوریت: فوری</option>
+                <option value="immediate">فوریت: آنی</option>
+              </select>
               <textarea
                 rows={2}
                 required
@@ -403,7 +411,14 @@ export const MobileGuardPage: React.FC<Props> = ({
             </form>
           </SurfaceCard>
 
-          <div className="space-y-2.5">
+          {(summary?.directives ?? []).length === 0 ? (
+            <EmptyState
+              icon="verified"
+              title="دستور جدیدی در کارتابل انتظامات نیست"
+              description="همه ابلاغیه‌ها انجام شده‌اند یا از فرم بالا می‌توانید دستور جدید ثبت کنید."
+            />
+          ) : (
+          <div className="space-y-2.5 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
             {(summary?.directives ?? []).map((dir) => (
               <SurfaceCard key={dir.id} className="p-3.5 space-y-2">
                 <div className="flex items-start justify-between gap-2">
@@ -466,6 +481,7 @@ export const MobileGuardPage: React.FC<Props> = ({
               </SurfaceCard>
             ))}
           </div>
+          )}
         </div>
       )}
 

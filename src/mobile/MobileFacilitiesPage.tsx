@@ -3,14 +3,17 @@ import { useSearchParams } from 'react-router-dom';
 import { mobileApi } from './mobileApi';
 import { compressImageFileToBase64 } from './nativeBridge';
 import {
+  EmptyState,
   HeroSummaryCard,
   NoticeBanner,
   SectionHeader,
   StatusPill,
   StitchButton,
+  StitchModal,
   SubMenuTabs,
   SurfaceCard,
 } from './ui/StitchKit';
+import { ComplexPageLoader } from './ui/ComplexSpinner';
 
 interface Props {
   onNavigate: (route: string) => void;
@@ -299,7 +302,7 @@ export const MobileFacilitiesPage: React.FC<Props> = ({ onNavigate, onSyncChange
 
       {/* TAB 1: Stitch _18 — Water Leaks Cartable */}
       {tab === 'leaks' && (
-        <div className="space-y-3.5">
+        <div className="space-y-3.5 m-panel-in">
           <HeroSummaryCard
             title="کارتابل حوادث و نشتی آب"
             subtitle="بلوک B پردیس نیلوفر"
@@ -319,10 +322,11 @@ export const MobileFacilitiesPage: React.FC<Props> = ({ onNavigate, onSyncChange
                 </span>
                 <input
                   type="text"
+                  aria-label="جستجوی پرونده یا رایزر"
                   value={leakSearch}
                   onChange={(e) => setLeakSearch(e.target.value)}
                   placeholder="جستجوی پرونده یا رایزر..."
-                  className="w-full h-10 pr-9 pl-3 rounded-xl bg-surface-container-lowest text-[13px] border border-outline-variant/45 focus:outline-none focus:border-primary"
+                  className="w-full h-11 pr-9 pl-3 rounded-xl bg-surface-container-lowest text-[13px] border border-outline-variant/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:border-primary"
                 />
               </div>
               <StitchButton size="md" icon="add" onClick={() => switchTab('report')}>
@@ -341,7 +345,7 @@ export const MobileFacilitiesPage: React.FC<Props> = ({ onNavigate, onSyncChange
                   key={f.id}
                   type="button"
                   onClick={() => setLeakFilter(f.id as typeof leakFilter)}
-                  className={`h-8 px-3 rounded-xl text-[12px] font-medium whitespace-nowrap transition-colors ${
+                  className={`h-8 px-3 rounded-xl text-[12px] font-medium whitespace-nowrap active:scale-[0.96] transition-[transform,background-color,color] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
                     leakFilter === f.id
                       ? 'bg-primary-container text-on-primary-container font-semibold'
                       : 'bg-surface-container-lowest text-on-surface-variant border border-outline-variant/45'
@@ -354,11 +358,20 @@ export const MobileFacilitiesPage: React.FC<Props> = ({ onNavigate, onSyncChange
           </div>
 
           {loadingLeaks ? (
-            <SurfaceCard className="text-center text-[13px] text-on-surface-variant">
-              در حال دریافت پرونده‌ها...
-            </SurfaceCard>
+            <ComplexPageLoader compact label="در حال دریافت پرونده‌های نشتی..." />
+          ) : filteredLeaks.length === 0 ? (
+            <EmptyState
+              icon="water_drop"
+              title="پرونده‌ای با این فیلتر وجود ندارد"
+              description="می‌توانید فیلترها را پاک کنید یا گزارش نشتی جدید ثبت نمایید."
+              actionLabel="پاک کردن فیلترها"
+              onAction={() => {
+                setLeakFilter('all');
+                setLeakSearch('');
+              }}
+            />
           ) : (
-            <div className="space-y-2.5">
+            <div className="space-y-2.5 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
               {filteredLeaks.map((item) => {
                 const isCritical = item.status === 'active';
                 const isResolved = item.status === 'resolved';
@@ -578,14 +591,15 @@ export const MobileFacilitiesPage: React.FC<Props> = ({ onNavigate, onSyncChange
           />
 
           {bpSub === 'docs' && (
-            <div className="space-y-2.5">
+            <div className="space-y-2.5 m-panel-in">
               <div className="flex items-center gap-2">
                 <input
                   type="text"
+                  aria-label="جستجو در نقشه‌ها"
                   value={bpSearch}
                   onChange={(e) => setBpSearch(e.target.value)}
                   placeholder="جستجو در نقشه‌ها..."
-                  className="flex-1 h-10 px-3 rounded-xl bg-surface-container-lowest text-[12.5px] border border-outline-variant/30"
+                  className="flex-1 h-11 px-3 rounded-xl bg-surface-container-lowest text-[13px] border border-outline-variant/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
                 />
                 <StitchButton
                   variant="danger"
@@ -596,29 +610,40 @@ export const MobileFacilitiesPage: React.FC<Props> = ({ onNavigate, onSyncChange
                 </StitchButton>
               </div>
 
-              {filteredBlueprints.map((bp) => (
-                <SurfaceCard key={bp.id} className="p-3.5 flex items-center justify-between gap-2.5">
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-[14px] font-semibold text-on-surface mb-0 truncate">
-                      {bp.title}
-                    </h3>
-                    <p className="text-[13px] text-on-surface-variant mt-0.5 mb-0 truncate">
-                      {bp.category} • {bp.riserCode}
-                    </p>
-                  </div>
-                  <StitchButton
-                    variant="secondary"
-                    size="sm"
-                    icon="zoom_in"
-                    onClick={() => {
-                      setBpZoom(1);
-                      setViewingBlueprint(bp);
-                    }}
-                  >
-                    مشاهده
-                  </StitchButton>
-                </SurfaceCard>
-              ))}
+              {filteredBlueprints.length === 0 ? (
+                <EmptyState
+                  icon="architecture"
+                  title="نقشه‌ای با این عنوان یافت نشد"
+                  actionLabel="نمایش همه نقشه‌ها"
+                  onAction={() => setBpSearch('')}
+                />
+              ) : (
+                <div className="space-y-2.5 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
+                  {filteredBlueprints.map((bp) => (
+                    <SurfaceCard key={bp.id} className="p-3.5 flex items-center justify-between gap-2.5">
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-[14px] font-semibold text-on-surface mb-0 truncate">
+                          {bp.title}
+                        </h3>
+                        <p className="text-[13px] text-on-surface-variant mt-0.5 mb-0 truncate">
+                          {bp.category} • {bp.riserCode}
+                        </p>
+                      </div>
+                      <StitchButton
+                        variant="secondary"
+                        size="sm"
+                        icon="zoom_in"
+                        onClick={() => {
+                          setBpZoom(1);
+                          setViewingBlueprint(bp);
+                        }}
+                      >
+                        مشاهده
+                      </StitchButton>
+                    </SurfaceCard>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -701,34 +726,17 @@ export const MobileFacilitiesPage: React.FC<Props> = ({ onNavigate, onSyncChange
       )}
 
       {/* Modal 1: Incident Detail & Status Update */}
-      {selectedLeak && (
-        <div
-          className="fixed inset-0 z-50 bg-black/45 flex items-end sm:items-center justify-center p-3"
-          role="dialog"
-          aria-modal="true"
-          aria-label={`جزئیات پرونده ${selectedLeak.code}`}
-        >
-          <div className="bg-surface-container-lowest rounded-2xl w-full max-w-md p-4 shadow-floating space-y-3 max-h-[85vh] overflow-y-auto">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-[14px] font-bold text-on-surface mb-0">
-                  پرونده {selectedLeak.code} — {selectedLeak.zone}
-                </h3>
-                <span className="text-[11px] text-on-surface-variant">
-                  {selectedLeak.riser} • فلکه {selectedLeak.valveCode}
-                </span>
-              </div>
-              <button
-                type="button"
-                aria-label="بستن"
-                onClick={() => setSelectedLeak(null)}
-                className="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center"
-              >
-                <span className="material-symbols-outlined text-[18px]">close</span>
-              </button>
-            </div>
-
-            <p className="text-[12px] text-on-surface-variant bg-surface-container-low rounded-xl p-3 mb-0 leading-relaxed">
+      <StitchModal
+        open={Boolean(selectedLeak)}
+        onClose={() => setSelectedLeak(null)}
+        title={selectedLeak ? `پرونده ${selectedLeak.code} — ${selectedLeak.zone}` : ''}
+        subtitle={
+          selectedLeak ? `${selectedLeak.riser} • فلکه ${selectedLeak.valveCode}` : undefined
+        }
+      >
+        {selectedLeak && (
+          <>
+            <p className="text-[13px] text-on-surface-variant bg-surface-container-low rounded-xl p-3 mb-0 leading-relaxed">
               {selectedLeak.description}
             </p>
 
@@ -737,7 +745,7 @@ export const MobileFacilitiesPage: React.FC<Props> = ({ onNavigate, onSyncChange
               value={statusNote}
               onChange={(e) => setStatusNote(e.target.value)}
               placeholder="یادداشت اقدام ناظر (اختیاری)..."
-              className="w-full h-10 px-3 rounded-xl bg-surface-container-low text-[12px] border border-outline-variant/30"
+              className="w-full h-11 px-3 rounded-xl bg-surface-container-low text-[13px] border border-outline-variant/45"
             />
 
             <div className="grid grid-cols-3 gap-1.5">
@@ -780,93 +788,62 @@ export const MobileFacilitiesPage: React.FC<Props> = ({ onNavigate, onSyncChange
             >
               ابلاغ بستن فلکه به گیت نگهبانی
             </StitchButton>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </StitchModal>
 
       {/* Modal 2: Emergency Valve Shut-Off Protocol */}
-      {showShutoffModal && (
-        <div
-          className="fixed inset-0 z-50 bg-black/45 flex items-end sm:items-center justify-center p-3"
-          role="dialog"
-          aria-modal="true"
-          aria-label="پروتکل قطع اضطراری شیر فلکه"
-        >
-          <div className="bg-surface-container-lowest rounded-2xl w-full max-w-md p-4 shadow-floating space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-[14px] font-bold text-error mb-0">
-                دستورالعمل قطع اضطراری فلکه‌ها
-              </h3>
-              <button
-                type="button"
-                aria-label="بستن"
-                onClick={() => setShowShutoffModal(false)}
-                className="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center"
-              >
-                <span className="material-symbols-outlined text-[18px]">close</span>
-              </button>
-            </div>
-            <div className="space-y-2 text-[12px]">
-              <div className="p-2.5 rounded-xl bg-surface-container-low flex items-center justify-between">
-                <span>شیر اصلی آب سرد بلوک B (V-B-MAIN)</span>
-                <StitchButton
-                  variant="danger"
-                  size="sm"
-                  disabled={busy}
-                  onClick={() => void handleDispatchValveToGuard('V-B-MAIN', 'کلکتور اصلی بلوک B')}
-                >
-                  ارسال به گیت
-                </StitchButton>
-              </div>
-              <div className="p-2.5 rounded-xl bg-surface-container-low flex items-center justify-between">
-                <span>شیر رایزر غربی طبقه ۳ (V-B2-03-W)</span>
-                <StitchButton
-                  variant="danger"
-                  size="sm"
-                  disabled={busy}
-                  onClick={() => void handleDispatchValveToGuard('V-B2-03-W', 'رایزر ۲ جناح غربی')}
-                >
-                  ارسال به گیت
-                </StitchButton>
-              </div>
-            </div>
+      <StitchModal
+        open={showShutoffModal}
+        onClose={() => setShowShutoffModal(false)}
+        title="دستورالعمل قطع اضطراری فلکه‌ها"
+        titleTone="danger"
+      >
+        <div className="space-y-2 text-[13px]">
+          <div className="p-2.5 rounded-xl bg-surface-container-low flex items-center justify-between gap-2">
+            <span className="truncate">شیر اصلی آب سرد بلوک B (V-B-MAIN)</span>
+            <StitchButton
+              variant="danger"
+              size="sm"
+              disabled={busy}
+              onClick={() => void handleDispatchValveToGuard('V-B-MAIN', 'کلکتور اصلی بلوک B')}
+            >
+              ارسال به گیت
+            </StitchButton>
+          </div>
+          <div className="p-2.5 rounded-xl bg-surface-container-low flex items-center justify-between gap-2">
+            <span className="truncate">شیر رایزر غربی طبقه ۳ (V-B2-03-W)</span>
+            <StitchButton
+              variant="danger"
+              size="sm"
+              disabled={busy}
+              onClick={() => void handleDispatchValveToGuard('V-B2-03-W', 'رایزر ۲ جناح غربی')}
+            >
+              ارسال به گیت
+            </StitchButton>
           </div>
         </div>
-      )}
+      </StitchModal>
 
       {/* Modal 3: Zoomable As-Built Blueprint Viewer */}
-      {viewingBlueprint && (
-        <div
-          className="fixed inset-0 z-50 bg-black/50 flex items-end sm:items-center justify-center p-3"
-          role="dialog"
-          aria-modal="true"
-          aria-label={viewingBlueprint.title}
-        >
-          <div className="bg-surface-container-lowest rounded-2xl w-full max-w-md p-4 shadow-floating space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-[14px] font-bold text-on-surface mb-0">
-                {viewingBlueprint.title}
-              </h3>
-              <button
-                type="button"
-                aria-label="بستن"
-                onClick={() => setViewingBlueprint(null)}
-                className="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center"
-              >
-                <span className="material-symbols-outlined text-[18px]">close</span>
-              </button>
-            </div>
-
-            <div className="bg-[#0b1c30] text-white rounded-xl p-3 overflow-hidden">
+      <StitchModal
+        open={Boolean(viewingBlueprint)}
+        onClose={() => setViewingBlueprint(null)}
+        title={viewingBlueprint?.title ?? ''}
+        subtitle={viewingBlueprint ? `${viewingBlueprint.category} • ${viewingBlueprint.format}` : undefined}
+      >
+        {viewingBlueprint && (
+          <>
+            <div className="bg-[#1b2533] text-white rounded-xl p-3 overflow-hidden">
               <div
-                className="transition-transform origin-center"
+                className="transition-transform duration-150 origin-center"
                 style={{ transform: `scale(${bpZoom})` }}
               >
                 <svg viewBox="0 0 320 140" className="w-full h-32">
                   <rect x="8" y="8" width="304" height="124" fill="none" stroke="#90a8ff" strokeDasharray="4 4" strokeWidth="1" />
                   <line x1="30" y1="70" x2="290" y2="70" stroke="#85f8c4" strokeWidth="3" />
-                  <circle cx="95" cy="70" r="8" fill="#ba1a1a" />
-                  <circle cx="225" cy="70" r="8" fill="#1e3a8a" stroke="#fff" strokeWidth="2" />
+                  <circle cx="95" cy="70" r="8" fill="#b84448" />
+                  <circle cx="225" cy="70" r="8" fill="#3b5998" stroke="#fff" strokeWidth="2" />
                   <text x="160" y="34" fill="#eaf1ff" fontSize="11" textAnchor="middle">
                     {viewingBlueprint.riserCode}
                   </text>
@@ -880,7 +857,7 @@ export const MobileFacilitiesPage: React.FC<Props> = ({ onNavigate, onSyncChange
                 >
                   −
                 </StitchButton>
-                <span className="text-[11px] font-numeric-stat">
+                <span className="text-[12px] font-numeric-stat">
                   {Math.round(bpZoom * 100).toLocaleString('fa-IR')}٪
                 </span>
                 <StitchButton
@@ -893,14 +870,14 @@ export const MobileFacilitiesPage: React.FC<Props> = ({ onNavigate, onSyncChange
               </div>
             </div>
 
-            <ul className="space-y-1.5 text-[12px] text-on-surface-variant pr-4 mb-0">
+            <ul className="space-y-1.5 text-[13px] text-on-surface-variant pr-4 mb-0">
               {viewingBlueprint.details.map((d, idx) => (
                 <li key={idx}>{d}</li>
               ))}
             </ul>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </StitchModal>
     </div>
   );
 };

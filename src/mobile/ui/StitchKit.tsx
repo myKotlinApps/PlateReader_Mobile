@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 export interface SubMenuTabItem {
   id: string;
@@ -9,7 +10,7 @@ export interface SubMenuTabItem {
 
 /**
  * Unified soft-tonal horizontal segmented sub-menu.
- * Uses calm neutral track + crisp white active pill (Material 3 / modern mobile aesthetic).
+ * Incorporates tactile press feedback (Emil Design Engineering) & strict focus-visible rings (Vercel).
  */
 export const SubMenuTabs: React.FC<{
   items: SubMenuTabItem[];
@@ -27,7 +28,7 @@ export const SubMenuTabs: React.FC<{
     <div
       ref={listRef}
       role="tablist"
-      className={`bg-surface-container-low rounded-2xl p-1 border border-outline-variant/45 flex items-center gap-1 overflow-x-auto no-scrollbar ${className}`}
+      className={`bg-surface-container-low rounded-2xl p-1 shadow-[inset_0_0_0_1px_rgba(27,37,51,0.06)] flex items-center gap-1 overflow-x-auto no-scrollbar ${className}`}
     >
       {items.map((item) => {
         const isActive = item.id === active;
@@ -38,10 +39,10 @@ export const SubMenuTabs: React.FC<{
             role="tab"
             aria-selected={isActive}
             onClick={() => onChange(item.id)}
-            className={`shrink-0 h-9 px-3 rounded-xl text-[13px] flex items-center justify-center gap-1.5 transition-all whitespace-nowrap ${
+            className={`shrink-0 h-9 px-3 rounded-xl text-[13px] flex items-center justify-center gap-1.5 whitespace-nowrap active:scale-[0.97] transition-[transform,background-color,color,box-shadow] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
               isActive
-                ? 'bg-surface-container-lowest text-on-primary-container font-bold shadow-card border border-outline-variant/35'
-                : 'text-on-surface-variant font-medium hover:text-on-surface'
+                ? 'bg-surface-container-lowest text-on-primary-container font-bold shadow-[var(--shadow-surface-ring)]'
+                : 'text-on-surface-variant font-medium hover:text-on-surface hover:bg-surface-container-lowest/50'
             }`}
           >
             {item.icon && (
@@ -91,21 +92,25 @@ export const SectionHeader: React.FC<{
   </div>
 );
 
-/** Unified clean white surface card with subtle hairline border. */
+/**
+ * Unified clean white surface card.
+ * Uses layered hairline shadow instead of harsh border+shadow (Emil Design Engineering).
+ */
 export const SurfaceCard: React.FC<{
   children: React.ReactNode;
   className?: string;
 }> = ({ children, className = '' }) => (
   <section
-    className={`bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant/45 shadow-card ${className}`}
+    className={`bg-surface-container-lowest rounded-2xl p-4 shadow-[var(--shadow-surface-ring)] ${className}`}
   >
     {children}
   </section>
 );
 
 /**
- * Unified Soft Pastel Hero Summary Card.
- * Replaces harsh heavy navy blocks with calm tinted Material 3 surface & balanced Persian type.
+ * Architectural Hero Summary Card (Anti UI Slop + Anthropic + Taste Skill):
+ * - Eliminates generic AI gradients and "cards-within-cards" boxed inner tiles.
+ * - Uses a calm solid tonal header band + unified hairline-divided 3-column tabular KPI strip.
  */
 export const HeroSummaryCard: React.FC<{
   title: string;
@@ -113,8 +118,8 @@ export const HeroSummaryCard: React.FC<{
   badge?: string;
   stats: Array<{ label: string; value: string; accent?: 'default' | 'positive' | 'danger' }>;
 }> = ({ title, subtitle, badge, stats }) => (
-  <section className="bg-gradient-to-l from-primary-container/65 via-surface-container-low to-surface-container-lowest rounded-2xl p-4 border border-outline-variant/50 shadow-card">
-    <div className="flex items-center justify-between gap-2 mb-3">
+  <section className="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[var(--shadow-surface-ring)]">
+    <div className="bg-primary-container/35 px-4 py-3.5 flex items-center justify-between gap-2.5 border-b border-outline-variant/35">
       <div className="min-w-0 flex-1">
         <h2 className="text-[15px] font-bold text-on-surface mb-0 truncate leading-snug">
           {title}
@@ -126,24 +131,23 @@ export const HeroSummaryCard: React.FC<{
         )}
       </div>
       {badge && (
-        <span className="shrink-0 px-2.5 py-1 rounded-lg bg-surface-container-lowest/90 border border-outline-variant/45 text-[12px] font-semibold text-on-primary-container whitespace-nowrap">
-          {badge}
+        <span className="shrink-0 inline-flex items-center gap-1.5 text-[12px] font-semibold text-on-primary-container whitespace-nowrap">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/75 shrink-0" aria-hidden="true" />
+          <span>{badge}</span>
         </span>
       )}
     </div>
-    <div className="grid grid-cols-3 gap-2 pt-3 border-t border-outline-variant/40">
+
+    <div className="grid grid-cols-3 divide-x divide-x-reverse divide-outline-variant/40 bg-surface-container-lowest">
       {stats.map((st, idx) => (
-        <div
-          key={idx}
-          className="bg-surface-container-lowest/85 rounded-xl px-1.5 py-2.5 text-center border border-outline-variant/30 min-w-0"
-        >
+        <div key={idx} className="px-2 py-3 text-center min-w-0">
           <span
-            className={`block text-[14px] font-bold font-numeric-stat leading-snug truncate ${
+            className={`block text-[14.5px] font-bold font-numeric-stat leading-snug truncate ${
               st.accent === 'positive'
                 ? 'text-secondary'
                 : st.accent === 'danger'
                   ? 'text-error'
-                  : 'text-on-primary-container'
+                  : 'text-on-surface'
             }`}
           >
             {st.value}
@@ -157,15 +161,17 @@ export const HeroSummaryCard: React.FC<{
   </section>
 );
 
-/** Unified soft pastel notice / alert banner — 13px legible Persian body. */
+/** Unified soft pastel notice / alert banner with aria-live politeness & entrance motion. */
 export const NoticeBanner: React.FC<{
   message: string;
   tone?: 'info' | 'success' | 'danger';
   onClose?: () => void;
 }> = ({ message, tone = 'info', onClose }) => (
   <div
-    role="alert"
-    className={`rounded-xl px-3.5 py-2.5 text-[13px] font-medium flex items-center justify-between gap-2 border ${
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    className={`m-panel-in rounded-xl px-3.5 py-2.5 text-[13px] font-medium flex items-center justify-between gap-2 border ${
       tone === 'danger'
         ? 'bg-error-container border-error/20 text-on-error-container'
         : tone === 'success'
@@ -188,7 +194,7 @@ export const NoticeBanner: React.FC<{
         type="button"
         aria-label="بستن پیام"
         onClick={onClose}
-        className="w-8 h-8 rounded-full hover:bg-black/5 flex items-center justify-center shrink-0"
+        className="w-9 h-9 rounded-full hover:bg-black/5 active:scale-[0.94] transition-transform flex items-center justify-center shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
       >
         <span className="material-symbols-outlined text-[17px]">close</span>
       </button>
@@ -196,7 +202,10 @@ export const NoticeBanner: React.FC<{
   </div>
 );
 
-/** Unified soft-palette button with identical height, radius, and Persian typography. */
+/**
+ * Unified soft-palette button with tactile press feedback (scale 0.97)
+ * and strict keyboard focus-visible rings.
+ */
 export const StitchButton: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement> & {
     variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
@@ -213,11 +222,11 @@ export const StitchButton: React.FC<
         ? 'bg-error-container text-on-error-container hover:bg-error-container/80 border border-error/15'
         : variant === 'ghost'
           ? 'bg-transparent text-primary hover:bg-primary-container/50'
-          : 'bg-surface-container-low text-on-surface border border-outline-variant/45 hover:bg-surface-container';
+          : 'bg-surface-container-low text-on-surface shadow-[inset_0_0_0_1px_rgba(27,37,51,0.08)] hover:bg-surface-container';
   return (
     <button
       type="button"
-      className={`inline-flex items-center justify-center gap-1.5 font-semibold transition-colors disabled:opacity-50 whitespace-nowrap ${sizeCls} ${variantCls} ${className}`}
+      className={`inline-flex items-center justify-center gap-1.5 font-semibold whitespace-nowrap active:scale-[0.97] transition-[transform,background-color,color,opacity] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-1 disabled:opacity-50 disabled:active:scale-100 ${sizeCls} ${variantCls} ${className}`}
       {...rest}
     >
       {icon && <span className="material-symbols-outlined text-[17px]">{icon}</span>}
@@ -226,24 +235,135 @@ export const StitchButton: React.FC<
   );
 };
 
-/** Unified quiet status indicator — readable 12px Persian, soft pastel tint. */
+/**
+ * Ultra-quiet semantic status indicator (Anthropic Zero-Pill + Taste Skill):
+ * Restrained status dot + crisp 12px Persian label — zero loud badge clutter.
+ */
 export const StatusPill: React.FC<{
   label: string;
   tone?: 'neutral' | 'primary' | 'positive' | 'danger';
 }> = ({ label, tone = 'neutral' }) => {
-  const cls =
+  const textCls =
     tone === 'positive'
-      ? 'bg-secondary-container/80 text-on-secondary-container'
+      ? 'text-on-secondary-container bg-secondary-container/55'
       : tone === 'danger'
-        ? 'bg-error-container text-on-error-container'
+        ? 'text-on-error-container bg-error-container/75'
         : tone === 'primary'
-          ? 'bg-primary-container/75 text-on-primary-container'
-          : 'bg-surface-container-low text-on-surface-variant';
+          ? 'text-on-primary-container bg-primary-container/55'
+          : 'text-on-surface-variant bg-surface-container-low';
+  const dotCls =
+    tone === 'positive'
+      ? 'bg-secondary'
+      : tone === 'danger'
+        ? 'bg-error'
+        : tone === 'primary'
+          ? 'bg-primary'
+          : 'bg-outline';
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 rounded-lg text-[12px] font-medium whitespace-nowrap ${cls}`}
+      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[12px] font-medium whitespace-nowrap ${textCls}`}
     >
-      {label}
+      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotCls}`} aria-hidden="true" />
+      <span>{label}</span>
     </span>
   );
+};
+
+/**
+ * Reusable calm Empty State (Anti UI Slop + Vercel Web Design Guidelines).
+ * Always gives users a clear explanation and a direct recovery action.
+ */
+export const EmptyState: React.FC<{
+  icon: string;
+  title: string;
+  description?: string;
+  actionLabel?: string;
+  onAction?: () => void;
+}> = ({ icon, title, description, actionLabel, onAction }) => (
+  <SurfaceCard className="py-8 px-5 text-center flex flex-col items-center gap-2 m-panel-in">
+    <span className="w-11 h-11 rounded-2xl bg-surface-container-low text-on-surface-variant flex items-center justify-center">
+      <span className="material-symbols-outlined text-[22px]">{icon}</span>
+    </span>
+    <h3 className="text-[14px] font-bold text-on-surface mb-0 mt-1">{title}</h3>
+    {description && (
+      <p className="text-[13px] text-on-surface-variant mb-0 max-w-xs leading-relaxed">
+        {description}
+      </p>
+    )}
+    {actionLabel && onAction && (
+      <div className="pt-2">
+        <StitchButton variant="secondary" size="sm" onClick={onAction}>
+          {actionLabel}
+        </StitchButton>
+      </div>
+    )}
+  </SurfaceCard>
+);
+
+/**
+ * Animated Dialog / Bottom Sheet (Emil Design Engineering + Vercel):
+ * - Enters from translateY(10px) scale(0.97) over 200ms ease-out-quart (never scale(0)).
+ * - Supports Escape key dismissal, backdrop tap-to-close, and 44px accessible close button.
+ */
+export const StitchModal: React.FC<{
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  subtitle?: string;
+  titleTone?: 'default' | 'danger';
+  children: React.ReactNode;
+}> = ({ open, onClose, title, subtitle, titleTone = 'default', children }) => {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const modalNode = (
+    <div
+      dir="rtl"
+      className="fixed inset-0 z-[1100] bg-slate-900/40 backdrop-blur-[2px] flex items-end sm:items-center justify-center px-3 pt-16 pb-[calc(94px+env(safe-area-inset-bottom,0px))] m-backdrop-in"
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="bg-surface-container-lowest rounded-2xl w-full max-w-md p-4 shadow-floating space-y-3 max-h-[calc(100dvh-134px)] overflow-y-auto m-sheet-in">
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0 flex-1">
+            <h3
+              className={`text-[14.5px] font-bold mb-0 leading-snug ${
+                titleTone === 'danger' ? 'text-error' : 'text-on-surface'
+              }`}
+            >
+              {title}
+            </h3>
+            {subtitle && (
+              <span className="text-[12.5px] text-on-surface-variant block mt-0.5 truncate">
+                {subtitle}
+              </span>
+            )}
+          </div>
+          <button
+            type="button"
+            aria-label="بستن"
+            onClick={onClose}
+            className="w-10 h-10 -mt-1 -ml-1 rounded-full hover:bg-surface-container-low active:scale-[0.93] transition-transform flex items-center justify-center shrink-0 text-on-surface-variant focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          >
+            <span className="material-symbols-outlined text-[19px]">close</span>
+          </button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+
+  return typeof document !== 'undefined' ? createPortal(modalNode, document.body) : modalNode;
 };

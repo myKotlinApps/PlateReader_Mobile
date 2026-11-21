@@ -10,6 +10,7 @@ import {
   SubMenuTabs,
   SurfaceCard,
 } from './ui/StitchKit';
+import { IranPlateBadge } from './ui/IranPlate';
 
 interface Props {
   bootstrap: MobileBootstrap;
@@ -76,26 +77,26 @@ export const MobileDashboardPage: React.FC<Props> = ({ bootstrap, outboxCount, o
 
       {/* VIEW 1: Stitch _3 — Clean Mobile Manager Dashboard */}
       {view === 'mobile' && (
-        <div className="space-y-3.5">
+        <div className="space-y-3.5 m-panel-in">
           <HeroSummaryCard
             title="مجتمع مسکونی نیلوفر"
             subtitle={`${bootstrap.user.display_name} • ۴۸ واحد (۳ بلوک)`}
             badge="وصولی ۹۲٪"
             stats={[
-              { label: 'موجودی صندوق (م.ت)', value: '۱۸۴.۵' },
+              { label: 'صندوق (م.ت)', value: '۱۸۴.۵' },
               { label: 'واریزی ماه (م.ت)', value: '۶۸.۲', accent: 'positive' },
               { label: 'هزینه‌ها (م.ت)', value: '۲۴.۹' },
             ]}
           />
 
-          {/* Quick Shortcuts Grid — Calm Tonal */}
+          {/* Quick Shortcuts Grid — Calm Tonal with Tactile Press */}
           <SurfaceCard className="space-y-3">
             <SectionHeader title="دسترسی سریع" icon="apps" />
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4 lg:grid-cols-8 gap-2">
               {[
                 { label: 'واحدها', icon: 'domain', route: 'finance?tab=units' },
+                { label: 'حسابداری', icon: 'account_balance', route: 'finance?tab=accountant' },
                 { label: 'تطبیق بانک', icon: 'document_scanner', route: 'finance?tab=reconcile' },
-                { label: 'پوستر لابی', icon: 'print', route: 'finance?tab=lobby' },
                 { label: 'تنخواه', icon: 'analytics', route: 'finance?tab=petty' },
                 { label: 'نشتی آب', icon: 'water_damage', route: 'facilities?tab=leaks', badge: activeLeaks },
                 { label: 'نقشه‌ها', icon: 'architecture', route: 'facilities?tab=blueprints' },
@@ -106,7 +107,7 @@ export const MobileDashboardPage: React.FC<Props> = ({ bootstrap, outboxCount, o
                   key={item.label}
                   type="button"
                   onClick={() => onNavigate(item.route)}
-                  className="relative flex flex-col items-center justify-center gap-1.5 py-2.5 px-1.5 rounded-xl bg-surface-container-low/75 hover:bg-surface-container transition-colors border border-outline-variant/30"
+                  className="relative flex flex-col items-center justify-center gap-1.5 py-2.5 px-1.5 rounded-xl bg-surface-container-low/75 hover:bg-surface-container active:scale-[0.96] transition-[transform,background-color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] shadow-[inset_0_0_0_1px_rgba(27,37,51,0.05)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
                 >
                   {item.badge && item.badge > 0 ? (
                     <span className="absolute top-1 left-1 min-w-[17px] h-[17px] px-1 rounded-full bg-error text-on-error text-[10.5px] font-bold flex items-center justify-center">
@@ -124,102 +125,104 @@ export const MobileDashboardPage: React.FC<Props> = ({ bootstrap, outboxCount, o
             </div>
           </SurfaceCard>
 
-          {/* Compact Blocks Status */}
-          <SurfaceCard className="space-y-2.5">
-            <SectionHeader
-              title="وضعیت بلوک‌ها"
-              icon="apartment"
-              action={
-                <StitchButton
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onNavigate('finance?tab=units')}
-                >
-                  مشاهده همه
-                </StitchButton>
-              }
-            />
-            <div className="divide-y divide-surface-container-high">
-              {[
-                { code: 'A', name: 'بلوک A (شرقی)', status: 'تسویه کامل', pct: 100, ok: true, route: 'finance?tab=units' },
-                { code: 'B', name: 'بلوک B (غربی)', status: '۳ معوقه • ۱ نشتی', pct: 81, ok: false, route: 'facilities?tab=leaks' },
-                { code: 'C', name: 'بلوک C (مرکزی)', status: '۱ معوقه', pct: 94, ok: true, route: 'finance?tab=units' },
-              ].map((blk) => (
-                <button
-                  key={blk.code}
-                  type="button"
-                  onClick={() => onNavigate(blk.route)}
-                  className="w-full py-2.5 flex items-center justify-between gap-2.5 text-right hover:bg-surface-container-low/50 rounded-xl px-1.5 transition-colors"
-                >
-                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                    <span className="w-9 h-9 rounded-xl bg-primary-container/70 text-on-primary-container font-bold text-[13.5px] flex items-center justify-center shrink-0">
-                      {blk.code}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <strong className="text-[14px] font-semibold text-on-surface block truncate">
-                        {blk.name}
-                      </strong>
-                      <span className="text-[13px] text-on-surface-variant block truncate mt-0.5">
-                        {blk.status}
+          <div className="space-y-3.5 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
+            {/* Compact Blocks Status */}
+            <SurfaceCard className="space-y-2.5">
+              <SectionHeader
+                title="وضعیت بلوک‌ها"
+                icon="apartment"
+                action={
+                  <StitchButton
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onNavigate('finance?tab=units')}
+                  >
+                    مشاهده همه
+                  </StitchButton>
+                }
+              />
+              <div className="divide-y divide-surface-container-high">
+                {[
+                  { code: 'A', name: 'بلوک A (شرقی)', status: 'تسویه کامل', pct: 100, ok: true, route: 'finance?tab=units' },
+                  { code: 'B', name: 'بلوک B (غربی)', status: '۳ معوقه • ۱ نشتی', pct: 81, ok: false, route: 'facilities?tab=leaks' },
+                  { code: 'C', name: 'بلوک C (مرکزی)', status: '۱ معوقه', pct: 94, ok: true, route: 'finance?tab=units' },
+                ].map((blk) => (
+                  <button
+                    key={blk.code}
+                    type="button"
+                    onClick={() => onNavigate(blk.route)}
+                    className="w-full py-2.5 flex items-center justify-between gap-2.5 text-right hover:bg-surface-container-low/60 active:scale-[0.99] rounded-xl px-1.5 transition-[transform,background-color] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                      <span className="w-9 h-9 rounded-xl bg-primary-container/70 text-on-primary-container font-bold text-[13.5px] flex items-center justify-center shrink-0">
+                        {blk.code}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <strong className="text-[14px] font-semibold text-on-surface block truncate">
+                          {blk.name}
+                        </strong>
+                        <span className="text-[13px] text-on-surface-variant block truncate mt-0.5">
+                          {blk.status}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <StatusPill label={`${fa(blk.pct)}٪`} tone={blk.ok ? 'positive' : 'danger'} />
+                      <span className="material-symbols-outlined text-[18px] text-on-surface-variant">
+                        chevron_left
                       </span>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-1.5 shrink-0">
-                    <StatusPill label={`${fa(blk.pct)}٪`} tone={blk.ok ? 'positive' : 'danger'} />
-                    <span className="material-symbols-outlined text-[18px] text-on-surface-variant">
-                      chevron_left
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </SurfaceCard>
-
-          {/* Concise Urgent Alerts */}
-          <SurfaceCard className="space-y-2.5">
-            <SectionHeader title="موارد نیازمند اقدام" icon="notifications_active" />
-            <button
-              type="button"
-              onClick={() => onNavigate('facilities?tab=leaks')}
-              className="w-full p-3 rounded-xl bg-error-container/55 border border-error/15 flex items-center justify-between gap-2.5 text-right"
-            >
-              <div className="min-w-0 flex-1">
-                <strong className="text-[14px] font-semibold text-on-error-container block truncate">
-                  نشتی بحرانی #TR-8842 — واحد ۳۰۲ بلوک B
-                </strong>
-                <span className="text-[13px] text-on-surface-variant block truncate mt-0.5">
-                  شیر فلکه V-B2-03-W قطع شد • مهندس صابری در مسیر
-                </span>
+                  </button>
+                ))}
               </div>
-              <span className="material-symbols-outlined text-[18px] text-error shrink-0">
-                chevron_left
-              </span>
-            </button>
+            </SurfaceCard>
 
-            <button
-              type="button"
-              onClick={() => onNavigate('finance?tab=voucher')}
-              className="w-full p-3 rounded-xl bg-surface-container-low/80 border border-outline-variant/35 flex items-center justify-between gap-2.5 text-right"
-            >
-              <div className="min-w-0 flex-1">
-                <strong className="text-[14px] font-semibold text-on-surface block truncate">
-                  سند پایا VCH-402-882 — اورهال بوسترپمپ
-                </strong>
-                <span className="text-[13px] text-on-surface-variant block truncate mt-0.5">
-                  ۱۸,۵۰۰,۰۰۰ تومان • آماده تایید نهایی
+            {/* Concise Urgent Alerts */}
+            <SurfaceCard className="space-y-2.5">
+              <SectionHeader title="موارد نیازمند اقدام" icon="notifications_active" />
+              <button
+                type="button"
+                onClick={() => onNavigate('facilities?tab=leaks')}
+                className="w-full p-3 rounded-xl bg-error-container/50 hover:bg-error-container/70 active:scale-[0.985] transition-[transform,background-color] duration-150 border border-error/15 flex items-center justify-between gap-2.5 text-right focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/40"
+              >
+                <div className="min-w-0 flex-1">
+                  <strong className="text-[14px] font-semibold text-on-error-container block truncate">
+                    نشتی بحرانی #TR-8842 — واحد ۳۰۲ بلوک B
+                  </strong>
+                  <span className="text-[13px] text-on-surface-variant block truncate mt-0.5">
+                    شیر فلکه V-B2-03-W قطع شد • مهندس صابری در مسیر
+                  </span>
+                </div>
+                <span className="material-symbols-outlined text-[18px] text-error shrink-0">
+                  chevron_left
                 </span>
-              </div>
-              <span className="material-symbols-outlined text-[18px] text-primary shrink-0">
-                chevron_left
-              </span>
-            </button>
-          </SurfaceCard>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => onNavigate('finance?tab=voucher')}
+                className="w-full p-3 rounded-xl bg-surface-container-low/80 hover:bg-surface-container active:scale-[0.985] transition-[transform,background-color] duration-150 border border-outline-variant/35 flex items-center justify-between gap-2.5 text-right focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+              >
+                <div className="min-w-0 flex-1">
+                  <strong className="text-[14px] font-semibold text-on-surface block truncate">
+                    سند پایا VCH-402-882 — اورهال بوسترپمپ
+                  </strong>
+                  <span className="text-[13px] text-on-surface-variant block truncate mt-0.5">
+                    ۱۸,۵۰۰,۰۰۰ تومان • آماده تایید نهایی
+                  </span>
+                </div>
+                <span className="material-symbols-outlined text-[18px] text-primary shrink-0">
+                  chevron_left
+                </span>
+              </button>
+            </SurfaceCard>
+          </div>
         </div>
       )}
 
       {/* VIEW 2: Stitch _1 — Complex Overview (Split into Sub-Menus: Tickets vs Ledger) */}
       {view === 'overview' && (
-        <div className="space-y-3.5">
+        <div className="space-y-3.5 m-panel-in">
           <HeroSummaryCard
             title="نمای جامع مجتمع نیلوفر"
             subtitle="تیکت‌های ساکنین و گردش صندوق"
@@ -270,7 +273,8 @@ export const MobileDashboardPage: React.FC<Props> = ({ bootstrap, outboxCount, o
                 {
                   id: 't2',
                   unit: 'واحد ۱۰۴ بلوک A',
-                  title: 'ثبت پلاک خودرو دوم (۶۸د۷۹۱-۲۲)',
+                  title: 'ثبت پلاک خودرو دوم ساکن',
+                  plate: '۶۸ د ۷۹۱ - ایران ۲۲',
                   tag: 'گیت',
                   route: 'guard?tab=gate',
                 },
@@ -289,13 +293,16 @@ export const MobileDashboardPage: React.FC<Props> = ({ bootstrap, outboxCount, o
                     className="p-3 rounded-xl bg-surface-container-low border border-outline-variant/20 space-y-2"
                   >
                     <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0 flex-1">
+                      <div className="min-w-0 flex-1 space-y-1">
                         <h4 className="text-[14px] font-semibold text-on-surface mb-0 truncate">
                           {tk.title}
                         </h4>
-                        <span className="text-[13px] text-on-surface-variant block truncate mt-0.5">
+                        <span className="text-[13px] text-on-surface-variant block truncate">
                           {tk.unit}
                         </span>
+                        {'plate' in tk && tk.plate && (
+                          <IranPlateBadge value={tk.plate} size="sm" />
+                        )}
                       </div>
                       <StatusPill label={done ? 'انجام شد' : tk.tag} tone={done ? 'positive' : 'danger'} />
                     </div>
@@ -373,7 +380,7 @@ export const MobileDashboardPage: React.FC<Props> = ({ bootstrap, outboxCount, o
 
       {/* VIEW 3: Stitch _7 — Executive Panel (Split into Sub-Menus: Approvals vs Capital Projects) */}
       {view === 'executive' && (
-        <div className="space-y-3.5">
+        <div className="space-y-3.5 m-panel-in">
           <HeroSummaryCard
             title="مدیریت عالی شهرک نیلوفر"
             subtitle="شورای راهبردی و پروژه‌های کلان"

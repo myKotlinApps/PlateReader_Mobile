@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { mobileApi, type MobileBootstrap } from './mobileApi';
 import {
+  EmptyState,
   HeroSummaryCard,
   NoticeBanner,
   SectionHeader,
@@ -190,7 +191,7 @@ export const MobileLettersPage: React.FC<Props> = ({
 
       {/* VIEW 1: Stitch _10 Cartable */}
       {view === 'cartable' && (
-        <div className="space-y-3.5">
+        <div className="space-y-3.5 m-panel-in">
           <HeroSummaryCard
             title="دبیرخانه بلوک B (یاسمن)"
             subtitle="ارتباط رسمی با هیئت‌مدیره و انتظامات"
@@ -224,38 +225,48 @@ export const MobileLettersPage: React.FC<Props> = ({
             </StitchButton>
           </div>
 
-          <div className="space-y-2.5">
-            {items.map((item, idx) => (
-              <SurfaceCard key={item.id ?? idx} className="p-3.5 space-y-2">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-[14px] font-semibold text-on-surface mb-0 truncate">
-                      {item.subject}
-                    </h3>
-                    <p className="text-[13px] text-on-surface-variant mt-0.5 mb-0 truncate">
-                      {item.sender_title || 'دبیرخانه شهرک'} • {item.jalali_date_str || '۱۴۰۵/۰۸/۲۹'}
-                    </p>
+          {items.length === 0 ? (
+            <EmptyState
+              icon="mark_email_read"
+              title={folder === 'inbox' ? 'نامه‌ای در کارتابل وارده نیست' : 'نامه صادره‌ای ثبت نشده است'}
+              description="برای شروع مکاتبه رسمی با هیئت‌مدیره یا انتظامات، نامه جدید بنویسید."
+              actionLabel="نگارش نامه جدید"
+              onAction={() => switchView('compose')}
+            />
+          ) : (
+            <div className="space-y-2.5 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
+              {items.map((item, idx) => (
+                <SurfaceCard key={item.id ?? idx} className="p-3.5 space-y-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-[14px] font-semibold text-on-surface mb-0 truncate">
+                        {item.subject}
+                      </h3>
+                      <p className="text-[13px] text-on-surface-variant mt-0.5 mb-0 truncate">
+                        {item.sender_title || 'دبیرخانه شهرک'} • {item.jalali_date_str || '۱۴۰۵/۰۸/۲۹'}
+                      </p>
+                    </div>
+                    <StatusPill label={item.lifecycle_state || 'وارده'} tone="primary" />
                   </div>
-                  <StatusPill label={item.lifecycle_state || 'وارده'} tone="primary" />
-                </div>
-                <div className="flex items-center justify-between pt-2 border-t border-surface-container-high text-[12.5px]">
-                  <span className="text-on-surface-variant font-numeric-stat">
-                    شماره {item.indicator_number || 'NL-B-1402'}
-                  </span>
-                  <StitchButton
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      setSelectedLetter(item);
-                      switchView('detail');
-                    }}
-                  >
-                    باز کردن
-                  </StitchButton>
-                </div>
-              </SurfaceCard>
-            ))}
-          </div>
+                  <div className="flex items-center justify-between pt-2 border-t border-surface-container-high text-[12.5px]">
+                    <span className="text-on-surface-variant font-numeric-stat">
+                      شماره {item.indicator_number || 'NL-B-1402'}
+                    </span>
+                    <StitchButton
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setSelectedLetter(item);
+                        switchView('detail');
+                      }}
+                    >
+                      باز کردن
+                    </StitchButton>
+                  </div>
+                </SurfaceCard>
+              ))}
+            </div>
+          )}
         </div>
       )}
 

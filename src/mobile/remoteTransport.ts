@@ -9,6 +9,7 @@
  */
 import { encryptRelayEnvelope } from './cryptoRelay';
 import { secureGetItem, secureRemoveItem, secureSetItem, TOKEN_STORE_KEY } from './nativeBridge';
+import { beginNetworkFetch, endNetworkFetch } from './ui/ComplexSpinner';
 
 export interface EndpointEntry {
   kind: 'lan' | 'tunnel' | 'vps' | 'relay' | 'origin';
@@ -222,6 +223,19 @@ async function tryRefreshAuth(baseUrls: EndpointEntry[], auth: MobileAuthState):
 }
 
 export async function remoteApiRequest<T>(
+  path: string,
+  init: RequestInit = {},
+  opts: { allowOfflineQueue?: boolean; offlineLabel?: string } = {},
+): Promise<{ data?: T; queuedOffline?: boolean; via: string }> {
+  beginNetworkFetch();
+  try {
+    return await executeRemoteApiRequest<T>(path, init, opts);
+  } finally {
+    endNetworkFetch();
+  }
+}
+
+async function executeRemoteApiRequest<T>(
   path: string,
   init: RequestInit = {},
   opts: { allowOfflineQueue?: boolean; offlineLabel?: string } = {},

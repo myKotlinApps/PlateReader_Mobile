@@ -6,9 +6,11 @@ import {
   SectionHeader,
   StatusPill,
   StitchButton,
+  StitchModal,
   SubMenuTabs,
   SurfaceCard,
 } from '../ui/StitchKit';
+import { ComplexPageLoader } from '../ui/ComplexSpinner';
 
 interface Props {
   onNavigate?: (route: string) => void;
@@ -102,11 +104,7 @@ export const FinancePettyCashTab: React.FC<Props> = ({
   };
 
   if (loading && !state) {
-    return (
-      <SurfaceCard className="text-center text-[13px] text-on-surface-variant">
-        در حال بارگذاری گزارش تنخواه...
-      </SurfaceCard>
-    );
+    return <ComplexPageLoader compact label="در حال بارگذاری گزارش تنخواه..." />;
   }
 
   const approvedCap = Number(state?.approvedCapTomans || 65_000_000);
@@ -148,7 +146,7 @@ export const FinancePettyCashTab: React.FC<Props> = ({
 
       {/* SUB 1: Categories & Scope Controls */}
       {sub === 'overview' && (
-        <div className="space-y-3">
+        <div className="space-y-3 m-panel-in">
           <div className="flex items-center justify-between gap-2 overflow-x-auto no-scrollbar">
             <div className="flex items-center gap-1.5">
               {PERIODS.map((p) => (
@@ -156,7 +154,7 @@ export const FinancePettyCashTab: React.FC<Props> = ({
                   key={p}
                   type="button"
                   onClick={() => setPeriod(p)}
-                  className={`h-8 px-3 rounded-xl text-[12px] font-medium whitespace-nowrap transition-colors ${
+                  className={`h-8 px-3 rounded-xl text-[12px] font-medium whitespace-nowrap active:scale-[0.96] transition-[transform,background-color,color] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
                     period === p
                       ? 'bg-primary-container text-on-primary-container font-semibold'
                       : 'bg-surface-container-lowest text-on-surface-variant border border-outline-variant/45'
@@ -175,7 +173,7 @@ export const FinancePettyCashTab: React.FC<Props> = ({
             </StitchButton>
           </div>
 
-          <div className="space-y-2.5">
+          <div className="space-y-2.5 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
             {categories.map((cat) => {
               const metrics = computeBudgetVariance(cat.spentTomans, cat.budgetTomans);
               return (
@@ -352,62 +350,44 @@ export const FinancePettyCashTab: React.FC<Props> = ({
       )}
 
       {/* Replenish Modal */}
-      {showReplenish && (
-        <div
-          className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-end sm:items-center justify-center p-3"
-          role="dialog"
-          aria-modal="true"
-          aria-label="درخواست شارژ مجدد تنخواه"
-        >
-          <form
-            onSubmit={handleReplenishSubmit}
-            className="bg-surface-container-lowest rounded-2xl w-full max-w-md p-4 shadow-floating space-y-3"
-          >
-            <div className="flex items-center justify-between">
-              <h4 className="text-[15px] font-bold text-on-surface mb-0">
-                درخواست شارژ مجدد تنخواه
-              </h4>
-              <button
-                type="button"
-                aria-label="بستن"
-                onClick={() => setShowReplenish(false)}
-                className="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center"
-              >
-                <span className="material-symbols-outlined text-[18px]">close</span>
-              </button>
-            </div>
-            <div>
-              <label className="block text-[13px] font-medium text-on-surface-variant mb-1">
-                مبلغ درخواستی (تومان)
-              </label>
-              <input
-                type="number"
-                required
-                min={1000000}
-                step={500000}
-                value={repAmount}
-                onChange={(e) => setRepAmount(e.target.value)}
-                className="w-full h-10 px-3 rounded-xl bg-surface-container-low text-on-surface font-numeric-stat font-semibold text-[13.5px] border border-outline-variant/45"
-              />
-            </div>
-            <div>
-              <label className="block text-[13px] font-medium text-on-surface-variant mb-1">
-                توضیح هزینه
-              </label>
-              <textarea
-                rows={3}
-                required
-                value={repReason}
-                onChange={(e) => setRepReason(e.target.value)}
-                className="w-full p-3 rounded-xl bg-surface-container-low text-on-surface text-[13.5px] border border-outline-variant/45"
-              />
-            </div>
-            <StitchButton type="submit" disabled={busy} icon="send" className="w-full">
-              {busy ? 'در حال ثبت...' : 'ارسال به خزانه‌دار'}
-            </StitchButton>
-          </form>
-        </div>
-      )}
+      <StitchModal
+        open={showReplenish}
+        onClose={() => setShowReplenish(false)}
+        title="درخواست شارژ مجدد تنخواه"
+        subtitle={SCOPES[scopeIdx]}
+      >
+        <form onSubmit={handleReplenishSubmit} className="space-y-3">
+          <div>
+            <label className="block text-[13px] font-medium text-on-surface-variant mb-1">
+              مبلغ درخواستی (تومان)
+            </label>
+            <input
+              type="number"
+              required
+              min={1000000}
+              step={500000}
+              value={repAmount}
+              onChange={(e) => setRepAmount(e.target.value)}
+              className="w-full h-11 px-3 rounded-xl bg-surface-container-low text-on-surface font-numeric-stat font-semibold text-[13.5px] border border-outline-variant/45"
+            />
+          </div>
+          <div>
+            <label className="block text-[13px] font-medium text-on-surface-variant mb-1">
+              توضیح هزینه
+            </label>
+            <textarea
+              rows={3}
+              required
+              value={repReason}
+              onChange={(e) => setRepReason(e.target.value)}
+              className="w-full p-3 rounded-xl bg-surface-container-low text-on-surface text-[13.5px] border border-outline-variant/45"
+            />
+          </div>
+          <StitchButton type="submit" disabled={busy} icon="send" className="w-full">
+            {busy ? 'در حال ثبت...' : 'ارسال به خزانه‌دار'}
+          </StitchButton>
+        </form>
+      </StitchModal>
     </div>
   );
 };

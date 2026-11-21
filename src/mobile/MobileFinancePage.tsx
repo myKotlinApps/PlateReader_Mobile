@@ -7,14 +7,18 @@ import { FinanceLobbyPosterTab } from './finance/FinanceLobbyPosterTab';
 import { FinanceAccountantTab } from './finance/FinanceAccountantTab';
 import { FinancePettyCashTab } from './finance/FinancePettyCashTab';
 import {
+  EmptyState,
   HeroSummaryCard,
   NoticeBanner,
   SectionHeader,
   StatusPill,
   StitchButton,
+  StitchModal,
   SubMenuTabs,
   SurfaceCard,
 } from './ui/StitchKit';
+import { IranPlateBadge } from './ui/IranPlate';
+import { ComplexPageLoader } from './ui/ComplexSpinner';
 
 type FinanceTab =
   | 'units'
@@ -247,7 +251,7 @@ export const MobileFinancePage: React.FC<Props> = ({ onNavigate, onSyncChanged }
 
       {/* TAB 1: Stitch _4 — Units & Blocks + Unit Dossier Modal */}
       {subTab === 'units' && (
-        <div className="space-y-3.5">
+        <div className="space-y-3.5 m-panel-in">
           <HeroSummaryCard
             title="مدیریت بلوک‌ها و واحدها"
             subtitle={`۴۸ واحد در ۳ بلوک • ${enrichedUnits.length.toLocaleString('fa-IR')} پرونده فعال`}
@@ -275,10 +279,11 @@ export const MobileFinancePage: React.FC<Props> = ({ onNavigate, onSyncChanged }
               </span>
               <input
                 type="text"
+                aria-label="جستجوی واحد، ساکن یا پلاک"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="جستجوی واحد، ساکن یا پلاک..."
-                className="w-full h-10 pr-9 pl-3 rounded-xl bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant/70 text-[12.5px] border border-outline-variant/30 focus:outline-none focus:border-primary"
+                className="w-full h-11 pr-9 pl-3 rounded-xl bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant/70 text-[13px] border border-outline-variant/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:border-primary"
               />
             </div>
 
@@ -289,7 +294,7 @@ export const MobileFinancePage: React.FC<Props> = ({ onNavigate, onSyncChanged }
                     key={blk}
                     type="button"
                     onClick={() => setBlockFilter(blk)}
-                    className={`h-8 px-3 rounded-xl text-[12px] font-medium transition-colors whitespace-nowrap ${
+                    className={`h-8 px-3 rounded-xl text-[12px] font-medium active:scale-[0.96] transition-[transform,background-color,color] duration-150 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
                       blockFilter === blk
                         ? 'bg-primary-container text-on-primary-container font-semibold'
                         : 'bg-surface-container-lowest text-on-surface-variant border border-outline-variant/45'
@@ -305,7 +310,7 @@ export const MobileFinancePage: React.FC<Props> = ({ onNavigate, onSyncChanged }
                     key={st}
                     type="button"
                     onClick={() => setStatusFilter(st)}
-                    className={`h-8 px-2.5 rounded-xl text-[12px] font-medium transition-colors whitespace-nowrap ${
+                    className={`h-8 px-2.5 rounded-xl text-[12px] font-medium active:scale-[0.96] transition-[transform,background-color,color] duration-150 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
                       statusFilter === st
                         ? 'bg-primary-container text-on-primary-container font-semibold'
                         : 'bg-surface-container-low text-on-surface-variant'
@@ -319,13 +324,23 @@ export const MobileFinancePage: React.FC<Props> = ({ onNavigate, onSyncChanged }
           </div>
 
           {loading ? (
-            <SurfaceCard className="text-center text-[12.5px] text-on-surface-variant">
-              در حال دریافت اطلاعات...
-            </SurfaceCard>
+            <ComplexPageLoader compact label="در حال دریافت اطلاعات واحدها..." />
           ) : error ? (
             <NoticeBanner message={error} tone="danger" />
+          ) : filteredUnits.length === 0 ? (
+            <EmptyState
+              icon="domain_disabled"
+              title="واحدی با این فیلتر پیدا نشد"
+              description="فیلتر بلوک، وضعیت تسویه یا عبارت جستجو را پاک کنید تا همه واحدها نمایش داده شوند."
+              actionLabel="پاک کردن فیلترها"
+              onAction={() => {
+                setBlockFilter('ALL');
+                setStatusFilter('all');
+                setSearchQuery('');
+              }}
+            />
           ) : (
-            <div className="space-y-2.5">
+            <div className="space-y-2.5 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
               {filteredUnits.map((unit) => {
                 const inDebt = unit.debtRials > 0;
                 return (
@@ -353,13 +368,12 @@ export const MobileFinancePage: React.FC<Props> = ({ onNavigate, onSyncChanged }
                       />
                     </div>
 
-                    {/* Concise Metadata Strip */}
-                    <div className="grid grid-cols-3 gap-2 px-3 py-2 rounded-xl bg-surface-container-low text-[12px] text-on-surface-variant">
-                      <span className="truncate">پارکینگ {unit.parkingLabel}</span>
-                      <span className="truncate">انباری {unit.storageLabel}</span>
-                      <span className="truncate font-numeric-stat font-medium text-on-surface">
-                        {unit.plateText}
+                    {/* Concise Metadata Strip with Authentic Iranian Plate */}
+                    <div className="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-surface-container-low text-[12px] text-on-surface-variant flex-wrap">
+                      <span className="truncate">
+                        پارکینگ {unit.parkingLabel} • انباری {unit.storageLabel}
                       </span>
+                      <IranPlateBadge value={unit.plateText} size="sm" />
                     </div>
 
                     {/* Financial Status & Unified Actions */}
@@ -565,34 +579,21 @@ export const MobileFinancePage: React.FC<Props> = ({ onNavigate, onSyncChanged }
       )}
 
       {/* Missing Screen Built: Unit Dossier Modal (پرونده کامل واحد) */}
-      {selectedUnit && (
-        <div
-          className="fixed inset-0 z-50 bg-black/45 flex items-end sm:items-center justify-center p-3"
-          role="dialog"
-          aria-modal="true"
-          aria-label={`پرونده واحد ${selectedUnit.unitNumber}`}
-        >
-          <div className="bg-surface-container-lowest rounded-2xl w-full max-w-md p-4 shadow-floating space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-[14px] font-bold text-on-surface mb-0">
-                  پرونده واحد {selectedUnit.unitNumber} — {selectedUnit.residentName}
-                </h3>
-                <span className="text-[11px] text-on-surface-variant">
-                  {selectedUnit.floorLabel} • {selectedUnit.roleLabel}
-                </span>
-              </div>
-              <button
-                type="button"
-                aria-label="بستن"
-                onClick={() => setSelectedUnit(null)}
-                className="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center"
-              >
-                <span className="material-symbols-outlined text-[18px]">close</span>
-              </button>
-            </div>
-
-            <div className="bg-surface-container-low rounded-xl p-3 space-y-1.5 text-[12px]">
+      <StitchModal
+        open={Boolean(selectedUnit)}
+        onClose={() => setSelectedUnit(null)}
+        title={
+          selectedUnit
+            ? `پرونده واحد ${selectedUnit.unitNumber} — ${selectedUnit.residentName}`
+            : ''
+        }
+        subtitle={
+          selectedUnit ? `${selectedUnit.floorLabel} • ${selectedUnit.roleLabel}` : undefined
+        }
+      >
+        {selectedUnit && (
+          <>
+            <div className="bg-surface-container-low rounded-xl p-3 space-y-1.5 text-[12.5px]">
               <div className="flex justify-between">
                 <span className="text-on-surface-variant">تلفن ثبت‌شده:</span>
                 <strong className="font-numeric-stat">{selectedUnit.phone}</strong>
@@ -603,9 +604,9 @@ export const MobileFinancePage: React.FC<Props> = ({ onNavigate, onSyncChanged }
                   {selectedUnit.parkingLabel} / {selectedUnit.storageLabel}
                 </strong>
               </div>
-              <div className="flex justify-between">
+              <div className="flex items-center justify-between gap-2 pt-1">
                 <span className="text-on-surface-variant">پلاک مجاز ALPR:</span>
-                <strong className="text-primary font-numeric-stat">{selectedUnit.plateText}</strong>
+                <IranPlateBadge value={selectedUnit.plateText} size="md" />
               </div>
             </div>
 
@@ -620,7 +621,7 @@ export const MobileFinancePage: React.FC<Props> = ({ onNavigate, onSyncChanged }
                     onNavigate(`guard?tab=gate&plate=${encodeURIComponent(plate)}`);
                   }}
                 >
-                  ثبت تردد پلاک در گیت
+                  ثبت تردد در گیت
                 </StitchButton>
               )}
               {onNavigate && (
@@ -632,13 +633,13 @@ export const MobileFinancePage: React.FC<Props> = ({ onNavigate, onSyncChanged }
                     onNavigate('facilities?tab=report');
                   }}
                 >
-                  ثبت گزارش تاسیسات
+                  گزارش تاسیسات
                 </StitchButton>
               )}
             </div>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </StitchModal>
     </div>
   );
 };
