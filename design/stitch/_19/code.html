@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "tertiary-container": "#860011", "inverse-on-surface": "#eaf1ff", "surface-container": "#e5eeff", "primary": "#00236f", "on-tertiary-fixed": "#410004", "surface-container-low": "#eff4ff", "surface-tint": "#4059aa", "surface-container-highest": "#d3e4fe", "tertiary-fixed": "#ffdad7", "on-tertiary": "#ffffff", "on-primary": "#ffffff", "surface-container-lowest": "#ffffff", "on-primary-fixed": "#00164e", "tertiary-fixed-dim": "#ffb3ad", "secondary-container": "#82f5c1", "on-error": "#ffffff", "surface-variant": "#d3e4fe", "error": "#ba1a1a", "surface": "#f8f9ff", "error-container": "#ffdad6", "on-secondary": "#ffffff", "on-error-container": "#93000a", "on-background": "#0b1c30", "on-secondary-fixed": "#002114", "inverse-primary": "#b6c4ff", "on-primary-container": "#90a8ff", "secondary-fixed": "#85f8c4", "tertiary": "#5c0008", "primary-fixed": "#dce1ff", "on-surface": "#0b1c30", "primary-fixed-dim": "#b6c4ff", "on-secondary-fixed-variant": "#005137", "outline": "#757682", "surface-dim": "#cbdbf5", "inverse-surface": "#213145", "on-tertiary-fixed-variant": "#930013", "outline-variant": "#c5c5d3", "secondary": "#006c4a", "on-secondary-container": "#00714e", "on-surface-variant": "#444651", "secondary-fixed-dim": "#68dba9", "on-primary-fixed-variant": "#264191", "primary-container": "#1e3a8a", "on-tertiary-container": "#ff8a83", "surface-container-high": "#dce9ff", "background": "#f8f9ff", "surface-bright": "#f8f9ff" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "gutter": "1rem", "space-xs": "0.25rem", "space-md": "1rem", "gutter-mobile": "0.75rem", "margin": "1.25rem", "margin-mobile": "1rem", "space-xl": "2rem", "space-sm": "0.5rem", "space-lg": "1.5rem" }, fontFamily: { "label-sm": ["Vazirmatn"], "body-md": ["Vazirmatn"], "body-sm": ["Vazirmatn"], "label-md": ["Vazirmatn"], "headline-lg": ["Vazirmatn"], "headline-lg-mobile": ["Vazirmatn"], "body-lg": ["Vazirmatn"], "label-lg": ["Vazirmatn"], "headline-md": ["Vazirmatn"], "display-lg": ["Vazirmatn"], "headline-sm": ["Vazirmatn"], "numeric-stat": ["Vazirmatn"] }, fontSize: { "label-sm": ["11px", { lineHeight: "14px", fontWeight: "500" }], "body-md": ["14px", { lineHeight: "22px", fontWeight: "400" }], "body-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }], "label-md": ["12px", { lineHeight: "16px", fontWeight: "500" }], "headline-lg": ["28px", { lineHeight: "38px", fontWeight: "700" }], "headline-lg-mobile": ["22px", { lineHeight: "32px", fontWeight: "700" }], "body-lg": ["16px", { lineHeight: "26px", fontWeight: "400" }], "label-lg": ["14px", { lineHeight: "20px", fontWeight: "600" }], "headline-md": ["20px", { lineHeight: "30px", fontWeight: "700" }], "display-lg": ["36px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "800" }], "headline-sm": ["17px", { lineHeight: "26px", fontWeight: "600" }], "numeric-stat": ["24px", { lineHeight: "32px", fontWeight: "700" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#f8f9ff;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-margin-mobile flex items-center justify-between"><div class="flex items-center gap-space-xs"><button aria-label="بازگشت" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_forward</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface truncate pr-space-xs">گزارش چاپی تراز شارژ لابی</h1></div><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-safe bg-surface px-margin-mobile"><div class="flex flex-col w-full pb-20 select-none">
+<!-- Print Control Bar (Top Utilities) -->
+<div class="w-full bg-surface-container-lowest rounded-xl shadow-sm p-margin-mobile mb-margin flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">print</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">پیش‌نمایش نسخه تابلوی اعلانات</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant">قطع استاندارد A4 عمودی | کد سند: B-NOT-1403-08</p>
+</div>
+</div>
+<span class="bg-surface-container-high px-space-xs py-0.5 rounded-full font-label-sm text-label-sm text-primary font-semibold">
+        ۳۰ آبان ۱۴۰۳
+      </span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs pt-space-xs">
+<button class="flex items-center justify-center gap-1 bg-primary text-on-primary py-2 px-space-xs rounded-lg font-label-md text-label-md hover:bg-surface-tint active:scale-95 transition-all shadow-sm" onclick="window.print()">
+<span class="material-symbols-outlined text-[18px]">print</span>
+<span>چاپ مستقیم A4</span>
+</button>
+<button class="flex items-center justify-center gap-1 bg-surface-container-high text-primary py-2 px-space-xs rounded-lg font-label-md text-label-md hover:bg-surface-container-highest active:scale-95 transition-all" id="privacyToggleBtn" onclick="togglePrivacyMode()">
+<span class="material-symbols-outlined text-[18px]" id="privacyIcon">visibility_off</span>
+<span id="privacyLabel">مخفی‌سازی اسامی</span>
+</button>
+<button class="flex items-center justify-center gap-1 bg-surface-container text-on-surface py-2 px-space-xs rounded-lg font-label-md text-label-md hover:bg-surface-variant active:scale-95 transition-all" onclick="window.print()">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+<span>دانلود PDF</span>
+</button>
+</div>
+</div>
+<div class="w-full bg-surface-container-lowest rounded-xl shadow-md p-4 sm:p-6 text-on-surface relative overflow-hidden flex flex-col gap-space-md" id="printSheet">
+<div class="absolute -right-12 -top-12 w-48 h-48 rounded-full bg-surface-container-highest/25 pointer-events-none flex items-center justify-center">
+<span class="material-symbols-outlined text-primary/10 text-[140px]">apartment</span>
+</div>
+<div class="flex items-start justify-between pb-space-sm bg-surface-container-low/60 p-3 rounded-lg relative z-10">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[28px]">domain</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-primary">مجموعه مسکونی و برج‌های پردیس نیلوفر</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">هیئت مدیره و دفتر مدیریت اجرایی بلوک B</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold mt-0.5">کاربرگ شفافیت مالی و تراز ماهانه شارژ - دوره آبان‌ماه ۱۴۰۳</span>
+</div>
+</div>
+<div class="flex flex-col items-end text-left pl-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">شماره ابلاغیه:</span>
+<span class="font-label-md text-label-md font-bold text-primary font-mono tracking-tight">NLF-B-1403/08</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">تاریخ استخراج:</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">۱۴۰۳/۰۸/۳۰ - ۱۸:۳۰</span>
+</div>
+</div>
+<div class="bg-primary/5 rounded-lg p-2.5 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">campaign</span>
+<p class="font-body-sm text-body-sm text-on-surface leading-snug">
+        همسایگان محترم؛ پیرو مصوبه مجمع عمومی، تراز تسویه ماهانه جهت استحضار عموم مالکین و ساکنین بر روی تابلوی لابی الصاق گردید. مهلت پرداخت پیش از اعمال مفاد ماده ۱۰، حداکثر تا ۵ آذرماه می‌باشد.
+      </p>
+</div>
+<div class="grid grid-cols-2 gap-space-xs">
+<div class="bg-surface-container-lowest p-3 rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">کل شارژ مصوب دوره</span>
+<span class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[15px]">calculate</span>
+</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-numeric-stat text-numeric-stat text-primary">۳۸,۴۰۰,۰۰۰</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">تومان</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">تعداد کل: ۲۴ واحد مسکونی</span>
+</div>
+<div class="bg-secondary/5 p-3 rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-secondary">مجموع مبالغ وصول‌شده</span>
+<span class="w-6 h-6 rounded-full bg-secondary/15 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[15px]">verified</span>
+</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-numeric-stat text-numeric-stat text-secondary">۲۸,۸۰۰,۰۰۰</span>
+<span class="font-label-sm text-label-sm text-secondary">تومان</span>
+</div>
+<div class="flex items-center justify-between mt-1">
+<span class="font-label-sm text-label-sm text-secondary font-medium">۱۸ واحد تسویه شده</span>
+<span class="font-label-sm text-label-sm bg-secondary text-on-secondary px-1.5 py-0.2 rounded-full font-bold">۷۵٪</span>
+</div>
+</div>
+<div class="bg-tertiary-container/10 p-3 rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-tertiary-container">کل مانده معوق و بدهی</span>
+<span class="w-6 h-6 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[15px]">warning</span>
+</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-numeric-stat text-numeric-stat text-error">۹,۶۰۰,۰۰۰</span>
+<span class="font-label-sm text-label-sm text-error">تومان</span>
+</div>
+<span class="font-label-sm text-label-sm text-error font-medium mt-1">۶ واحد مشمول دیرکرد</span>
+</div>
+<div class="bg-surface-container p-3 rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-primary">موجودی صندوق تنخواه بلوک</span>
+<span class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[15px]">account_balance_wallet</span>
+</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-numeric-stat text-numeric-stat text-primary">۱۲,۴۰۰,۰۰۰</span>
+<span class="font-label-sm text-label-sm text-primary">تومان</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">پشتیبان حوادث و نگهداری</span>
+</div>
+</div>
+<div class="w-full flex flex-col">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[19px]">table_chart</span>
+<h3 class="font-label-lg text-label-lg text-on-surface">جدول تفکیک وضعیت تسویه واحدهای بلوک B</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">نوبت ارزیابی: ماهانه</span>
+</div>
+<div class="overflow-x-auto w-full rounded-lg shadow-sm">
+<table class="w-full text-right border-collapse">
+<thead>
+<tr class="bg-surface-container-high text-on-surface font-label-md text-label-md">
+<th class="p-2 text-center w-10">واحد</th>
+<th class="p-2">ساکن / مالک</th>
+<th class="p-2 text-center">شناسه یکان</th>
+<th class="p-2">شارژ مصوب</th>
+<th class="p-2">مانده بدهی</th>
+<th class="p-2 text-center">وضعیت تسویه</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm divide-y-0">
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="p-2 text-center font-bold text-primary">۱۰۱</td>
+<td class="p-2 resident-name">دکتر انصاری (ط ۱)</td>
+<td class="p-2 text-center font-mono text-on-surface-variant">..۰۱</td>
+<td class="p-2 font-medium">۱,۶۰۰,۰۰۰</td>
+<td class="p-2 text-secondary font-semibold">صفر</td>
+<td class="p-2 text-center"><span class="inline-flex items-center gap-1 bg-secondary/10 text-secondary px-2 py-0.5 rounded-full font-label-sm text-label-sm font-bold"><span class="material-symbols-outlined text-[13px]">check_circle</span>تسویه کامل</span></td>
+</tr>
+<tr class="bg-tertiary-container/5 hover:bg-tertiary-container/10 transition-colors">
+<td class="p-2 text-center font-bold text-primary">۱۰۲</td>
+<td class="p-2 resident-name">مهندس سلیمانی (ط ۱)</td>
+<td class="p-2 text-center font-mono text-on-surface-variant">..۰۲</td>
+<td class="p-2 font-medium">۱,۶۰۰,۰۰۰</td>
+<td class="p-2 text-error font-bold">۱,۶۰۰,۰۰۰</td>
+<td class="p-2 text-center"><span class="inline-flex items-center gap-1 bg-error-container text-on-error-container px-2 py-0.5 rounded-full font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[13px]">schedule</span>مهلت پرداخت</span></td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="p-2 text-center font-bold text-primary">۲۰۱</td>
+<td class="p-2 resident-name">خانواده رادمنش (ط ۲)</td>
+<td class="p-2 text-center font-mono text-on-surface-variant">..۰۳</td>
+<td class="p-2 font-medium">۱,۶۰۰,۰۰۰</td>
+<td class="p-2 text-secondary font-semibold">صفر</td>
+<td class="p-2 text-center"><span class="inline-flex items-center gap-1 bg-secondary/10 text-secondary px-2 py-0.5 rounded-full font-label-sm text-label-sm font-bold"><span class="material-symbols-outlined text-[13px]">check_circle</span>تسویه کامل</span></td>
+</tr>
+<tr class="bg-error-container/20 hover:bg-error-container/30 transition-colors">
+<td class="p-2 text-center font-bold text-error">۲۰۲</td>
+<td class="p-2 resident-name">واحد استیجاری (ط ۲)</td>
+<td class="p-2 text-center font-mono text-on-surface-variant">..۰۴</td>
+<td class="p-2 font-medium">۱,۶۰۰,۰۰۰</td>
+<td class="p-2 text-error font-bold">۳,۲۰۰,۰۰۰ (۲ ماه)</td>
+<td class="p-2 text-center"><span class="inline-flex items-center gap-1 bg-error text-on-error px-2 py-0.5 rounded-full font-label-sm text-label-sm font-bold"><span class="material-symbols-outlined text-[13px]">error</span>اخطار ماده ۱۰</span></td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="p-2 text-center font-bold text-primary">۳۰۱</td>
+<td class="p-2 resident-name">حاج‌آقا مهدوی (ط ۳)</td>
+<td class="p-2 text-center font-mono text-on-surface-variant">..۰۵</td>
+<td class="p-2 font-medium">۱,۶۰۰,۰۰۰</td>
+<td class="p-2 text-secondary font-semibold">صفر</td>
+<td class="p-2 text-center"><span class="inline-flex items-center gap-1 bg-secondary/10 text-secondary px-2 py-0.5 rounded-full font-label-sm text-label-sm font-bold"><span class="material-symbols-outlined text-[13px]">check_circle</span>تسویه کامل</span></td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="p-2 text-center font-bold text-primary">۳۰۲</td>
+<td class="p-2 resident-name">سرکار خانم توکلی (ط ۳)</td>
+<td class="p-2 text-center font-mono text-on-surface-variant">..۰۶</td>
+<td class="p-2 font-medium">۱,۶۰۰,۰۰۰</td>
+<td class="p-2 text-secondary font-semibold">صفر</td>
+<td class="p-2 text-center"><span class="inline-flex items-center gap-1 bg-secondary/10 text-secondary px-2 py-0.5 rounded-full font-label-sm text-label-sm font-bold"><span class="material-symbols-outlined text-[13px]">check_circle</span>تسویه کامل</span></td>
+</tr>
+<tr class="bg-tertiary-container/5 hover:bg-tertiary-container/10 transition-colors">
+<td class="p-2 text-center font-bold text-primary">۴۰۱</td>
+<td class="p-2 resident-name">مهندس فرهودی (ط ۴)</td>
+<td class="p-2 text-center font-mono text-on-surface-variant">..۰۷</td>
+<td class="p-2 font-medium">۱,۶۰۰,۰۰۰</td>
+<td class="p-2 text-error font-bold">۱,۶۰۰,۰۰۰</td>
+<td class="p-2 text-center"><span class="inline-flex items-center gap-1 bg-error-container text-on-error-container px-2 py-0.5 rounded-full font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[13px]">schedule</span>مهلت پرداخت</span></td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="p-2 text-center font-bold text-primary">۴۰۲</td>
+<td class="p-2 resident-name">مهندس بهرامی (ط ۴)</td>
+<td class="p-2 text-center font-mono text-on-surface-variant">..۰۸</td>
+<td class="p-2 font-medium">۱,۶۰۰,۰۰۰</td>
+<td class="p-2 text-secondary font-semibold">صفر</td>
+<td class="p-2 text-center"><span class="inline-flex items-center gap-1 bg-secondary/10 text-secondary px-2 py-0.5 rounded-full font-label-sm text-label-sm font-bold"><span class="material-symbols-outlined text-[13px]">check_circle</span>تسویه کامل</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1.5 text-center">
+        * سایر ۱۶ واحد دیگر بلوک B در وضعیت تسویه کامل می‌باشند و مدارک در بایگانی مدیریت موجود است.
+      </p>
+</div>
+<div class="bg-surface-container-low p-3.5 rounded-lg flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[19px]">receipt_long</span>
+<h3 class="font-label-lg text-label-lg text-on-surface">ریز مصارف تنخواه و هزینه‌های آبان ماه بلوک B</h3>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-bold">مجموع: ۸,۹۰۰,۰۰۰ تومان</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-xs pt-1">
+<div class="bg-surface-container-lowest p-2.5 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[16px]">elevator</span></span>
+<div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface font-semibold">تعمیر برد آسانسور</span><span class="font-label-sm text-label-sm text-on-surface-variant">فاکتور ۲۰ آبان</span></div>
+</div>
+<span class="font-label-md text-label-md font-bold text-primary">۴,۲۰۰,۰۰۰</span>
+</div>
+<div class="bg-surface-container-lowest p-2.5 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[16px]">water_pump</span></span>
+<div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface font-semibold">سرویس موتورخانه و پمپ</span><span class="font-label-sm text-label-sm text-on-surface-variant">سرویس دوره‌ای</span></div>
+</div>
+<span class="font-label-md text-label-md font-bold text-primary">۳,۵۰۰,۰۰۰</span>
+</div>
+<div class="bg-surface-container-lowest p-2.5 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[16px]">cleaning_services</span></span>
+<div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface font-semibold">مواد شوینده و نظافت</span><span class="font-label-sm text-label-sm text-on-surface-variant">مصرفی ماهانه</span></div>
+</div>
+<span class="font-label-md text-label-md font-bold text-primary">۱,۲۰۰,۰۰۰</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container p-3.5 rounded-lg flex flex-col sm:flex-row items-center gap-4">
+<div class="w-24 h-24 bg-surface-container-lowest p-1.5 rounded-lg shrink-0 shadow-sm flex items-center justify-center">
+<svg class="w-full h-full fill-primary" viewbox="0 0 100 100">
+<rect fill="none" height="28" rx="3" stroke="currentColor" stroke-width="6" width="28" x="5" y="5"></rect>
+<rect fill="currentColor" height="14" width="14" x="12" y="12"></rect>
+<rect fill="none" height="28" rx="3" stroke="currentColor" stroke-width="6" width="28" x="67" y="5"></rect>
+<rect fill="currentColor" height="14" width="14" x="74" y="12"></rect>
+<rect fill="none" height="28" rx="3" stroke="currentColor" stroke-width="6" width="28" x="5" y="67"></rect>
+<rect fill="currentColor" height="14" width="14" x="12" y="74"></rect>
+<rect height="8" width="8" x="40" y="8"></rect>
+<rect height="8" width="8" x="52" y="16"></rect>
+<rect height="8" width="16" x="40" y="24"></rect>
+<rect height="12" width="8" x="8" y="40"></rect>
+<rect height="6" width="12" x="24" y="44"></rect>
+<rect height="12" width="12" x="44" y="44"></rect>
+<rect height="16" width="8" x="64" y="40"></rect>
+<rect height="8" width="14" x="78" y="44"></rect>
+<rect height="16" width="8" x="40" y="64"></rect>
+<rect height="8" width="16" x="52" y="76"></rect>
+<rect height="16" width="16" x="76" y="68"></rect>
+</svg>
+</div>
+<div class="flex-1 flex flex-col gap-1 text-center sm:text-right">
+<div class="flex items-center justify-center sm:justify-start gap-1 text-primary">
+<span class="material-symbols-outlined text-[18px]">credit_card</span>
+<span class="font-label-lg text-label-lg font-bold">راهنمای تسویه شارژ سریع از روی تابلوی اعلانات</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+          شماره شبا رسمی بلوک B: <span class="font-mono font-bold text-primary select-all">IR84-0120-0000-4589-2101</span> بانک ملت (حساب مشترک)
+        </p>
+<p class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">
+<span class="text-error font-bold">نکته ضروری شناسایی هوشمند:</span> لطفاً در انتهای مبلغ پرداختی، عدد دو رقمی واحد خود را اضافه نمایید (مثال: واحد ۱۰۲ مبلغ ۱,۶۰۰,۱۰۲ تومان) یا فیش را به واحد مدیریت ارسال کنید.
+        </p>
+</div>
+</div>
+<div class="pt-2 flex flex-col gap-3">
+<div class="bg-surface-container-low p-2.5 rounded-lg flex items-start gap-2">
+<span class="material-symbols-outlined text-tertiary-container text-[18px] shrink-0 mt-0.5">gavel</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+<strong class="text-on-surface">مستند قانونی:</strong> مطابق ماده ۱۰ «قانون تملک آپارتمان‌ها» و اصلاحیه مصوب ۱۳۷۶، در صورت امتناع مالک یا استفاده‌کننده از پرداخت سهم خود از هزینه‌های مشترک ظرف ده روز از تاریخ الصاق یا ابلاغ، مدیریت ساختمان مجاز است از ارائه خدمات مشترک نظیر آسانسور، آبگرم و سامانه هوشمند پارکینگ ممانعت به عمل آورد.
+        </p>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2 pb-1">
+<div class="bg-surface-container-lowest p-3 rounded-lg shadow-sm flex flex-col items-center justify-center text-center">
+<span class="font-label-md text-label-md text-on-surface font-bold">مدیر اجرایی بلوک B</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">مهندس کاویانی</span>
+<div class="my-2 px-3 py-1 rounded border-2 border-dashed border-primary/40 text-primary rotate-[-3deg] font-mono text-[11px] font-bold">
+            مهر رسمی هیئت مدیره - مصوب
+          </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">امضاء و تایید: ۱۴۰۳/۰۸/۳۰</span>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded-lg shadow-sm flex flex-col items-center justify-center text-center">
+<span class="font-label-md text-label-md text-on-surface font-bold">بازرس منتخب ساکنین</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">مهندس سپهری (واحد ۴۰۲)</span>
+<div class="my-2 px-3 py-1 rounded border-2 border-dashed border-secondary/50 text-secondary rotate-[2deg] font-mono text-[11px] font-bold">
+            انطباق با اسناد مالی و بانک
+          </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">امضاء و تایید: ۱۴۰۳/۰۸/۳۰</span>
+</div>
+</div>
+</div>
+<div class="pt-1 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1 font-mono"><span>SECURITY HASH: 8A7F-99B4-1403</span></div>
+<div class="flex items-center gap-2"><span>صفحه ۱ از ۱</span><span>•</span><span>سامانه مدیریت یکپارچه پردیس نیلوفر</span></div>
+</div>
+</div>
+</div>
+<script>
+  let isPrivate = false;
+  const originalNames = [];
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.resident-name').forEach((el, i) => { originalNames[i] = el.innerText; });
+  });
+  function togglePrivacyMode() {
+    isPrivate = !isPrivate;
+    document.querySelectorAll('.resident-name').forEach((el, i) => {
+      el.innerText = isPrivate ? 'محرمانه (مالک/ساکن)' : (originalNames[i] || el.innerText);
+    });
+    document.getElementById('privacyLabel').innerText = isPrivate ? 'نمایش نام مالکین' : 'مخفی‌سازی اسامی';
+    document.getElementById('privacyIcon').innerText = isPrivate ? 'visibility' : 'visibility_off';
+  }
+</script></main></body></html>

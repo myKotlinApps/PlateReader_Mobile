@@ -1,0 +1,368 @@
+/* =========================================================================
+   Shahrak Mobile PWA — Material 3 Header, Floating Dock & Component Styles
+   ========================================================================= */
+@import './tokens.css';
+
+/* ---- Shell ---- */
+.alpr-mobile-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--m-bg);
+  color: var(--m-on-surface);
+  font-family: var(--m-font);
+  font-feature-settings: "ss01" 1;
+  font-size: var(--m-text-body);
+  line-height: var(--m-leading);
+  padding-bottom: calc(var(--m-nav-height) + env(safe-area-inset-bottom, 0px) + 12px);
+  -webkit-font-smoothing: antialiased;
+}
+
+.alpr-mobile-shell .text-muted-adaptive {
+  color: var(--m-on-surface-muted);
+}
+
+/* ---- Modern Material 3 Top App Bar (Clean, Frosted, Zero Clutter) ---- */
+.alpr-mobile-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 14px;
+  padding-top: calc(6px + env(safe-area-inset-top, 0px));
+  background-color: color-mix(in srgb, var(--m-surface) 88%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--m-on-surface);
+  border-bottom: 1px solid var(--m-outline);
+}
+
+.m-appbar__inner {
+  width: 100%;
+  max-width: var(--m-content-max);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.m-appbar__main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.m-appbar__title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--m-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.m-appbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* Borderless Material 3 Icon Button for Top App Bar */
+.m-icon-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  color: var(--m-on-surface-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--m-dur-fast) var(--m-ease), color var(--m-dur-fast) var(--m-ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.m-icon-btn:hover {
+  background-color: var(--m-surface-2);
+  color: var(--m-on-surface);
+}
+
+.m-icon-btn:active {
+  background-color: var(--m-surface-3);
+}
+
+.m-icon-btn:focus-visible {
+  outline: 2px solid var(--m-focus-ring);
+  outline-offset: 1px;
+}
+
+.m-icon-btn--active {
+  background-color: var(--m-primary-container);
+  color: var(--m-on-primary-container);
+}
+
+/* ---- Modern Floating Translucent Bottom Dock ---- */
+.m-dock-wrap {
+  position: fixed;
+  bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  inset-inline: 10px;
+  z-index: 1030;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+}
+
+.alpr-mobile-bottom-nav {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 640px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  align-items: center;
+  padding: 5px 4px;
+  border-radius: 22px;
+  background-color: color-mix(in srgb, var(--m-surface) 92%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--m-outline);
+  box-shadow: 0 8px 28px rgba(27, 37, 51, 0.08), 0 1px 3px rgba(27, 37, 51, 0.04);
+}
+
+.alpr-mobile-nav-btn {
+  min-height: 52px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: none;
+  background: transparent;
+  color: var(--m-on-surface-muted);
+  font-family: var(--m-font);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.25;
+  text-decoration: none;
+  padding: 4px 2px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: color var(--m-dur-fast) var(--m-ease), background-color var(--m-dur-fast) var(--m-ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.m-nav-btn__pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 28px;
+  border-radius: 9999px;
+  transition: background-color var(--m-dur) var(--m-ease), color var(--m-dur) var(--m-ease);
+}
+
+.alpr-mobile-nav-btn.is-active {
+  color: var(--m-on-primary-container);
+  font-weight: 700;
+}
+
+.alpr-mobile-nav-btn.is-active .m-nav-btn__pill {
+  background-color: var(--m-primary-container);
+  color: var(--m-accent);
+}
+
+.alpr-mobile-nav-btn__label {
+  display: block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alpr-mobile-nav-btn:focus-visible {
+  outline: 2px solid var(--m-focus-ring);
+  outline-offset: -2px;
+}
+
+.m-nav-btn__badge {
+  position: absolute;
+  top: -3px;
+  inset-inline-end: 2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: var(--m-radius-pill);
+  background-color: var(--m-danger);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 2px var(--m-surface);
+}
+
+/* ---- Card (legacy) ---- */
+.alpr-mobile-card {
+  background-color: var(--m-surface);
+  color: var(--m-on-surface);
+  border: 1px solid var(--m-outline);
+  border-radius: var(--m-radius-lg);
+  padding: var(--m-space-4);
+  box-shadow: var(--m-shadow-1);
+}
+
+/* ---- Buttons (legacy) ---- */
+.alpr-mobile-btn-primary {
+  min-height: 44px;
+  border-radius: var(--m-radius);
+  background-color: var(--m-btn-primary-bg);
+  color: var(--m-btn-primary-fg);
+  border: 1px solid var(--m-btn-primary-bg);
+  font-family: var(--m-font);
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color var(--m-dur-fast) var(--m-ease);
+}
+
+.alpr-mobile-btn-primary:hover:not(:disabled) {
+  background-color: var(--m-btn-primary-hover-bg);
+}
+
+.alpr-mobile-btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.alpr-mobile-btn-secondary {
+  min-height: 40px;
+  border-radius: var(--m-radius);
+  background-color: var(--m-surface-2);
+  color: var(--m-on-surface);
+  border: 1px solid var(--m-outline);
+  font-family: var(--m-font);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color var(--m-dur-fast) var(--m-ease);
+}
+
+.alpr-mobile-btn-secondary:hover:not(:disabled) {
+  background-color: var(--m-surface-3);
+}
+
+/* ---- Inputs (legacy) ---- */
+.alpr-mobile-input {
+  min-height: 44px;
+  font-size: 14px !important;
+  border-radius: var(--m-radius) !important;
+}
+
+/* ---- Sync spinner ---- */
+.alpr-mobile-shell .spin {
+  animation: m-spin 0.9s linear infinite;
+}
+
+@keyframes m-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* =========================================================================
+   Reusable component library classes (m-*). Used by ./components/*.tsx.
+   ========================================================================= */
+
+.m-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--m-space-2);
+  min-height: 42px;
+  padding: 9px 16px;
+  border-radius: var(--m-radius);
+  border: 1px solid transparent;
+  font-family: var(--m-font);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color var(--m-dur-fast) var(--m-ease), color var(--m-dur-fast) var(--m-ease);
+}
+
+.m-btn--block { width: 100%; }
+.m-btn--sm { min-height: 36px; padding: 6px 12px; font-size: 12.5px; }
+.m-btn--primary { background-color: var(--m-btn-primary-bg); color: var(--m-btn-primary-fg); }
+.m-btn--tonal { background-color: var(--m-primary-container); color: var(--m-on-primary-container); }
+.m-btn--secondary { background-color: var(--m-surface-2); color: var(--m-on-surface); border-color: var(--m-outline); }
+.m-btn--text { background-color: transparent; color: var(--m-accent); }
+.m-btn--danger { background-color: var(--m-danger-container); color: var(--m-on-danger-container); border-color: transparent; }
+
+.m-card {
+  background-color: var(--m-surface);
+  color: var(--m-on-surface);
+  border: 1px solid var(--m-outline);
+  border-radius: var(--m-radius-lg);
+  padding: var(--m-space-4);
+  box-shadow: var(--m-shadow-1);
+}
+
+.m-card--flat { box-shadow: none; }
+.m-input, .m-select, .m-textarea {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 12px;
+  border-radius: var(--m-radius);
+  border: 1px solid var(--m-outline);
+  background-color: var(--m-surface-2);
+  color: var(--m-on-surface);
+  font-family: var(--m-font);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.m-textarea { min-height: 92px; resize: vertical; }
+
+.m-field { display: flex; flex-direction: column; gap: 6px; }
+.m-field__label { font-size: 12.5px; font-weight: 600; color: var(--m-on-surface-muted); }
+.m-field__required { color: var(--m-danger); }
+.m-field__error { font-size: 12px; color: var(--m-danger); }
+.m-field__hint { font-size: 12px; color: var(--m-on-surface-faint); }
+
+.m-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: var(--m-radius);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+.m-note--success { background-color: var(--m-success-container); color: var(--m-on-success-container); }
+.m-note--info { background-color: var(--m-info-container); color: var(--m-on-info-container); }
+.m-note--warning { background-color: var(--m-warning-container); color: var(--m-on-warning-container); }
+.m-note--danger { background-color: var(--m-danger-container); color: var(--m-on-danger-container); }
+
+.bidi-isolate {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.92em;
+}

@@ -1,0 +1,10 @@
+{
+  "name": "همراه شهرک و انتظامات — PlateReader Mobile",
+  "description": "اپلیکیشن موبایل مدیریت شهرک، ساختمان، نامه‌نگاری و انتظامات (PlateReader Mobile Edge)",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

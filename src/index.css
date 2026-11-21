@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
+@import 'bootstrap/dist/css/bootstrap.rtl.min.css' layer(base);
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+  --font-display: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+
+  /* Calm Pastel Material 3 Residential Palette (Restrained & Soft) */
+  --color-surface: #f6f8fb;
+  --color-surface-dim: #e8eef7;
+  --color-surface-bright: #fafbfd;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f1f4f9;
+  --color-surface-container: #e9eef6;
+  --color-surface-container-high: #e1e8f3;
+  --color-surface-container-highest: #d7e1ef;
+  --color-surface-variant: #dde5f2;
+
+  /* Softened Indigo-Slate Primary (calm, never harsh dark block) */
+  --color-primary: #3b5998;
+  --color-primary-container: #e8eefb;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #243b6b;
+  --color-primary-fixed: #e8eefb;
+  --color-primary-fixed-dim: #cfdcf7;
+  --color-on-primary-fixed: #1d3159;
+  --color-on-primary-fixed-variant: #344e86;
+
+  /* Muted Sage Secondary */
+  --color-secondary: #2b7a5e;
+  --color-secondary-container: #e7f5ef;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #1f5c46;
+  --color-secondary-fixed: #d3efe3;
+
+  /* Muted Warm Amber / Rose Tertiary */
+  --color-tertiary: #8f4a3c;
+  --color-tertiary-container: #faece9;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #73382c;
+
+  /* Soft Muted Crimson Error */
+  --color-error: #b84448;
+  --color-error-container: #fdeeee;
+  --color-on-error: #ffffff;
+  --color-on-error-container: #8f2d31;
+
+  --color-background: #f6f8fb;
+  --color-on-background: #1b2533;
+  --color-on-surface: #1b2533;
+  --color-on-surface-variant: #5b677a;
+  --color-outline: #8d99ac;
+  --color-outline-variant: #d6dde8;
+  --color-inverse-surface: #253142;
+  --color-inverse-on-surface: #eef2f8;
+  --color-inverse-primary: #c1d1f5;
+
+  /* Spacing Scale */
+  --spacing-space-2xs: 4px;
+  --spacing-space-xs: 8px;
+  --spacing-space-sm: 12px;
+  --spacing-space-md: 16px;
+  --spacing-space-lg: 24px;
+  --spacing-space-xl: 32px;
+  --spacing-space-2xl: 48px;
+  --spacing-margin-mobile: 16px;
+  --spacing-margin-tablet: 24px;
+  --spacing-margin-desktop: 32px;
+
+  /* Subtle Soft Shadows */
+  --shadow-ambient: 0px 4px 16px rgba(27, 37, 51, 0.04);
+  --shadow-floating: 0px 8px 24px rgba(27, 37, 51, 0.07);
+  --shadow-card: 0px 1px 4px rgba(27, 37, 51, 0.04);
+}
+
+:root {
+  --font-vazir: 'Vazirmatn', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --bs-primary: #3b5998;
+  --bs-primary-rgb: 59, 89, 152;
+  --bs-secondary: #2b7a5e;
+  --bs-secondary-rgb: 43, 122, 94;
+  --bs-danger: #b84448;
+  --bs-danger-rgb: 184, 68, 72;
+}
+
+/* Persian Mobile Typography Standard (Vazirmatn + Persian Digits ss01 + comfortable line-height) */
+html,
+body {
+  margin: 0;
+  font-family: var(--font-vazir);
+  font-feature-settings: "ss01" 1;
+  background-color: #f6f8fb;
+  color: #1b2533;
+  font-size: 14px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 22;
+  vertical-align: middle;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-filled {
+  font-variation-settings: 'FILL' 1, 'wght' 450, 'GRAD' 0, 'opsz' 22;
+}
+
+.font-numeric-stat {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "ss01" 1, "tnum" 1;
+}
+
+/* Hide scrollbars cleanly for horizontal sub-menus */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

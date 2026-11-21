@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "primary-container": "#1e3a8a", "on-error-container": "#93000a", "primary-fixed": "#dce1ff", "on-surface": "#0b1c30", "tertiary-fixed": "#ffdad7", "secondary": "#006c4a", "surface-bright": "#f8f9ff", "on-secondary-fixed": "#002114", "tertiary-container": "#860011", "surface-tint": "#4059aa", "inverse-primary": "#b6c4ff", "surface-variant": "#d3e4fe", "surface-container": "#e5eeff", "on-tertiary-fixed": "#410004", "background": "#f8f9ff", "surface-container-low": "#eff4ff", "secondary-fixed": "#85f8c4", "secondary-fixed-dim": "#68dba9", "surface-container-high": "#dce9ff", "error-container": "#ffdad6", "outline-variant": "#c5c5d3", "on-surface-variant": "#444651", "on-primary": "#ffffff", "on-secondary-fixed-variant": "#005137", "on-secondary-container": "#00714e", "secondary-container": "#82f5c1", "on-primary-fixed": "#00164e", "error": "#ba1a1a", "on-error": "#ffffff", "outline": "#757682", "primary-fixed-dim": "#b6c4ff", "surface": "#f8f9ff", "inverse-surface": "#213145", "on-primary-container": "#90a8ff", "on-primary-fixed-variant": "#264191", "tertiary-fixed-dim": "#ffb3ad", "surface-container-lowest": "#ffffff", "on-background": "#0b1c30", "on-tertiary-fixed-variant": "#930013", "on-tertiary-container": "#ff8a83", "on-secondary": "#ffffff", "on-tertiary": "#ffffff", "inverse-on-surface": "#eaf1ff", "primary": "#00236f", "surface-container-highest": "#d3e4fe", "tertiary": "#5c0008", "surface-dim": "#cbdbf5" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "1rem", "gutter-mobile": "0.75rem", "margin-mobile": "1rem", "margin": "1.25rem", "space-xl": "2rem", "space-xs": "0.25rem", "gutter": "1rem", "space-sm": "0.5rem", "space-lg": "1.5rem" }, "fontFamily": { "body-md": ["Vazirmatn"], "headline-lg": ["Vazirmatn"], "headline-sm": ["Vazirmatn"], "label-md": ["Vazirmatn"], "body-lg": ["Vazirmatn"], "headline-lg-mobile": ["Vazirmatn"], "label-sm": ["Vazirmatn"], "headline-md": ["Vazirmatn"], "body-sm": ["Vazirmatn"], "label-lg": ["Vazirmatn"], "numeric-stat": ["Vazirmatn"], "display-lg": ["Vazirmatn"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "headline-lg": ["28px", { "lineHeight": "38px", "fontWeight": "700" }], "headline-sm": ["17px", { "lineHeight": "26px", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "headline-lg-mobile": ["22px", { "lineHeight": "32px", "fontWeight": "700" }], "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }], "headline-md": ["20px", { "lineHeight": "30px", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "numeric-stat": ["24px", { "lineHeight": "32px", "fontWeight": "700" }], "display-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 w-full z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin-mobile flex items-center justify-between"><div class="flex items-center gap-space-sm"><button aria-label="بازگشت" class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface hover:bg-surface-container active:bg-surface-container-high transition-colors" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_forward</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight truncate max-w-[200px]">Sabt Gozaresh Neshati Va Rotubat</h1></div><div class="flex items-center gap-space-xs"><a aria-label="تماس اضطراری تاسیسات" class="w-11 h-11 flex items-center justify-center rounded-lg bg-error-container text-on-error-container hover:bg-error-container/80 transition-colors" href="tel:125"><span class="material-symbols-outlined text-[22px]">emergency</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full px-margin-mobile pb-12 gap-space-md">
+<!-- Breadcrumb & Building Meta Badge -->
+<div class="flex items-center justify-between pt-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">domain</span>
+<span class="font-label-md text-label-md text-on-surface">مجتمع نیلوفر</span>
+<span class="material-symbols-outlined text-[14px]">chevron_left</span>
+<span class="font-label-md text-label-md text-on-surface-variant">بلوک B</span>
+<span class="material-symbols-outlined text-[14px]">chevron_left</span>
+<span class="text-primary font-label-md text-label-md font-semibold">ثبت حادثه نشت آب</span>
+</div>
+<span class="bg-surface-container-high text-primary font-label-sm text-label-sm px-2.5 py-0.5 rounded-full">فرم شماره TR-8842</span>
+</div>
+<!-- 1. Emergency Reaction Banner -->
+<section class="w-full bg-error-container text-on-error-container rounded-xl p-space-md shadow-sm relative overflow-hidden">
+<div class="flex items-start gap-space-sm relative z-10">
+<div class="w-10 h-10 rounded-full bg-error text-on-error flex items-center justify-center shrink-0 shadow-sm animate-pulse">
+<span class="material-symbols-outlined text-[22px]">warning</span>
+</div>
+<div class="flex flex-col gap-1 min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-on-error-container font-bold">راهنمای اقدام فوری (شرایط بحرانی)</h2>
+<span class="px-2 py-0.5 bg-error text-on-error rounded-full text-label-sm font-label-sm">اولویت آنی</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-error-container leading-relaxed">
+          در صورت ریزش شدید، فوران یا تخلیه ناگهانی آب، پیش از تکمیل فرم لطفاً فوراً فلکه اصلی رایزر مربوطه را ببندید یا با واحد تاسیسات شیفت تماس بگیرید.
+        </p>
+<div class="mt-space-xs flex flex-wrap items-center gap-2">
+<a class="inline-flex items-center gap-1.5 bg-error text-on-error px-3 py-1.5 rounded-lg font-label-md text-label-md shadow-sm active:scale-95 transition-all" href="tel:0210">
+<span class="material-symbols-outlined text-[16px]">call</span>
+<span>تکنسین کشیک: استاد بهرامی (داخلی ۲۱۰)</span>
+</a>
+<div class="inline-flex items-center gap-1 bg-surface-container-lowest/80 text-on-error-container px-2.5 py-1.5 rounded-lg font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-error">build_circle</span>
+<span>محل فلکه اضطراری: پاگرد غربی طبقه ۳</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Incident Severity Level -->
+<section class="flex flex-col gap-space-xs bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+<div class="flex items-center justify-between">
+<label class="font-label-lg text-label-lg text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">speed</span>
+<span>سطح فوریت و شدت نشت آب</span>
+</label>
+<span class="font-label-sm text-label-sm text-on-surface-variant">الزامی</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">میزان گستردگی نفوذ یا جریان آب را مشخص نمایید:</p>
+<!-- Severity Options Grid -->
+<div class="grid grid-cols-1 gap-2.5 mt-1" id="severitySelector">
+<!-- Option 1: Emergency -->
+<label class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors group">
+<div class="flex items-center gap-3">
+<input class="accent-error w-4 h-4 cursor-pointer" name="severity" type="radio" value="critical"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-lg text-label-lg text-error font-bold">بحرانی / فوران فعال آب</span>
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">جریان سیلابی، خطر نفوذ به داکت برق یا تابلو مینیاتوری</span>
+</div>
+</div>
+<div class="w-8 h-8 rounded-full bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">flood</span>
+</div>
+</label>
+<!-- Option 2: Moderate -->
+<label class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors group">
+<div class="flex items-center gap-3">
+<input class="accent-tertiary-container w-4 h-4 cursor-pointer" name="severity" type="radio" value="moderate"/>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-tertiary font-bold">متوسط / چکه مستمر و ریزش گچ</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">ریزش قطره‌ای یکنواخت، تبله سقف کاذب و خطر ترکیدگی ثانویه</span>
+</div>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">water_drop</span>
+</div>
+</label>
+<!-- Option 3: Low / Moisture (Checked) -->
+<label class="flex items-center justify-between p-3 rounded-lg bg-primary-fixed/30 hover:bg-primary-fixed/40 cursor-pointer transition-colors">
+<div class="flex items-center gap-3">
+<input checked="" class="accent-primary-container w-4 h-4 cursor-pointer" name="severity" type="radio" value="low"/>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-bold">نم‌زدگی، شوره و تغییر رنگ مصالح</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">رطوبت ممتد، بوی نامطبوع نم و زردی سطح دیوار بدون ریزش قطره‌ای</span>
+</div>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">opacity</span>
+</div>
+</label>
+</div>
+</section>
+<!-- 3. Exact Location & Automated Riser Linkage -->
+<section class="flex flex-col gap-space-sm bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+<div class="flex items-center justify-between">
+<label class="font-label-lg text-label-lg text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">location_searching</span>
+<span>موقعیت مکانی و شناسایی رایزر لوله‌کشی</span>
+</label>
+<span class="font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed px-2 py-0.5 rounded-full font-medium">هوشمند</span>
+</div>
+<!-- Building & Floor Row -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">بلوک ساختمانی</span>
+<div class="flex items-center justify-between bg-surface-container-low px-3 py-2.5 rounded-lg text-on-surface">
+<span class="font-body-md text-body-md font-medium">بلوک B پردیس نیلوفر</span>
+<span class="material-symbols-outlined text-[18px] text-outline">lock</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">طبقه محل مشاهده</span>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-lg p-2.5 shadow-sm appearance-none pr-3 pl-8 focus:outline-none focus:bg-surface-container-low">
+<option>طبقه سوم (واحد‌های ۳۰۱ تا ۳۰۴)</option>
+<option>طبقه دوم (واحد‌های ۲۰۱ تا ۲۰۴)</option>
+<option>طبقه چهارم (واحد‌های ۴۰۱ تا ۴۰۴)</option>
+<option>پارکینگ منفی یک (-۱)</option>
+<option>همکف و لابی ورودی</option>
+</select>
+<span class="material-symbols-outlined text-[18px] text-outline absolute left-2.5 top-3 pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Affected Zone Chips -->
+<div class="flex flex-col gap-1.5 mt-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">محدوده دقیق نشتی در واحد:</span>
+<div class="flex flex-wrap gap-1.5">
+<button class="px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md flex items-center gap-1 shadow-xs" type="button">
+<span>سقف سرویس بهداشتی مستر</span>
+<span class="material-symbols-outlined text-[14px]">check</span>
+</button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors" type="button">داکت رایزر اصلی</button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors" type="button">آشپزخانه و لوله لباسشویی</button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors" type="button">سقف کاذب راهرو داخلی</button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors" type="button">کف لابی و پاگرد</button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors" type="button">داکت رایزر تهویه</button>
+</div>
+</div>
+<!-- Smart Auto-Detected Riser Card -->
+<div class="bg-surface-container-low p-3.5 rounded-xl flex flex-col gap-2 relative overflow-hidden">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-primary-fixed text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">alt_route</span>
+</div>
+<span class="font-label-md text-label-md text-primary font-bold">انطباق تاسیساتی با نقشه سه‌بعدی ساختمان</span>
+</div>
+<button class="text-primary font-label-sm text-label-sm hover:underline flex items-center gap-0.5" type="button">
+<span>مشاهده نقشه رایزر</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 text-on-surface font-body-sm text-body-sm bg-surface-container-lowest p-2.5 rounded-lg">
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant">رایزر تغذیه‌کننده:</span>
+<span class="font-bold text-on-surface">رایزر ۲ فاضلاب و مصرفی (جناح غربی)</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant">محل استقرار داکت:</span>
+<span>شفت مجاور حمام واحد ۳۰۲ و ۴۰۲</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant">کد ردیابی شیر فلکه موضعی:</span>
+<span class="font-mono bg-surface-container px-2 py-0.5 rounded text-primary font-bold">V-B2-03-W</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Units Involved (Origin vs Damaged) -->
+<section class="flex flex-col gap-space-sm bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+<div class="flex items-center justify-between">
+<label class="font-label-lg text-label-lg text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">apartment</span>
+<span>واحدهای درگیر و تعیین طرفین حادثه</span>
+</label>
+<span class="font-label-sm text-label-sm text-on-surface-variant">۲ واحد</span>
+</div>
+<!-- Origin Unit Selector Card -->
+<div class="p-3 bg-surface-container-low rounded-xl flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-error font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">outbound</span>
+<span>واحد منشأ احتمالی (منبع آب):</span>
+</span>
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-0.5 rounded-full font-label-sm text-label-sm">طبقه فوقانی</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest p-2.5 rounded-lg">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold font-numeric-stat text-[14px]">۴۰۲</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface">واحد ۴۰۲ (طبقه چهارم)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">مالک: دکتر فرزاد رادمنش</span>
+</div>
+</div>
+<button class="text-primary hover:bg-surface-container-high p-1.5 rounded-lg transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+<!-- Occupancy Status Toggle Pills -->
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">وضعیت حضور ساکن:</span>
+<div class="flex gap-1.5">
+<button class="px-2.5 py-1 rounded-md bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm flex items-center gap-1" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>ساکن در منزل حضور دارد</span>
+</button>
+<button class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container-high" type="button">
+<span>واحد خالی یا سفر</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Damaged Units List Card -->
+<div class="p-3 bg-surface-container-low rounded-xl flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">move_to_inbox</span>
+<span>واحدهای متضرر و خسارت‌دیده:</span>
+</span>
+<button class="text-primary font-label-sm text-label-sm flex items-center gap-0.5 hover:underline" type="button">
+<span class="material-symbols-outlined text-[15px]">add_circle</span>
+<span>افزودن واحد جدید</span>
+</button>
+</div>
+<!-- Tag 1: Main Damaged Unit -->
+<div class="flex items-center justify-between bg-surface-container-lowest p-2.5 rounded-lg">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold font-numeric-stat text-[13px]">۳۰۲</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface">واحد ۳۰۲ (واحد گزارش‌دهنده)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">خسارت: پوسته شدن کناف سقف حمام و زردی گچ</span>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-error-container text-on-error-container rounded font-label-sm text-label-sm">متضرر اصلی</span>
+</div>
+<!-- Tag 2: Common Area -->
+<div class="flex items-center justify-between bg-surface-container-lowest p-2.5 rounded-lg">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">stairs</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface">مشاعات پاگرد غربی طبقه ۳</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">رطوبت در اطراف جعبه آتش‌نشانی F</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-error p-1" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 5. Visual Evidence Upload Section -->
+<section class="flex flex-col gap-space-sm bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+<div class="flex items-center justify-between">
+<div>
+<label class="font-label-lg text-label-lg text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">photo_camera</span>
+<span>مستندات تصویری و شواهد نشت</span>
+</label>
+<span class="font-body-sm text-body-sm text-on-surface-variant">ارسال تصاویر شفاف به تسریع ارزیابی کارشناس تاسیسات کمک می‌کند</span>
+</div>
+<span class="font-label-sm text-label-sm bg-surface-container px-2 py-0.5 rounded text-on-surface-variant">۲ از ۵ فایل</span>
+</div>
+<!-- Thumbnails & Upload trigger -->
+<div class="grid grid-cols-3 gap-2.5 pt-1">
+<!-- Thumbnail 1 -->
+<div class="relative rounded-lg overflow-hidden h-24 bg-surface-container group shadow-xs">
+<img class="w-full h-full object-cover" data-alt="A close-up photograph of a damaged white bathroom ceiling in a residential apartment, showing damp moisture stains, cracked bubbling plaster, yellow water seepage marks around an embedded plumbing inspection hatch, soft interior lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDl5idRmNlxP9J9lTwaDNWEIxyR-qCro_l7glX2W7-NIZLkw2imHbeXCrHywjMp4LjGH8_j9z1L70-cZSWcaSkANirDJ8zIvh71VG4OAriKIN4Mj8b62iEnflBnK9PBQ7TLQ9ltEvVmqIMBeTaOYejKY55H9Oq8Mz7qt97KmPwNGLDCYt5Kz7KYNgg6QLPTIzEix-jj6DvmVwwUgIZiMwUV6t5bMHAKX7h1ETDbk6o"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent flex flex-col justify-between p-1.5 text-on-primary">
+<button class="self-end w-5 h-5 rounded-full bg-error/90 text-on-error flex items-center justify-center shadow-sm" type="button">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+<span class="text-[10px] font-label-sm font-medium">سقف کناف حمام</span>
+</div>
+<span class="absolute top-1 left-1 bg-surface-container-lowest/90 text-on-surface font-label-sm text-[9px] px-1 rounded">۱۰:۲۵</span>
+</div>
+<!-- Thumbnail 2 -->
+<div class="relative rounded-lg overflow-hidden h-24 bg-surface-container group shadow-xs">
+<img class="w-full h-full object-cover" data-alt="A clear photo inside an apartment plumbing riser duct shaft showing copper water supply pipes and PVC drainage pipes with visible condensation droplets and water leakage pooled around floor seals, high detail architectural plumbing inspection." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoyyIF-kCCd9zdknhVqUDkg3rWCEdP43_F7bVvfKloX4o7wcOoGyVFruMvqLI_0bLm-ddcwoAuSzlzI-o9gk5FzJT6PYngERxxIx_EfhxJ2WoZSkjhd8Sujf8qRorqaT1zataj8ZdJXUTgRQQZwg2-nWNhWDEYiKNAVW-MKdszlVoWo7vofntmi2IEyMV_RInpJYOY8Ztzc9mKuMA8DVNgp9-tLW6j7exBhg6DC3E"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent flex flex-col justify-between p-1.5 text-on-primary">
+<button class="self-end w-5 h-5 rounded-full bg-error/90 text-on-error flex items-center justify-center shadow-sm" type="button">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+<span class="text-[10px] font-label-sm font-medium">داکت رایزر ۲</span>
+</div>
+<span class="absolute top-1 left-1 bg-surface-container-lowest/90 text-on-surface font-label-sm text-[9px] px-1 rounded">۱۰:۲۷</span>
+</div>
+<!-- Add New Media Trigger Box -->
+<button class="h-24 rounded-lg bg-surface-container-low hover:bg-surface-container-high flex flex-col items-center justify-center gap-1 text-primary transition-all active:scale-95" type="button">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">add_a_photo</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-medium text-center px-1">افزودن عکس یا ویدیو</span>
+</button>
+</div>
+<!-- Media Guidelines info note -->
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-label-sm bg-surface-container-low p-2 rounded-lg">
+<span class="material-symbols-outlined text-[16px] text-primary">info</span>
+<span>امکان بارگذاری تا ۴ تصویر (حداکثر ۱۰ مگابایت) و ۱ ویدئوی ۱۵ ثانیه‌ای از چکه آب.</span>
+</div>
+</section>
+<!-- 6. Detailed Incident Description & Voice Note -->
+<section class="flex flex-col gap-space-sm bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+<div class="flex items-center justify-between">
+<label class="font-label-lg text-label-lg text-on-surface flex items-center gap-1.5" for="incidentNotes">
+<span class="material-symbols-outlined text-primary text-[20px]">description</span>
+<span>شرح تفصیلی حادثه و بررسی اولیه</span>
+</label>
+<span class="font-label-sm text-label-sm text-on-surface-variant">۱۸۵ کاراکتر</span>
+</div>
+<div class="relative">
+<textarea class="w-full bg-surface-container-low rounded-lg p-3 text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none transition-all placeholder:text-outline" id="incidentNotes" placeholder="مشاهدات خود از زمان آغاز چکه، بوی فاضلاب یا هرگونه تغییر را به تفصیل بنویسید..." rows="4">از صبح امروز رطوبت شدیدی در سقف کاذب سرویس مستر واحد ۳۰۲ مشاهده شده و گچ سقف تبله کرده است. به نظر می‌رسد نشت از شترگلو یا اتصالات کف‌شور واحد ۴۰۲ باشد، زیرا در زمان استفاده از دوش فوقانی شدت چکه افزایش می‌یابد.</textarea>
+</div>
+<!-- Voice Note Recorder Bar -->
+<div class="flex items-center justify-between bg-surface-container-low p-2.5 rounded-xl">
+<div class="flex items-center gap-2.5">
+<button class="w-9 h-9 rounded-full bg-error text-on-error flex items-center justify-center shadow-xs active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-[18px]">mic</span>
+</button>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface">ویس ضبط‌شده ساکن (۰:۲۸)</span>
+<div class="flex items-center gap-1 text-[11px] font-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[13px] text-secondary">check_circle</span>
+<span>کیفیت صدا مطلوب - آماده ارسال</span>
+</div>
+</div>
+</div>
+<!-- Playback Mini Waveform Simulator -->
+<div class="flex items-center gap-2">
+<div class="flex items-end gap-0.5 h-5 px-2">
+<span class="w-1 bg-primary h-2 rounded-full"></span>
+<span class="w-1 bg-primary h-4 rounded-full"></span>
+<span class="w-1 bg-primary h-5 rounded-full"></span>
+<span class="w-1 bg-primary h-3 rounded-full"></span>
+<span class="w-1 bg-primary h-1 rounded-full"></span>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center hover:bg-surface-container-highest" type="button">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 7. Immediate Actions & Automated Notification Checklist -->
+<section class="flex flex-col gap-space-sm bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+<div class="flex items-center justify-between">
+<label class="font-label-lg text-label-lg text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">notifications_active</span>
+<span>اقدامات خودکار همزمان با ثبت</span>
+</label>
+<span class="font-label-sm text-label-sm text-secondary font-medium">سرویس خودکار پیامکی</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Checked 1 -->
+<label class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer">
+<input checked="" class="mt-0.5 w-4 h-4 rounded accent-primary-container cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-medium">ارسال پیامک هشدار آنی به مالک واحد منشأ (دکتر رادمنش)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">اطلاع‌رسانی جهت بررسی مصارف آب و جلوگیری از خسارت مضاعف</span>
+</div>
+</label>
+<!-- Checked 2 -->
+<label class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer">
+<input checked="" class="mt-0.5 w-4 h-4 rounded accent-primary-container cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-medium">صدور تیکت بحران در کارتابل ناظر تاسیسات (مهندس صابری)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ارجاع پرونده همراه با عکس‌ها به مهندس کشیک مقیم مجتمع</span>
+</div>
+</label>
+<!-- Unchecked 3 -->
+<label class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer">
+<input class="mt-0.5 w-4 h-4 rounded accent-primary-container cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-medium">درخواست بستن موقت شیر فلکه رایزر ۲ توسط نگهبانی</span>
+<span class="font-label-sm text-label-sm text-error font-medium">توجه: آب واحدهای غربی طبقات ۱ الی ۵ به مدت ۱ ساعت قطع خواهد شد</span>
+</div>
+</label>
+</div>
+</section>
+<!-- 8. Sticky Action Panel -->
+<div class="flex flex-col gap-2.5 pt-space-xs">
+<button class="w-full bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm py-3.5 px-space-md rounded-xl shadow-md flex items-center justify-center gap-2 active:scale-[0.99] transition-all" type="button">
+<span class="material-symbols-outlined text-[22px]">send</span>
+<span>ثبت نهایی گزارش و ارجاع به تاسیسات</span>
+</button>
+<button class="w-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-label-lg text-label-lg py-3 px-space-md rounded-xl transition-colors text-center" onclick="history.back()" type="button">
+      انصراف و بازگشت به داشبورد
+    </button>
+</div>
+</div>
+<script>
+  // Simple client-side micro-interaction for severity selection pills
+  document.querySelectorAll('input[name="severity"]').forEach((radio) => {
+    radio.addEventListener('change', (e) => {
+      document.querySelectorAll('#severitySelector label').forEach((label) => {
+        label.classList.remove('bg-primary-fixed/30');
+        label.classList.add('bg-surface-container-low');
+      });
+      const activeLabel = e.target.closest('label');
+      if (activeLabel) {
+        activeLabel.classList.remove('bg-surface-container-low');
+        activeLabel.classList.add('bg-primary-fixed/30');
+      }
+    });
+  });
+</script></main></body></html>

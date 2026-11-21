@@ -1,0 +1,139 @@
+/* =========================================================================
+   Persian Mobile Design Tokens (Material 3 Calm Pastel + Vazirmatn Standard)
+   Scoped to `.alpr-mobile-shell`
+   ========================================================================= */
+
+.alpr-mobile-shell {
+  /* ---- Persian Mobile Type Scale (Balanced Card Ratio: 14px title / 13px body / 12px meta) ---- */
+  --m-font: var(--font-vazir, 'Vazirmatn', ui-sans-serif, system-ui, sans-serif);
+  --m-text-display: 20px;
+  --m-text-title: 16px;
+  --m-text-heading: 14.5px;
+  --m-text-body: 13.5px;
+  --m-text-label: 13px;
+  --m-text-caption: 12px;
+  --m-leading: 1.68;
+  --m-leading-tight: 1.5;
+
+  /* ---- Spacing scale ---- */
+  --m-space-1: 4px;
+  --m-space-2: 8px;
+  --m-space-3: 12px;
+  --m-space-4: 16px;
+  --m-space-5: 20px;
+  --m-space-6: 24px;
+  --m-space-8: 32px;
+
+  /* ---- Radius ---- */
+  --m-radius-sm: 10px;
+  --m-radius: 12px;
+  --m-radius-lg: 16px;
+  --m-radius-xl: 22px;
+  --m-radius-pill: 9999px;
+
+  /* ---- Touch & layout ---- */
+  --m-touch: 44px;
+  --m-nav-height: 78px;
+  --m-content-max: 680px;
+
+  /* ---- Motion ---- */
+  --m-dur-fast: 150ms;
+  --m-dur: 220ms;
+  --m-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ---- Subtle Elevation ---- */
+  --m-shadow-1: 0 1px 4px rgba(27, 37, 51, 0.04);
+  --m-shadow-2: 0 6px 20px rgba(27, 37, 51, 0.06);
+  --m-shadow-3: 0 10px 28px rgba(27, 37, 51, 0.09);
+
+  /* ---- Color roles: LIGHT (Soft Pastel Material 3) ---- */
+  --m-bg: #f6f8fb;
+  --m-surface: #ffffff;
+  --m-surface-2: #f1f4f9;
+  --m-surface-3: #e8eef6;
+  --m-on-surface: #1b2533;
+  --m-on-surface-muted: #5b677a;
+  --m-on-surface-faint: #7c8799;
+  --m-outline: rgba(203, 213, 225, 0.65);
+  --m-outline-strong: #cbd5e1;
+
+  --m-accent: #3b5998;
+  --m-primary-container: #e8eefb;
+  --m-on-primary-container: #243b6b;
+
+  --m-btn-primary-bg: #3b5998;
+  --m-btn-primary-fg: #ffffff;
+  --m-btn-primary-hover-bg: #314b82;
+  --m-btn-primary-hover-fg: #ffffff;
+
+  --m-success: #2b7a5e;
+  --m-success-container: #e7f5ef;
+  --m-on-success-container: #1f5c46;
+  --m-warning: #9a6518;
+  --m-warning-container: #fcf4e3;
+  --m-on-warning-container: #734b12;
+  --m-danger: #b84448;
+  --m-danger-container: #fdeeee;
+  --m-on-danger-container: #8f2d31;
+  --m-info: #3b5998;
+  --m-info-container: #eef3fc;
+  --m-on-info-container: #243b6b;
+
+  --m-focus-ring: rgba(59, 89, 152, 0.28);
+  --m-scrim: rgba(27, 37, 51, 0.42);
+  --m-skeleton-base: #eaeff7;
+  --m-skeleton-shine: #f4f7fc;
+}
+
+/* ---- Color roles: DARK (Soft Slate Dark) ---- */
+html[data-theme='dark'] .alpr-mobile-shell,
+html.app-skin-dark .alpr-mobile-shell {
+  --m-bg: #111827;
+  --m-surface: #1b2436;
+  --m-surface-2: #243047;
+  --m-surface-3: #2d3b56;
+  --m-on-surface: #edf2fa;
+  --m-on-surface-muted: #a6b4cc;
+  --m-on-surface-faint: #7d8da8;
+  --m-outline: rgba(148, 163, 184, 0.2);
+  --m-outline-strong: rgba(148, 163, 184, 0.34);
+
+  --m-accent: #9bb4ec;
+  --m-primary-container: rgba(59, 89, 152, 0.32);
+  --m-on-primary-container: #dce6fc;
+
+  --m-btn-primary-bg: #4666ab;
+  --m-btn-primary-fg: #ffffff;
+  --m-btn-primary-hover-bg: #5475bc;
+  --m-btn-primary-hover-fg: #ffffff;
+
+  --m-success: #5fb896;
+  --m-success-container: rgba(43, 122, 94, 0.25);
+  --m-on-success-container: #bcebd7;
+  --m-warning: #e6b865;
+  --m-warning-container: rgba(154, 101, 24, 0.24);
+  --m-on-warning-container: #f7dfa9;
+  --m-danger: #e28285;
+  --m-danger-container: rgba(184, 68, 72, 0.24);
+  --m-on-danger-container: #fbd3d4;
+  --m-info: #9bb4ec;
+  --m-info-container: rgba(59, 89, 152, 0.26);
+  --m-on-info-container: #dce6fc;
+
+  --m-focus-ring: rgba(155, 180, 236, 0.35);
+  --m-scrim: rgba(0, 0, 0, 0.6);
+  --m-shadow-1: 0 1px 3px rgba(0, 0, 0, 0.32);
+  --m-shadow-2: 0 6px 18px rgba(0, 0, 0, 0.42);
+  --m-shadow-3: 0 12px 28px rgba(0, 0, 0, 0.5);
+  --m-skeleton-base: #243047;
+  --m-skeleton-shine: #2d3b56;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alpr-mobile-shell,
+  .alpr-mobile-shell * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
