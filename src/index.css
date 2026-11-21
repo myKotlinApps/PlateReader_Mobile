@@ -76,6 +76,8 @@
 
 :root {
   --font-vazir: 'Vazirmatn', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --ui-card-radius: 2px;
+  --ui-btn-radius: 2px;
   --ease-out-quart: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-spring-snappy: cubic-bezier(0.16, 1, 0.3, 1);
   --shadow-surface-ring: 0 0 0 1px rgba(27, 37, 51, 0.06), 0 1px 2px rgba(27, 37, 51, 0.03), 0 6px 16px -6px rgba(27, 37, 51, 0.04);
@@ -88,10 +90,63 @@
   --bs-danger-rgb: 184, 68, 72;
 }
 
+html[data-corner-style='curved'] {
+  --ui-card-radius: 16px;
+  --ui-btn-radius: 12px;
+}
+
 html[data-theme='dark'],
 html.app-skin-dark {
-  --shadow-surface-ring: 0 0 0 1px rgba(148, 163, 184, 0.14), 0 2px 8px rgba(0, 0, 0, 0.28);
-  --shadow-dock-ring: 0 0 0 1px rgba(148, 163, 184, 0.18), 0 12px 30px rgba(0, 0, 0, 0.48);
+  color-scheme: dark;
+  --color-surface: #0e1420;
+  --color-background: #0e1420;
+  --color-surface-dim: #0a0f18;
+  --color-surface-bright: #1b2538;
+  --color-surface-container-lowest: #151e2e;
+  --color-surface-container-low: #1c273b;
+  --color-surface-container: #223047;
+  --color-surface-container-high: #2a3a54;
+  --color-surface-container-highest: #334563;
+  --color-surface-variant: #25334a;
+  --color-on-background: #edf2fa;
+  --color-on-surface: #edf2fa;
+  --color-on-surface-variant: #9fb0ca;
+  --color-outline: #627491;
+  --color-outline-variant: #2e3e57;
+  --color-primary: #7aa2f7;
+  --color-primary-container: #1e3054;
+  --color-on-primary: #0c162b;
+  --color-on-primary-container: #dbe7ff;
+  --color-secondary: #4fd1a5;
+  --color-secondary-container: #15362c;
+  --color-on-secondary-container: #b9f3dd;
+  --color-error: #f28b90;
+  --color-error-container: #3b1c22;
+  --color-on-error: #2a0b0e;
+  --color-on-error-container: #ffd6d8;
+  --shadow-surface-ring: 0 0 0 1px rgba(148, 163, 184, 0.16), 0 2px 10px rgba(0, 0, 0, 0.35);
+  --shadow-dock-ring: 0 0 0 1px rgba(148, 163, 184, 0.2), 0 12px 30px rgba(0, 0, 0, 0.52);
+  --shadow-card: 0 0 0 1px rgba(148, 163, 184, 0.15), 0 4px 14px rgba(0, 0, 0, 0.32);
+  --shadow-floating: 0 0 0 1px rgba(148, 163, 184, 0.2), 0 14px 36px rgba(0, 0, 0, 0.56);
+}
+
+html[data-theme='dark'] input:not([type='checkbox']):not([type='radio']),
+html[data-theme='dark'] select,
+html[data-theme='dark'] textarea,
+html.app-skin-dark input:not([type='checkbox']):not([type='radio']),
+html.app-skin-dark select,
+html.app-skin-dark textarea {
+  color: var(--color-on-surface);
+  background-color: var(--color-surface-container-low);
+  border-color: var(--color-outline-variant);
+}
+
+html[data-theme='dark'] input::placeholder,
+html[data-theme='dark'] textarea::placeholder,
+html.app-skin-dark input::placeholder,
+html.app-skin-dark textarea::placeholder {
+  color: var(--color-on-surface-variant);
+  opacity: 0.72;
 }
 
 /* Persian Mobile Typography Standard (Vazirmatn + Persian Digits ss01 + comfortable line-height) */
@@ -100,8 +155,8 @@ body {
   margin: 0;
   font-family: var(--font-vazir);
   font-feature-settings: "ss01" 1;
-  background-color: #f6f8fb;
-  color: #1b2533;
+  background-color: var(--color-surface, #f6f8fb);
+  color: var(--color-on-surface, #1b2533);
   font-size: 14px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;

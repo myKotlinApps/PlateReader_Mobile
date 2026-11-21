@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { mobileApi, type MobileBootstrap } from './mobileApi';
 import { captureNativePhotoBase64, compressImageFileToBase64 } from './nativeBridge';
@@ -13,9 +13,15 @@ import {
   SurfaceCard,
 } from './ui/StitchKit';
 import { IranPlateBadge, IranPlateInput } from './ui/IranPlate';
+import { rbacApi } from './rbac/rbacApi';
+import type { GuestPermitDoc } from '../server/nosqlStore';
+import {
+  findApprovedVehicleByPlate,
+  type ApprovedVehicleDoc,
+} from './utils/residentOnboarding';
 
-type GuardTab = 'gate' | 'directives' | 'incident';
-const VALID_TABS: GuardTab[] = ['gate', 'directives', 'incident'];
+type GuardTab = 'gate' | 'vehicles' | 'permits' | 'directives' | 'incident';
+const VALID_TABS: GuardTab[] = ['gate', 'vehicles', 'permits', 'directives', 'incident'];
 
 interface Props {
   bootstrap: MobileBootstrap;
@@ -39,6 +45,9 @@ export const MobileGuardPage: React.FC<Props> = ({
     guest_permits: Array<Record<string, any>>;
     incidents: Array<Record<string, any>>;
   } | null>(null);
+  const [livePermits, setLivePermits] = useState<GuestPermitDoc[]>([]);
+  const [approvedVehicles, setApprovedVehicles] = useState<ApprovedVehicleDoc[]>([]);
+  const [vehicleQuery, setVehicleQuery] = useState('');
   const [notice, setNotice] = useState<{
     tone: 'success' | 'info' | 'danger';
     text: string;
@@ -79,18 +88,52 @@ export const MobileGuardPage: React.FC<Props> = ({
   };
 
   const loadSummary = useCallback(async () => {
-    if (!bootstrap.license.guard_enabled) return;
     try {
-      const res = await mobileApi.guardSummary();
-      if (res.data) setSummary(res.data);
+      if (bootstrap.license.guard_enabled) {
+        const res = await mobileApi.guardSummary();
+        if (res.data) setSummary(res.data);
+      }
     } catch {
       /* offline */
+    }
+    try {
+      const [pRes, vRes] = await Promise.all([
+        rbacApi.listGuestPermits(),
+        rbacApi.listApprovedVehicles(),
+      ]);
+      setLivePermits(pRes.items);
+      setApprovedVehicles(vRes.items);
+    } catch {
+      /* ignore when no rbac token */
     }
   }, [bootstrap.license.guard_enabled]);
 
   useEffect(() => {
     void loadSummary();
   }, [loadSummary]);
+
+  const handleUpdatePermit = async (permit: GuestPermitDoc, status: 'entered' | 'exited') => {
+    setBusy(true);
+    try {
+      await rbacApi.updateGuestPermit(permit.id, status);
+      await loadSummary();
+      onSyncChanged();
+      setNotice({
+        tone: 'success',
+        text:
+          status === 'entered'
+            ? `ورود مهمان «${permit.guestName}» (واحد ${permit.unitCode}) تایید و در دفتر گیت ثبت شد.`
+            : `خروج مهمان «${permit.guestName}» ثبت گردید.`,
+      });
+    } catch (err) {
+      setNotice({
+        tone: 'danger',
+        text: err instanceof Error ? err.message : 'تغییر وضعیت مجوز انجام نشد.',
+      });
+    } finally {
+      setBusy(false);
+    }
+  };
 
   const pickPhoto = async (setter: (b64: string) => void, file?: File | null) => {
     try {
@@ -218,18 +261,64 @@ export const MobileGuardPage: React.FC<Props> = ({
   };
 
   const sentDirectives = summary?.directives.filter((d) => d.status === 'sent').length ?? 0;
-  const eventsCount = summary?.recent_events.length ?? 0;
+  const pendingPermitsCount = livePermits.filter((p) => p.status === 'pending_gate').length;
+  const enabledVehiclesCount = approvedVehicles.filter((v) => v.gateAccessEnabled).length;
+
+  const matchedResidentVehicle = useMemo(
+    () => findApprovedVehicleByPlate(plateText, approvedVehicles),
+    [plateText, approvedVehicles],
+  );
+
+  const filteredVehicles = useMemo(() => {
+    const q = vehicleQuery.trim().toLowerCase();
+    if (!q) return approvedVehicles;
+    return approvedVehicles.filter(
+      (v) =>
+        v.plateText.toLowerCase().includes(q) ||
+        v.unitCode.toLowerCase().includes(q) ||
+        v.residentName.toLowerCase().includes(q) ||
+        v.parkingNumber.toLowerCase().includes(q) ||
+        v.blockId.toLowerCase().includes(q),
+    );
+  }, [approvedVehicles, vehicleQuery]);
+
+  const handleQuickResidentGateEntry = async (v: ApprovedVehicleDoc) => {
+    setBusy(true);
+    setNotice(null);
+    try {
+      await mobileApi.recordGuardEntryExit({
+        direction: 'entry',
+        plate_text: v.plateText,
+        guest_name: `${v.residentName} (ساکن مجاز)`,
+        unit_label: `واحد ${v.unitCode} • پارکینگ ${v.parkingNumber}`,
+        photo_base64: '',
+      });
+      onSyncChanged();
+      void loadSummary();
+      setNotice({
+        tone: 'success',
+        text: `ورود خودروی مجاز واحد ${v.unitCode} (${v.residentName}) در گیت ثبت شد و فرمان بازشدن راهبند ارسال گردید.`,
+      });
+    } catch (err) {
+      setNotice({
+        tone: 'danger',
+        text: err instanceof Error ? err.message : 'ثبت ورود خودرو ناموفق بود.',
+      });
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-3.5 pb-4" dir="rtl">
       {/* Stitch _5 Hero Summary */}
       <HeroSummaryCard
-        title="شیفت صبح • رحمان حسینی"
-        subtitle="گیت ورودی شمالی • پلاک‌خوان ALPR فعال"
+        title="شیفت فعال گیت ورودی • انتظامات نیلوفر"
+        subtitle="گیت ورودی شمالی • پلاک‌خوان ALPR، لیست خودروهای مجاز ساکنین و مجوز مهمان"
         badge="شیفت فعال"
         stats={[
-          { label: 'حاضرین شیفت', value: '۳ نفر' },
-          { label: 'تردد ثبت‌شده', value: eventsCount.toLocaleString('fa-IR'), accent: 'positive' },
+          { label: 'پلاک مجاز ساکنین', value: enabledVehiclesCount.toLocaleString('fa-IR'), accent: 'positive' },
+          { label: 'مجوز مهمان باز', value: pendingPermitsCount.toLocaleString('fa-IR'), accent: pendingPermitsCount > 0 ? 'danger' : 'positive' },
           { label: 'دستور جدید', value: sentDirectives.toLocaleString('fa-IR'), accent: 'danger' },
         ]}
       />
@@ -240,6 +329,8 @@ export const MobileGuardPage: React.FC<Props> = ({
         onChange={(id) => switchTab(id as GuardTab)}
         items={[
           { id: 'gate', label: 'تردد و پلاک‌خوان', icon: 'directions_car' },
+          { id: 'vehicles', label: 'خودروهای مجاز ساکنین', icon: 'verified_user', badge: enabledVehiclesCount },
+          { id: 'permits', label: 'مجوز مهمان', icon: 'badge', badge: pendingPermitsCount },
           { id: 'directives', label: 'دستورها', icon: 'assignment_late', badge: sentDirectives },
           { id: 'incident', label: 'گزارش حادثه', icon: 'report_problem' },
         ]}
@@ -293,6 +384,29 @@ export const MobileGuardPage: React.FC<Props> = ({
                 value={plateText}
                 onChange={setPlateText}
               />
+              {matchedResidentVehicle && (
+                <div className="p-2.5 rounded-[var(--ui-card-radius)] bg-secondary-container/60 border border-secondary/45 flex items-center justify-between gap-2 flex-wrap">
+                  <div className="min-w-0">
+                    <strong className="text-[12.5px] font-bold text-on-secondary-container block">
+                      ✓ پلاک مجاز ساکن تاییدشده — واحد {matchedResidentVehicle.unitCode} ({matchedResidentVehicle.residentName})
+                    </strong>
+                    <span className="text-[11.5px] text-on-secondary-container/85 block">
+                      {matchedResidentVehicle.modelAndColor} • پارکینگ {matchedResidentVehicle.parkingNumber} ({matchedResidentVehicle.parkingType})
+                    </span>
+                  </div>
+                  <StitchButton
+                    type="button"
+                    size="sm"
+                    variant="secondary"
+                    onClick={() => {
+                      setGuestName(matchedResidentVehicle.residentName);
+                      setUnitLabel(`واحد ${matchedResidentVehicle.unitCode}`);
+                    }}
+                  >
+                    پرکردن خودکار
+                  </StitchButton>
+                </div>
+              )}
               <div className="grid grid-cols-2 gap-2">
                 <input
                   type="text"
@@ -365,6 +479,178 @@ export const MobileGuardPage: React.FC<Props> = ({
               </div>
             )}
           </SurfaceCard>
+        </div>
+      )}
+
+      {tab === 'vehicles' && (
+        <div className="space-y-3 m-panel-in">
+          <SurfaceCard className="space-y-3">
+            <SectionHeader
+              title="فهرست رسمی پلاک‌های مجاز ساکنین (تاییدشده توسط مدیر بلوک)"
+              icon="verified_user"
+              action={
+                <StatusPill
+                  label={`${enabledVehiclesCount.toLocaleString('fa-IR')} پلاک فعال گیت`}
+                  tone="positive"
+                />
+              }
+            />
+            <input
+              type="search"
+              value={vehicleQuery}
+              onChange={(e) => setVehicleQuery(e.target.value)}
+              placeholder="جستجو بر اساس پلاک، واحد (مثلاً B-15)، نام ساکن یا شماره پارکینگ..."
+              className="w-full h-10 px-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low text-[13px] border border-outline-variant/55"
+            />
+          </SurfaceCard>
+
+          {filteredVehicles.length === 0 ? (
+            <EmptyState
+              icon="directions_car"
+              title="خودروی مجازی با این مشخصات یافت نشد"
+              description="پس از تایید پرونده ثبت‌نام QR ساکنین توسط مدیر بلوک، پلاک‌ها به‌صورت خودکار اینجا ثبت می‌شوند."
+            />
+          ) : (
+            <div className="space-y-2.5 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
+              {filteredVehicles.map((v) => (
+                <SurfaceCard key={v.id} className="p-3.5 space-y-2.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 space-y-1">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <strong className="text-[14px] font-bold text-on-surface">
+                          واحد {v.unitCode} — {v.residentName}
+                        </strong>
+                        <span className="px-1.5 py-0.5 rounded-[2px] bg-surface-container-low border border-outline-variant/45 text-[11px] text-on-surface-variant">
+                          بلوک {v.blockId}
+                        </span>
+                      </div>
+                      <span className="text-[12px] text-on-surface-variant block">
+                        {v.vehicleType} • {v.modelAndColor} • {v.occupancyType}
+                      </span>
+                    </div>
+                    <StatusPill
+                      label={v.gateAccessEnabled ? 'گیت باز (مجاز)' : 'مسدود'}
+                      tone={v.gateAccessEnabled ? 'positive' : 'danger'}
+                    />
+                  </div>
+
+                  <IranPlateBadge value={v.plateText} size="sm" showTypeLabel />
+
+                  <div className="p-2 rounded-[var(--ui-card-radius)] bg-surface-container-low/80 border border-outline-variant/40 text-[11.5px] text-on-surface-variant flex items-center justify-between gap-2 flex-wrap">
+                    <span>
+                      پارکینگ <strong className="text-on-surface">{v.parkingNumber}</strong> ({v.parkingType}
+                      {v.parkingFloorOrZone ? ` — ${v.parkingFloorOrZone}` : ''})
+                    </span>
+                    <span
+                      className={`font-semibold ${
+                        v.hasParkingProof ? 'text-secondary' : 'text-error'
+                      }`}
+                    >
+                      {v.hasParkingProof ? '✓ مدرک پارکینگ تاییدشده' : 'بدون مدرک پارکینگ'}
+                    </span>
+                  </div>
+
+                  <div className="pt-2 border-t border-outline-variant/35 flex items-center justify-between gap-2 flex-wrap">
+                    <span className="text-[11px] text-on-surface-variant">
+                      تایید مدیر: {v.approvedByName}
+                    </span>
+                    {v.gateAccessEnabled && (
+                      <StitchButton
+                        size="sm"
+                        icon="login"
+                        disabled={busy}
+                        onClick={() => void handleQuickResidentGateEntry(v)}
+                      >
+                        ثبت ورود خودرو ساکن
+                      </StitchButton>
+                    )}
+                  </div>
+                </SurfaceCard>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {tab === 'permits' && (
+        <div className="space-y-3 m-panel-in">
+          <SectionHeader
+            title="مجوزهای مهمان ثبت‌شده توسط ساکنین (اتصال زنده به گیت)"
+            icon="badge"
+          />
+          {livePermits.length === 0 ? (
+            <EmptyState
+              icon="badge"
+              title="مجوز مهمانی ثبت نشده است"
+              description="به محض ثبت مهمان توسط ساکنین، پلاک و نام مهمان اینجا نمایش داده می‌شود."
+            />
+          ) : (
+            <div className="space-y-2.5 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
+              {livePermits.map((p) => (
+                <SurfaceCard key={p.id} className="p-3.5 space-y-2.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1 space-y-1">
+                      <strong className="text-[14px] font-bold text-on-surface block truncate">
+                        {p.guestName} — واحد {p.unitCode}
+                      </strong>
+                      <span className="text-[12px] text-on-surface-variant block">
+                        میزبان: {p.residentName} • {p.visitDateLabel}
+                      </span>
+                      {p.plateText && <IranPlateBadge value={p.plateText} size="sm" showTypeLabel />}
+                    </div>
+                    <StatusPill
+                      label={
+                        p.status === 'entered'
+                          ? 'داخل مجتمع'
+                          : p.status === 'exited'
+                            ? 'خارج شد'
+                            : p.status === 'cancelled'
+                              ? 'لغو شده'
+                              : 'منتظر ورود'
+                      }
+                      tone={
+                        p.status === 'entered'
+                          ? 'positive'
+                          : p.status === 'pending_gate'
+                            ? 'danger'
+                            : 'neutral'
+                      }
+                    />
+                  </div>
+                  {p.note && (
+                    <p className="text-[12px] text-on-surface-variant mb-0">{p.note}</p>
+                  )}
+                  {(p.status === 'pending_gate' || p.status === 'entered') && (
+                    <div className="pt-2 border-t border-outline-variant/35 flex items-center justify-end gap-2">
+                      {p.status === 'pending_gate' && (
+                        <StitchButton
+                          size="sm"
+                          icon="login"
+                          disabled={busy}
+                          onClick={() => void handleUpdatePermit(p, 'entered')}
+                          className="rounded-[var(--ui-btn-radius)]"
+                        >
+                          ثبت ورود مهمان
+                        </StitchButton>
+                      )}
+                      {p.status === 'entered' && (
+                        <StitchButton
+                          variant="secondary"
+                          size="sm"
+                          icon="logout"
+                          disabled={busy}
+                          onClick={() => void handleUpdatePermit(p, 'exited')}
+                          className="rounded-[var(--ui-btn-radius)]"
+                        >
+                          ثبت خروج
+                        </StitchButton>
+                      )}
+                    </div>
+                  )}
+                </SurfaceCard>
+              ))}
+            </div>
+          )}
         </div>
       )}
 

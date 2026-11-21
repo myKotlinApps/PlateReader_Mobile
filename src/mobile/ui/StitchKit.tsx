@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { AlertCircle, CheckCircle2, Info, X } from 'lucide-react';
+import { dismissDockAlarm, isDockAlarmHostMounted, pushDockAlarm } from './dockAlarmBus';
 
 export interface SubMenuTabItem {
   id: string;
@@ -28,7 +30,7 @@ export const SubMenuTabs: React.FC<{
     <div
       ref={listRef}
       role="tablist"
-      className={`bg-surface-container-low rounded-2xl p-1 shadow-[inset_0_0_0_1px_rgba(27,37,51,0.06)] flex items-center gap-1 overflow-x-auto no-scrollbar ${className}`}
+      className={`bg-surface-container-low rounded-[var(--ui-card-radius)] p-1 shadow-[inset_0_0_0_1px_rgba(27,37,51,0.06)] flex items-center gap-1 overflow-x-auto no-scrollbar ${className}`}
     >
       {items.map((item) => {
         const isActive = item.id === active;
@@ -39,7 +41,7 @@ export const SubMenuTabs: React.FC<{
             role="tab"
             aria-selected={isActive}
             onClick={() => onChange(item.id)}
-            className={`shrink-0 h-9 px-3 rounded-xl text-[13px] flex items-center justify-center gap-1.5 whitespace-nowrap active:scale-[0.97] transition-[transform,background-color,color,box-shadow] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
+            className={`shrink-0 h-9 px-3 rounded-[var(--ui-btn-radius)] text-[13px] flex items-center justify-center gap-1.5 whitespace-nowrap active:scale-[0.97] transition-[transform,background-color,color,box-shadow] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
               isActive
                 ? 'bg-surface-container-lowest text-on-primary-container font-bold shadow-[var(--shadow-surface-ring)]'
                 : 'text-on-surface-variant font-medium hover:text-on-surface hover:bg-surface-container-lowest/50'
@@ -101,7 +103,7 @@ export const SurfaceCard: React.FC<{
   className?: string;
 }> = ({ children, className = '' }) => (
   <section
-    className={`bg-surface-container-lowest rounded-2xl p-4 shadow-[var(--shadow-surface-ring)] ${className}`}
+    className={`bg-surface-container-lowest rounded-[var(--ui-card-radius)] border border-outline-variant/55 p-4 shadow-[var(--shadow-surface-ring)] ${className}`}
   >
     {children}
   </section>
@@ -118,7 +120,7 @@ export const HeroSummaryCard: React.FC<{
   badge?: string;
   stats: Array<{ label: string; value: string; accent?: 'default' | 'positive' | 'danger' }>;
 }> = ({ title, subtitle, badge, stats }) => (
-  <section className="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[var(--shadow-surface-ring)]">
+  <section className="bg-surface-container-lowest rounded-[var(--ui-card-radius)] border border-outline-variant/55 overflow-hidden shadow-[var(--shadow-surface-ring)]">
     <div className="bg-primary-container/35 px-4 py-3.5 flex items-center justify-between gap-2.5 border-b border-outline-variant/35">
       <div className="min-w-0 flex-1">
         <h2 className="text-[15px] font-bold text-on-surface mb-0 truncate leading-snug">
@@ -161,46 +163,100 @@ export const HeroSummaryCard: React.FC<{
   </section>
 );
 
-/** Unified soft pastel notice / alert banner with aria-live politeness & entrance motion. */
+/**
+ * Unified Notice / Feedback Alert — automatically routed to our custom Digikala-style
+ * Floating Alarm Pill above the dock (zero clunky inline banners & zero clipped icon ligatures).
+ */
 export const NoticeBanner: React.FC<{
   message: string;
   tone?: 'info' | 'success' | 'danger';
   onClose?: () => void;
-}> = ({ message, tone = 'info', onClose }) => (
-  <div
-    role="status"
-    aria-live="polite"
-    aria-atomic="true"
-    className={`m-panel-in rounded-xl px-3.5 py-2.5 text-[13px] font-medium flex items-center justify-between gap-2 border ${
-      tone === 'danger'
-        ? 'bg-error-container border-error/20 text-on-error-container'
-        : tone === 'success'
-          ? 'bg-secondary-container border-secondary/20 text-on-secondary-container'
-          : 'bg-primary-container/60 border-primary/15 text-on-primary-container'
-    }`}
-  >
-    <div className="flex items-center gap-2 min-w-0">
-      <span
-        className={`material-symbols-outlined text-[19px] shrink-0 ${
-          tone === 'danger' ? 'text-error' : tone === 'success' ? 'text-secondary' : 'text-primary'
-        }`}
+}> = ({ message, tone = 'info', onClose }) => {
+  const hostMounted = isDockAlarmHostMounted();
+  const onCloseRef = React.useRef(onClose);
+  onCloseRef.current = onClose;
+
+  useEffect(() => {
+    if (!hostMounted || !message) return;
+    const id = pushDockAlarm({
+      message,
+      tone,
+      title:
+        tone === 'success'
+          ? 'عملیات با موفقیت انجام شد'
+          : tone === 'danger'
+            ? 'نیاز به بررسی و اصلاح'
+            : 'اطلاع‌رسانی سامانه',
+      onClose: () => onCloseRef.current?.(),
+    });
+    return () => {
+      dismissDockAlarm(id);
+    };
+  }, [hostMounted, message, tone]);
+
+  if (hostMounted) {
+    // Rendered inside MobileShell's Digikala Floating Alarm Pill above the dock
+    return null;
+  }
+
+  // Standalone fallback (e.g., RolePortalPage or /resident-app outside MobileShell):
+  // still renders as our exact floating Digikala Alarm Pill!
+  const pillNode = (
+    <div
+      dir="rtl"
+      className="fixed bottom-4 inset-x-0 z-[1200] px-3.5 flex justify-center pointer-events-none"
+    >
+      <div
+        role="status"
+        aria-live="polite"
+        className="dk-alarm-pill m-panel-in max-w-[420px] w-full pointer-events-auto"
       >
-        {tone === 'danger' ? 'error' : tone === 'success' ? 'check_circle' : 'info'}
-      </span>
-      <span className="leading-relaxed line-clamp-2">{message}</span>
+        <div className="dk-alarm-pill__main cursor-default">
+          <span
+            className={`dk-alarm-pill__avatar ${
+              tone === 'danger'
+                ? 'dk-alarm-pill__avatar--danger'
+                : tone === 'success'
+                  ? 'dk-alarm-pill__avatar--success'
+                  : 'dk-alarm-pill__avatar--primary'
+            }`}
+            aria-hidden="true"
+          >
+            {tone === 'danger' ? (
+              <AlertCircle size={20} strokeWidth={2.2} />
+            ) : tone === 'success' ? (
+              <CheckCircle2 size={20} strokeWidth={2.2} />
+            ) : (
+              <Info size={20} strokeWidth={2.2} />
+            )}
+          </span>
+          <span className="dk-alarm-pill__copy">
+            <strong className="dk-alarm-pill__title">
+              {tone === 'success'
+                ? 'عملیات با موفقیت انجام شد'
+                : tone === 'danger'
+                  ? 'نیاز به بررسی و اصلاح'
+                  : 'اطلاع‌رسانی سامانه'}
+            </strong>
+            <span className="dk-alarm-pill__sub">{message}</span>
+          </span>
+        </div>
+        {onClose && (
+          <button
+            type="button"
+            aria-label="بستن اعلان"
+            onClick={onClose}
+            className="dk-alarm-pill__close"
+          >
+            <X size={14} strokeWidth={2.2} />
+          </button>
+        )}
+      </div>
     </div>
-    {onClose && (
-      <button
-        type="button"
-        aria-label="بستن پیام"
-        onClick={onClose}
-        className="w-9 h-9 rounded-full hover:bg-black/5 active:scale-[0.94] transition-transform flex items-center justify-center shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-      >
-        <span className="material-symbols-outlined text-[17px]">close</span>
-      </button>
-    )}
-  </div>
-);
+  );
+
+  return typeof document !== 'undefined' ? createPortal(pillNode, document.body) : pillNode;
+};
 
 /**
  * Unified soft-palette button with tactile press feedback (scale 0.97)
@@ -214,7 +270,9 @@ export const StitchButton: React.FC<
   }
 > = ({ variant = 'primary', size = 'md', icon, children, className = '', ...rest }) => {
   const sizeCls =
-    size === 'sm' ? 'h-9 px-3 text-[12.5px] rounded-xl' : 'h-10 px-4 text-[13px] rounded-xl';
+    size === 'sm'
+      ? 'h-9 px-3 text-[12.5px] rounded-[var(--ui-btn-radius)]'
+      : 'h-10 px-4 text-[13px] rounded-[var(--ui-btn-radius)]';
   const variantCls =
     variant === 'primary'
       ? 'bg-primary text-on-primary hover:bg-primary/90 shadow-xs'
@@ -261,7 +319,7 @@ export const StatusPill: React.FC<{
           : 'bg-outline';
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[12px] font-medium whitespace-nowrap ${textCls}`}
+      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[var(--ui-btn-radius)] text-[12px] font-medium whitespace-nowrap ${textCls}`}
     >
       <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotCls}`} aria-hidden="true" />
       <span>{label}</span>
@@ -281,7 +339,7 @@ export const EmptyState: React.FC<{
   onAction?: () => void;
 }> = ({ icon, title, description, actionLabel, onAction }) => (
   <SurfaceCard className="py-8 px-5 text-center flex flex-col items-center gap-2 m-panel-in">
-    <span className="w-11 h-11 rounded-2xl bg-surface-container-low text-on-surface-variant flex items-center justify-center">
+    <span className="w-11 h-11 rounded-[var(--ui-card-radius)] bg-surface-container-low text-on-surface-variant flex items-center justify-center">
       <span className="material-symbols-outlined text-[22px]">{icon}</span>
     </span>
     <h3 className="text-[14px] font-bold text-on-surface mb-0 mt-1">{title}</h3>
@@ -335,7 +393,7 @@ export const StitchModal: React.FC<{
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-surface-container-lowest rounded-2xl w-full max-w-md p-4 shadow-floating space-y-3 max-h-[calc(100dvh-134px)] overflow-y-auto m-sheet-in">
+      <div className="bg-surface-container-lowest rounded-[var(--ui-card-radius)] border border-outline-variant/60 w-full max-w-md p-4 shadow-floating space-y-3 max-h-[calc(100dvh-134px)] overflow-y-auto m-sheet-in">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0 flex-1">
             <h3

@@ -14,10 +14,10 @@ export interface MDockAlarm {
   id: string;
   title: string;
   subtitle: string;
-  actionLabel: string;
-  tone?: 'danger' | 'warning' | 'primary';
+  actionLabel?: string;
+  tone?: 'danger' | 'warning' | 'primary' | 'success';
   icon: React.ReactNode;
-  onAction: () => void;
+  onAction?: () => void;
   onDismiss?: () => void;
 }
 
@@ -51,12 +51,13 @@ export const MBottomNav: React.FC<MBottomNavProps> = ({
       {alarm && (
         <div
           className="dk-alarm-pill m-panel-in"
-          role="region"
-          aria-label="هشدار فوری مجتمع"
+          role="status"
+          aria-live="polite"
+          aria-label="اعلان مجتمع"
         >
           <button
             type="button"
-            onClick={alarm.onAction}
+            onClick={() => (alarm.onAction ? alarm.onAction() : alarm.onDismiss?.())}
             className="dk-alarm-pill__main"
           >
             <span
@@ -65,7 +66,9 @@ export const MBottomNav: React.FC<MBottomNavProps> = ({
                   ? 'dk-alarm-pill__avatar--danger'
                   : alarm.tone === 'warning'
                     ? 'dk-alarm-pill__avatar--warning'
-                    : 'dk-alarm-pill__avatar--primary'
+                    : alarm.tone === 'success'
+                      ? 'dk-alarm-pill__avatar--success'
+                      : 'dk-alarm-pill__avatar--primary'
               }`}
               aria-hidden="true"
             >
@@ -77,10 +80,12 @@ export const MBottomNav: React.FC<MBottomNavProps> = ({
               <span className="dk-alarm-pill__sub">{alarm.subtitle}</span>
             </span>
 
-            <span className="dk-alarm-pill__cta">
-              <span>{alarm.actionLabel}</span>
-              <ChevronLeft size={16} strokeWidth={2.2} />
-            </span>
+            {alarm.actionLabel && (
+              <span className="dk-alarm-pill__cta">
+                <span>{alarm.actionLabel}</span>
+                <ChevronLeft size={16} strokeWidth={2.2} />
+              </span>
+            )}
           </button>
 
           {alarm.onDismiss && (

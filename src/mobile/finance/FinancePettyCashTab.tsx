@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { mobileApi } from '../mobileApi';
 import { computeBudgetVariance } from '../financeCalc';
+import { PersianAmountInput } from '../components/PersianAmountInput';
 import {
   HeroSummaryCard,
   SectionHeader,
@@ -357,20 +358,12 @@ export const FinancePettyCashTab: React.FC<Props> = ({
         subtitle={SCOPES[scopeIdx]}
       >
         <form onSubmit={handleReplenishSubmit} className="space-y-3">
-          <div>
-            <label className="block text-[13px] font-medium text-on-surface-variant mb-1">
-              مبلغ درخواستی (تومان)
-            </label>
-            <input
-              type="number"
-              required
-              min={1000000}
-              step={500000}
-              value={repAmount}
-              onChange={(e) => setRepAmount(e.target.value)}
-              className="w-full h-11 px-3 rounded-xl bg-surface-container-low text-on-surface font-numeric-stat font-semibold text-[13.5px] border border-outline-variant/45"
-            />
-          </div>
+          <PersianAmountInput
+            label="مبلغ درخواستی (تومان)"
+            required
+            value={Number(repAmount) || 0}
+            onChange={(val) => setRepAmount(String(val))}
+          />
           <div>
             <label className="block text-[13px] font-medium text-on-surface-variant mb-1">
               توضیح هزینه

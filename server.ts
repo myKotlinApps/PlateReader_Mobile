@@ -4,6 +4,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import { DatabaseSync } from "node:sqlite";
+import { registerRbacRoutes } from "./src/server/rbacRoutes";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -477,6 +478,9 @@ async function startServer() {
   const PORT = Number(process.env.PORT) || 3000;
 
   app.use(express.json({ limit: "25mb" }));
+
+  // Register full 10-role RBAC & Server-Side NoSQL API routes
+  registerRbacRoutes(app, { putDomainDoc });
 
   // 1. Connect discovery info
   app.get("/api/v1/connect/info", (req, res) => {

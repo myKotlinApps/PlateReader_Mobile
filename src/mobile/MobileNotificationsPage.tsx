@@ -2,6 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { mobileApi } from './mobileApi';
 import { hasAppPin, clearAppPin, registerPushChannel, setAppPin } from './nativeBridge';
 import { loadMobileAuth } from './remoteTransport';
+import { AppearanceSettingsPanel } from './components/AppearanceSettingsPanel';
+import { UserProfilePanel } from './components/UserProfilePanel';
+import type { RbacUserRecord } from './rbac/roles';
+import {
+  DEFAULT_APPEARANCE_PREFS,
+  type UserAppearancePrefs,
+} from './theme/palettes';
 import {
   NoticeBanner,
   SectionHeader,
@@ -14,10 +21,30 @@ import {
 interface Props {
   onOpenRoute: (route: string) => void;
   onNavigateTab?: (tab: string) => void;
+  appearancePrefs?: UserAppearancePrefs;
+  onChangeAppearancePrefs?: (next: UserAppearancePrefs) => void;
+  userDisplayName?: string;
+  currentUser?: RbacUserRecord;
+  onUserUpdated?: (user: RbacUserRecord) => void;
+  dark?: boolean;
+  onToggleTheme?: () => void;
 }
 
-export const MobileNotificationsPage: React.FC<Props> = ({ onOpenRoute, onNavigateTab }) => {
+export const MobileNotificationsPage: React.FC<Props> = ({
+  onOpenRoute,
+  onNavigateTab,
+  appearancePrefs,
+  onChangeAppearancePrefs,
+  userDisplayName,
+  currentUser,
+  onUserUpdated,
+  dark = false,
+  onToggleTheme,
+}) => {
   const [sub, setSub] = useState<'events' | 'settings'>('events');
+  const [localPrefs, setLocalPrefs] = useState<UserAppearancePrefs>(
+    appearancePrefs ?? DEFAULT_APPEARANCE_PREFS,
+  );
   const [items, setItems] = useState<Array<Record<string, any>>>([]);
   const [pushStatus, setPushStatus] = useState('');
   const [pinEnabled, setPinEnabled] = useState(false);
@@ -65,7 +92,7 @@ export const MobileNotificationsPage: React.FC<Props> = ({ onOpenRoute, onNaviga
         onChange={(id) => setSub(id as typeof sub)}
         items={[
           { id: 'events', label: 'رویدادها و اعلان‌ها', icon: 'notifications', badge: items.length },
-          { id: 'settings', label: 'امنیت و تنظیمات', icon: 'tune' },
+          { id: 'settings', label: 'پروفایل و شخصی‌سازی', icon: 'account_circle' },
         ]}
       />
 
@@ -103,6 +130,29 @@ export const MobileNotificationsPage: React.FC<Props> = ({ onOpenRoute, onNaviga
 
       {sub === 'settings' && (
         <div className="space-y-3.5">
+          {currentUser && onUserUpdated && onToggleTheme ? (
+            <UserProfilePanel
+              user={currentUser}
+              onUserUpdated={onUserUpdated}
+              appearancePrefs={appearancePrefs ?? localPrefs}
+              onChangeAppearancePrefs={(next) => {
+                setLocalPrefs(next);
+                onChangeAppearancePrefs?.(next);
+              }}
+              dark={dark}
+              onToggleTheme={onToggleTheme}
+            />
+          ) : (
+            <AppearanceSettingsPanel
+              prefs={appearancePrefs ?? localPrefs}
+              onChangePrefs={(next) => {
+                setLocalPrefs(next);
+                onChangeAppearancePrefs?.(next);
+              }}
+              userDisplayName={userDisplayName}
+            />
+          )}
+
           <SurfaceCard className="space-y-3">
             <SectionHeader title="اعلان فوری و قفل برنامه" icon="lock" />
 

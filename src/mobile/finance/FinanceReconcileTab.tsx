@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { mobileApi } from '../mobileApi';
+import { PersianAmountInput } from '../components/PersianAmountInput';
 import {
   HeroSummaryCard,
   SectionHeader,
@@ -293,15 +294,16 @@ export const FinanceReconcileTab: React.FC<Props> = ({
                   placeholder="عنوان هزینه..."
                   className="w-full h-10 px-3 rounded-xl bg-surface-container-lowest text-[13px] border border-outline-variant/45"
                 />
-                <div className="flex gap-2">
-                  <input
-                    type="number"
-                    value={newExpAmt}
-                    onChange={(e) => setNewExpAmt(e.target.value)}
-                    placeholder="مبلغ (تومان)"
-                    className="flex-1 h-10 px-3 rounded-xl bg-surface-container-lowest text-[13px] font-numeric-stat border border-outline-variant/45"
+                <div className="space-y-2">
+                  <PersianAmountInput
+                    compact
+                    label="مبلغ فاکتور (تومان)"
+                    value={Number(newExpAmt) || 0}
+                    onChange={(val) => setNewExpAmt(String(val))}
+                    placeholder="مثلاً: ۵۰۰,۰۰۰"
                   />
                   <StitchButton
+                    className="w-full"
                     disabled={busy || !newExpTitle.trim()}
                     onClick={() => {
                       void runAction(
