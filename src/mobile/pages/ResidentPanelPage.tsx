@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { rbacApi, readFileAsDataUrl } from '../rbac/rbacApi';
 import type { RbacUserRecord } from '../rbac/roles';
 import type {
   BlockNoticeDoc,
   GuestPermitDoc,
   PaymentReceiptDoc,
-  ResidentMessageDoc,
   ResidentRequestDoc,
   UnitDoc,
 } from '../../server/nosqlStore';
@@ -23,12 +22,11 @@ import {
 import { IranPlateBadge, IranPlateInput } from '../ui/IranPlate';
 import { PersianAmountInput } from '../components/PersianAmountInput';
 import { JalaliDateTimePicker } from '../components/JalaliDateTimePicker';
-import { TelegramChatPanel } from '../components/TelegramChatPanel';
 import { formatAmountFa } from '../utils/persianMoney';
 import { formatJalaliDateTime, getTodayJalali } from '../utils/jalaliDate';
 
-type ResidentTab = 'home' | 'charge' | 'guest' | 'repair' | 'messages';
-const VALID_TABS: ResidentTab[] = ['home', 'charge', 'guest', 'repair', 'messages'];
+type ResidentTab = 'home' | 'charge' | 'guest' | 'repair';
+const VALID_TABS: ResidentTab[] = ['home', 'charge', 'guest', 'repair'];
 
 interface Props {
   currentUser: RbacUserRecord;
@@ -38,17 +36,16 @@ interface Props {
 const fmtT = (n: number) => formatAmountFa(n);
 
 export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged }) => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const qTab = (searchParams.get('tab') as ResidentTab) || 'home';
   const [tab, setTab] = useState<ResidentTab>(VALID_TABS.includes(qTab) ? qTab : 'home');
 
   const [unit, setUnit] = useState<UnitDoc | null>(null);
-  const [blockManagerName, setBlockManagerName] = useState<string>('');
   const [notices, setNotices] = useState<BlockNoticeDoc[]>([]);
   const [receipts, setReceipts] = useState<PaymentReceiptDoc[]>([]);
   const [permits, setPermits] = useState<GuestPermitDoc[]>([]);
   const [requests, setRequests] = useState<ResidentRequestDoc[]>([]);
-  const [messages, setMessages] = useState<ResidentMessageDoc[]>([]);
   const [feedback, setFeedback] = useState<{ tone: 'success' | 'danger' | 'info'; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -77,11 +74,16 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
   const [repPhoto, setRepPhoto] = useState('');
 
   useEffect(() => {
-    const paramTab = searchParams.get('tab') as ResidentTab | null;
+    const rawTab = searchParams.get('tab');
+    if (rawTab === 'messages') {
+      navigate('/m/chat', { replace: true });
+      return;
+    }
+    const paramTab = rawTab as ResidentTab | null;
     if (paramTab && VALID_TABS.includes(paramTab) && paramTab !== tab) {
       setTab(paramTab);
     }
-  }, [searchParams, tab]);
+  }, [searchParams, tab, navigate]);
 
   const switchTab = (next: ResidentTab) => {
     setTab(next);
@@ -91,31 +93,27 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
 
   const loadAll = useCallback(async () => {
     try {
-      const [blkRes, notRes, rcpRes, prmRes, reqRes, msgRes] = await Promise.all([
+      const [blkRes, notRes, rcpRes, prmRes, reqRes] = await Promise.all([
         rbacApi.getBlocks(),
         rbacApi.listNotices(),
         rbacApi.listReceipts(),
         rbacApi.listGuestPermits(),
         rbacApi.listResidentRequests(),
-        rbacApi.listMessages(),
       ]);
       const myUnit =
         blkRes.units.find((u) => u.unitCode === currentUser.unitCode) ?? blkRes.units[0] ?? null;
-      const myBlock = blkRes.blocks.find((b) => b.id === (currentUser.blockId || myUnit?.blockId));
       setUnit(myUnit);
-      if (myBlock?.managerName) setBlockManagerName(myBlock.managerName);
       setNotices(notRes.items);
       setReceipts(rcpRes.items);
       setPermits(prmRes.items);
       setRequests(reqRes.items);
-      setMessages(msgRes.items);
     } catch (err) {
       setFeedback({
         tone: 'danger',
         text: err instanceof Error ? err.message : 'دریافت اطلاعات واحد انجام نشد.',
       });
     }
-  }, [currentUser.unitCode, currentUser.blockId]);
+  }, [currentUser.unitCode]);
 
   useEffect(() => {
     void loadAll();
@@ -234,28 +232,6 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
     }
   };
 
-  const handleSendTelegramMessage = async (text: string) => {
-    setBusy(true);
-    try {
-      await rbacApi.sendMessage({ body: text });
-      await loadAll();
-      onSyncChanged?.();
-    } catch (err) {
-      setFeedback({
-        tone: 'danger',
-        text: err instanceof Error ? err.message : 'ارسال پیام ناموفق بود.',
-      });
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const handleMarkChatRead = useCallback(() => {
-    void rbacApi.markMessagesRead().then((r) => {
-      if (r.updatedCount > 0) void loadAll();
-    });
-  }, [loadAll]);
-
   const pendingReceipts = receipts.filter((r) => r.status === 'pending').length;
   const activePermits = permits.filter((p) => p.status === 'pending_gate' || p.status === 'entered').length;
   const openRepairs = requests.filter((r) => r.status !== 'resolved').length;
@@ -292,7 +268,6 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
           { id: 'charge', label: 'شارژ و فیش', icon: 'receipt_long', badge: pendingReceipts },
           { id: 'guest', label: 'مهمان گیت', icon: 'directions_car', badge: activePermits },
           { id: 'repair', label: 'خرابی واحد', icon: 'build', badge: openRepairs },
-          { id: 'messages', label: 'مدیر بلوک', icon: 'chat' },
         ]}
       />
 
@@ -313,12 +288,16 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
               { id: 'charge', title: 'ارسال فیش شارژ', sub: 'آپلود عکس فیش و تایید', icon: 'payments' },
               { id: 'guest', title: 'ثبت مهمان در گیت', sub: 'اعلام پلاک به نگهبانی', icon: 'directions_car' },
               { id: 'repair', title: 'اعلام خرابی واحد', sub: 'ارسال عکس به تاسیسات', icon: 'add_a_photo' },
-              { id: 'messages', title: 'مکاتبه با مدیر', sub: 'پیام مستقیم به مدیر بلوک', icon: 'forum' },
+              { id: 'chat', title: 'صفحه چت و گفتگو', sub: 'پیام مستقیم با مدیر و گروه بلوک', icon: 'forum' },
             ].map((item) => (
               <button
                 key={item.id}
                 type="button"
-                onClick={() => switchTab(item.id as ResidentTab)}
+                onClick={() =>
+                  item.id === 'chat'
+                    ? navigate('/m/chat')
+                    : switchTab(item.id as ResidentTab)
+                }
                 className="bg-surface-container-lowest rounded-[var(--ui-btn-radius)] border border-outline-variant/60 p-3 text-right hover:border-primary/65 active:scale-[0.98] transition-[transform,border-color] space-y-1.5"
               >
                 <span className="w-9 h-9 rounded-[var(--ui-btn-radius)] bg-primary-container/60 text-on-primary-container flex items-center justify-center">
@@ -788,26 +767,6 @@ export const ResidentPanelPage: React.FC<Props> = ({ currentUser, onSyncChanged 
               </div>
             )}
           </SurfaceCard>
-        </div>
-      )}
-
-      {/* ==================== TAB 5: TELEGRAM-STYLE MESSAGING WITH BLOCK MANAGER ==================== */}
-      {tab === 'messages' && (
-        <div className="m-panel-in">
-          <TelegramChatPanel
-            currentUser={currentUser}
-            messages={messages}
-            mode="resident"
-            counterpartTitle={
-              blockManagerName
-                ? `${blockManagerName} — مدیر بلوک ${currentUser.blockId || 'B'}`
-                : `مدیر بلوک ${currentUser.blockId || 'B'}`
-            }
-            counterpartSubtitle={`واحد ${currentUser.unitCode || ''} • ارتباط رسمی با مدیریت بلوک`}
-            onSendMessage={(body) => handleSendTelegramMessage(body)}
-            onMarkRead={handleMarkChatRead}
-            sending={busy}
-          />
         </div>
       )}
     </div>

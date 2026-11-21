@@ -6,6 +6,7 @@ import type {
   TempDurationPreset,
   UserRoleId,
 } from './roles';
+import type { UserAppearancePrefs } from '../theme/accessibilityPrefs';
 import type { JournalEntry, SayadiCheck } from '../accounting/accountingEngine';
 import type {
   BlockDoc,
@@ -25,6 +26,11 @@ import type {
   ResidentSubmissionDoc,
   UnitInviteCodeDoc,
 } from '../utils/residentOnboarding';
+import type {
+  ChatContactSummary,
+  ChatGroupDefinition,
+  ChatMessageDoc,
+} from '../utils/chatConversations';
 
 export interface RoleDirectoryCard {
   roleId: UserRoleId;
@@ -72,6 +78,7 @@ export interface RbacCounters {
   pendingReceipts: number;
   pendingPermits: number;
   noticesCount: number;
+  unreadMessages?: number;
 }
 
 // Session Bearer token held strictly in memory (SPA navigation preserves it without localStorage exposure)
@@ -347,6 +354,34 @@ export const rbacApi = {
       body: JSON.stringify({ unitCode }),
     }),
 
+  getChatBootstrap: () =>
+    rbacRequest<{
+      ok: boolean;
+      contacts: ChatContactSummary[];
+      groups: Array<ChatGroupDefinition & { memberCount: number }>;
+      messages: ChatMessageDoc[];
+      unreadCount: number;
+    }>('/api/v1/rbac/chat/bootstrap'),
+
+  sendChatMessage: (payload: {
+    conversationId?: string;
+    targetUserId?: string;
+    groupId?: string;
+    body: string;
+    attachmentDataUrl?: string;
+    replyToId?: string;
+  }) =>
+    rbacRequest<{ ok: boolean; message: ChatMessageDoc }>('/api/v1/rbac/chat/messages', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+
+  markChatRead: (conversationId: string) =>
+    rbacRequest<{ ok: boolean; updatedCount: number }>('/api/v1/rbac/chat/mark-read', {
+      method: 'POST',
+      body: JSON.stringify({ conversationId }),
+    }),
+
   listGuestPermits: () =>
     rbacRequest<{ ok: boolean; items: GuestPermitDoc[] }>('/api/v1/rbac/guest-permits'),
 
@@ -529,28 +564,10 @@ export const rbacApi = {
       },
     ),
 
-  updatePreferences: (payload: {
-    cornerStyle?: 'sharp' | 'curved';
-    paletteId?:
-      | 'niloofar_default'
-      | 'emerald_atelier'
-      | 'terracotta_sand'
-      | 'nordic_indigo'
-      | 'velvet_burgundy'
-      | 'graphite_cobalt';
-  }) =>
+  updatePreferences: (payload: Partial<UserAppearancePrefs>) =>
     rbacRequest<{
       ok: boolean;
-      preferences: {
-        cornerStyle: 'sharp' | 'curved';
-        paletteId:
-          | 'niloofar_default'
-          | 'emerald_atelier'
-          | 'terracotta_sand'
-          | 'nordic_indigo'
-          | 'velvet_burgundy'
-          | 'graphite_cobalt';
-      };
+      preferences: UserAppearancePrefs;
       user: RbacUserRecord;
     }>('/api/v1/rbac/me/preferences', {
       method: 'PATCH',

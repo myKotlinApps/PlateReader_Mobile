@@ -1,17 +1,14 @@
-export type CornerStyle = 'sharp' | 'curved';
+import {
+  computeAccessibilityAttributes,
+  DEFAULT_USER_APPEARANCE_PREFS,
+  normalizeUserAppearancePrefs,
+  type CornerStyle,
+  type FontScaleMode,
+  type ThemePaletteId,
+  type UserAppearancePrefs,
+} from './accessibilityPrefs.ts';
 
-export type ThemePaletteId =
-  | 'niloofar_default'
-  | 'emerald_atelier'
-  | 'terracotta_sand'
-  | 'nordic_indigo'
-  | 'velvet_burgundy'
-  | 'graphite_cobalt';
-
-export interface UserAppearancePrefs {
-  cornerStyle: CornerStyle;
-  paletteId: ThemePaletteId;
-}
+export type { CornerStyle, FontScaleMode, ThemePaletteId, UserAppearancePrefs };
 
 export interface PaletteDefinition {
   id: ThemePaletteId;
@@ -22,10 +19,7 @@ export interface PaletteDefinition {
   darkTokens: Record<string, string>;
 }
 
-export const DEFAULT_APPEARANCE_PREFS: UserAppearancePrefs = {
-  cornerStyle: 'curved',
-  paletteId: 'niloofar_default',
-};
+export const DEFAULT_APPEARANCE_PREFS: UserAppearancePrefs = DEFAULT_USER_APPEARANCE_PREFS;
 
 const LIGHT_BASE_NEUTRALS: Record<string, string> = {
   '--color-surface-container-lowest': '#ffffff',
@@ -576,31 +570,64 @@ export function applyAppearancePrefs(
 ): void {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
-  const cornerStyle: CornerStyle = prefs?.cornerStyle === 'sharp' ? 'sharp' : 'curved';
-  const paletteId: ThemePaletteId =
-    prefs?.paletteId && PALETTE_BY_ID[prefs.paletteId]
-      ? prefs.paletteId
-      : 'niloofar_default';
-
-  lastAppliedPrefs = { cornerStyle, paletteId };
+  const normalized = normalizeUserAppearancePrefs(prefs);
+  lastAppliedPrefs = normalized;
 
   const isDark =
     typeof explicitDark === 'boolean'
       ? explicitDark
       : root.getAttribute('data-theme') === 'dark' || root.classList.contains('app-skin-dark');
 
-  root.setAttribute('data-corner-style', cornerStyle);
-  root.setAttribute('data-palette', paletteId);
+  root.setAttribute('data-corner-style', normalized.cornerStyle);
+  root.setAttribute('data-palette', normalized.paletteId);
   root.style.colorScheme = isDark ? 'dark' : 'light';
 
   // Curved (default) = refined 14px/10px subtle curve; Sharp = crisp 3px angular corners.
-  root.style.setProperty('--ui-card-radius', cornerStyle === 'sharp' ? '3px' : '14px');
-  root.style.setProperty('--ui-btn-radius', cornerStyle === 'sharp' ? '3px' : '10px');
+  root.style.setProperty('--ui-card-radius', normalized.cornerStyle === 'sharp' ? '3px' : '14px');
+  root.style.setProperty('--ui-btn-radius', normalized.cornerStyle === 'sharp' ? '3px' : '10px');
 
-  const palette = PALETTE_BY_ID[paletteId];
+  const palette = PALETTE_BY_ID[normalized.paletteId];
   const tokenMap = isDark ? palette.darkTokens : palette.tokens;
   for (const [k, v] of Object.entries(tokenMap)) {
     root.style.setProperty(k, v);
+  }
+
+  // Apply Accessibility & Presbyopia attributes and root scale variables AFTER base palette tokens
+  const a11y = computeAccessibilityAttributes(normalized);
+  for (const [attr, val] of Object.entries(a11y.attributes)) {
+    root.setAttribute(attr, val);
+  }
+  for (const [cssVar, val] of Object.entries(a11y.cssVars)) {
+    root.style.setProperty(cssVar, val);
+  }
+
+  // Boost ink & border contrast cleanly when High Contrast mode is active (preserving button foreground contrast)
+  if (normalized.highContrast) {
+    if (isDark) {
+      root.style.setProperty('--color-on-surface', '#ffffff');
+      root.style.setProperty('--color-on-background', '#ffffff');
+      root.style.setProperty('--color-on-surface-variant', '#e2e8f0');
+      root.style.setProperty('--color-outline', '#94a3b8');
+      root.style.setProperty('--color-outline-variant', '#64748b');
+      root.style.setProperty('--m-on-surface', '#ffffff');
+      root.style.setProperty('--m-on-surface-muted', '#e2e8f0');
+      root.style.setProperty('--m-on-surface-faint', '#cbd5e1');
+      root.style.setProperty('--m-outline', 'rgba(226, 232, 240, 0.45)');
+      root.style.setProperty('--m-outline-strong', 'rgba(241, 245, 249, 0.72)');
+      root.style.setProperty('--m-focus-ring', '#93c5fd');
+    } else {
+      root.style.setProperty('--color-on-surface', '#020617');
+      root.style.setProperty('--color-on-background', '#020617');
+      root.style.setProperty('--color-on-surface-variant', '#1e293b');
+      root.style.setProperty('--color-outline', '#334155');
+      root.style.setProperty('--color-outline-variant', '#64748b');
+      root.style.setProperty('--m-on-surface', '#020617');
+      root.style.setProperty('--m-on-surface-muted', '#1e293b');
+      root.style.setProperty('--m-on-surface-faint', '#334155');
+      root.style.setProperty('--m-outline', 'rgba(15, 23, 42, 0.36)');
+      root.style.setProperty('--m-outline-strong', 'rgba(15, 23, 42, 0.65)');
+      root.style.setProperty('--m-focus-ring', '#1d4ed8');
+    }
   }
 }
 

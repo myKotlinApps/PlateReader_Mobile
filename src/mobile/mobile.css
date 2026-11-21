@@ -22,6 +22,21 @@
   padding-bottom: calc(var(--m-nav-height) + 84px + env(safe-area-inset-bottom, 0px));
 }
 
+.alpr-mobile-shell.alpr-mobile-shell--chat,
+.alpr-mobile-shell.alpr-mobile-shell--chat.has-alarm-pill {
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+  padding-bottom: 0;
+  --m-content-max: 100%;
+}
+
+/* Bottom-docked composer in full-screen Chat (dock is hidden, so composer sits cleanly at screen bottom) */
+.chat-composer-dock {
+  background: transparent;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+}
+
 .alpr-mobile-shell .text-muted-adaptive {
   color: var(--m-on-surface-muted);
 }
@@ -59,9 +74,19 @@
 
 .alpr-mobile-shell input:not([type='checkbox']):not([type='radio']):focus-visible,
 .alpr-mobile-shell select:focus-visible,
+.alpr-mobile-shell textarea:focus-visible,
+.alpr-mobile-shell button:focus-visible,
+.alpr-mobile-shell a:focus-visible,
+.alpr-mobile-shell [role='tab']:focus-visible,
+.alpr-mobile-shell [role='switch']:focus-visible,
+.alpr-mobile-shell [role='radio']:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+
+.alpr-mobile-shell input:not([type='checkbox']):not([type='radio']):focus-visible,
+.alpr-mobile-shell select:focus-visible,
 .alpr-mobile-shell textarea:focus-visible {
-  outline: 2px solid var(--m-focus-ring);
-  outline-offset: 1px;
   border-color: var(--m-accent);
 }
 
@@ -169,6 +194,32 @@
 }
 
 /* ---- Digikala Mobile Floating Alarm Pill + Capsule Dock + Detached Circular FAB ---- */
+.dk-alarm-wrap {
+  position: fixed;
+  bottom: calc(82px + env(safe-area-inset-bottom, 0px));
+  inset-inline: 0;
+  z-index: 1200;
+  padding: 0 14px;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+}
+
+/* When in Chat full-screen mode (dock is hidden), float any explicit chat toast cleanly above the composer */
+.dk-alarm-wrap--chat {
+  top: auto;
+  bottom: calc(114px + env(safe-area-inset-bottom, 0px));
+}
+
+.dk-alarm-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 380px;
+}
+
 .dk-dock-wrap {
   position: fixed;
   bottom: 0;
@@ -356,6 +407,32 @@ html.app-skin-dark .dk-alarm-pill__avatar--success {
 
 .dk-alarm-pill__close:active {
   transform: scale(0.9);
+}
+
+.dk-alarm-pill__progress {
+  position: absolute;
+  bottom: 0;
+  inset-inline: 22px;
+  height: 2.5px;
+  border-radius: 9999px;
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.dk-alarm-pill__progress--primary {
+  background-color: var(--color-primary, #3d63ff);
+}
+
+.dk-alarm-pill__progress--danger {
+  background-color: #e6123d;
+}
+
+.dk-alarm-pill__progress--warning {
+  background-color: #d97706;
+}
+
+.dk-alarm-pill__progress--success {
+  background-color: #16805a;
 }
 
 .dk-dock-row {
@@ -689,4 +766,186 @@ html[data-theme='dark'] .dk-dock-item.is-active {
   display: inline-block;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.92em;
+}
+
+/* =========================================================================
+   Accessibility, Presbyopia (پیرچشمی), High Contrast & Bold Text Elevation
+   ========================================================================= */
+
+html[data-font-scale='large'] .alpr-mobile-shell,
+html[data-font-scale='xlarge'] .alpr-mobile-shell {
+  --m-text-display: calc(20px * var(--ui-font-mult, 1));
+  --m-text-title: calc(16px * var(--ui-font-mult, 1));
+  --m-text-heading: calc(14.5px * var(--ui-font-mult, 1));
+  --m-text-body: calc(13.5px * var(--ui-font-mult, 1));
+  --m-text-label: calc(13px * var(--ui-font-mult, 1));
+  --m-text-caption: calc(12px * var(--ui-font-mult, 1));
+  --m-leading: 1.72;
+}
+
+/* Scale all arbitrary px typography tokens (9.5px–28px) cleanly across pages & modals */
+html[data-font-scale='large'] .text-\[9\.5px\],
+html[data-font-scale='xlarge'] .text-\[9\.5px\] { font-size: calc(9.5px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[10px\],
+html[data-font-scale='xlarge'] .text-\[10px\] { font-size: calc(10px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[10\.5px\],
+html[data-font-scale='xlarge'] .text-\[10\.5px\] { font-size: calc(10.5px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[11px\],
+html[data-font-scale='xlarge'] .text-\[11px\] { font-size: calc(11px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[11\.5px\],
+html[data-font-scale='xlarge'] .text-\[11\.5px\] { font-size: calc(11.5px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[12px\],
+html[data-font-scale='xlarge'] .text-\[12px\] { font-size: calc(12px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[12\.5px\],
+html[data-font-scale='xlarge'] .text-\[12\.5px\] { font-size: calc(12.5px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[13px\],
+html[data-font-scale='xlarge'] .text-\[13px\] { font-size: calc(13px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[13\.5px\],
+html[data-font-scale='xlarge'] .text-\[13\.5px\] { font-size: calc(13.5px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[14px\],
+html[data-font-scale='xlarge'] .text-\[14px\] { font-size: calc(14px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[14\.5px\],
+html[data-font-scale='xlarge'] .text-\[14\.5px\] { font-size: calc(14.5px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[15px\],
+html[data-font-scale='xlarge'] .text-\[15px\] { font-size: calc(15px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[15\.5px\],
+html[data-font-scale='xlarge'] .text-\[15\.5px\] { font-size: calc(15.5px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[16px\],
+html[data-font-scale='xlarge'] .text-\[16px\] { font-size: calc(16px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[17px\],
+html[data-font-scale='xlarge'] .text-\[17px\] { font-size: calc(17px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[18px\],
+html[data-font-scale='xlarge'] .text-\[18px\] { font-size: calc(18px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[19px\],
+html[data-font-scale='xlarge'] .text-\[19px\] { font-size: calc(19px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[20px\],
+html[data-font-scale='xlarge'] .text-\[20px\] { font-size: calc(20px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[21px\],
+html[data-font-scale='xlarge'] .text-\[21px\] { font-size: calc(21px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[22px\],
+html[data-font-scale='xlarge'] .text-\[22px\] { font-size: calc(22px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[24px\],
+html[data-font-scale='xlarge'] .text-\[24px\] { font-size: calc(24px * var(--ui-font-mult, 1)) !important; }
+html[data-font-scale='large'] .text-\[28px\],
+html[data-font-scale='xlarge'] .text-\[28px\] { font-size: calc(28px * var(--ui-font-mult, 1)) !important; }
+
+/* Keep mobile top bar icons compact so 390px header remains 1 line even at xlarge scale */
+html[data-font-scale='xlarge'] .m-icon-btn {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+/* Scale component-level typography, alarm pills, inputs, and touch targets in Presbyopia mode */
+html[data-font-scale='large'] .m-btn,
+html[data-font-scale='xlarge'] .m-btn,
+html[data-font-scale='large'] .alpr-mobile-btn-primary,
+html[data-font-scale='xlarge'] .alpr-mobile-btn-primary,
+html[data-font-scale='large'] .alpr-mobile-btn-secondary,
+html[data-font-scale='xlarge'] .alpr-mobile-btn-secondary {
+  min-height: var(--ui-touch-min, 44px);
+  font-size: calc(13px * var(--ui-font-mult, 1));
+  line-height: 1.5;
+}
+
+html[data-font-scale='large'] .m-input,
+html[data-font-scale='xlarge'] .m-input,
+html[data-font-scale='large'] .m-select,
+html[data-font-scale='xlarge'] .m-select,
+html[data-font-scale='large'] .m-textarea,
+html[data-font-scale='xlarge'] .m-textarea {
+  min-height: var(--ui-touch-min, 44px);
+  font-size: calc(13.5px * var(--ui-font-mult, 1)) !important;
+}
+
+html[data-font-scale='large'] .m-field__label,
+html[data-font-scale='xlarge'] .m-field__label {
+  font-size: calc(12.5px * var(--ui-font-mult, 1));
+}
+
+html[data-font-scale='large'] .m-field__hint,
+html[data-font-scale='xlarge'] .m-field__hint,
+html[data-font-scale='large'] .m-field__error,
+html[data-font-scale='xlarge'] .m-field__error {
+  font-size: calc(12px * var(--ui-font-mult, 1));
+}
+
+html[data-font-scale='large'] .dk-alarm-pill,
+html[data-font-scale='xlarge'] .dk-alarm-pill {
+  min-height: calc(62px * var(--ui-font-mult, 1));
+  padding-block: 10px;
+}
+
+html[data-font-scale='large'] .dk-alarm-pill__title,
+html[data-font-scale='xlarge'] .dk-alarm-pill__title {
+  font-size: calc(13px * var(--ui-font-mult, 1));
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+html[data-font-scale='large'] .dk-alarm-pill__sub,
+html[data-font-scale='xlarge'] .dk-alarm-pill__sub {
+  font-size: calc(11.5px * var(--ui-font-mult, 1));
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* Prevent truncated readable labels inside cards/tables when enlarged for presbyopia */
+html[data-font-scale='large'] .alpr-mobile-shell main .truncate,
+html[data-font-scale='xlarge'] .alpr-mobile-shell main .truncate {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+/* Keep single-line tabs & chat preview titles neat at large scale */
+html[data-font-scale='large'] .alpr-mobile-shell [role='tab'] .truncate,
+html[data-font-scale='xlarge'] .alpr-mobile-shell [role='tab'] .truncate,
+html[data-font-scale='large'] .alpr-mobile-topbar .m-appbar__title,
+html[data-font-scale='xlarge'] .alpr-mobile-topbar .m-appbar__title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* High Contrast Border & Focus Ring Elevation */
+html[data-high-contrast='true'] .alpr-mobile-card,
+html[data-high-contrast='true'] .m-card,
+html[data-high-contrast='true'] .m-input,
+html[data-high-contrast='true'] .m-select,
+html[data-high-contrast='true'] .m-textarea,
+html[data-high-contrast='true'] .dk-dock-pill,
+html[data-high-contrast='true'] .dk-alarm-pill,
+html[data-high-contrast='true'] .alpr-mobile-topbar {
+  border-color: var(--m-outline-strong) !important;
+  border-width: 1.5px;
+}
+
+html[data-high-contrast='true'] .alpr-mobile-shell *:focus-visible {
+  outline: 3px solid var(--m-focus-ring) !important;
+  outline-offset: 2px !important;
+}
+
+/* Bold Text Accessibility Option */
+html[data-bold-text='true'] .alpr-mobile-shell p,
+html[data-bold-text='true'] .alpr-mobile-shell span,
+html[data-bold-text='true'] .alpr-mobile-shell td,
+html[data-bold-text='true'] .alpr-mobile-shell th,
+html[data-bold-text='true'] .alpr-mobile-shell label,
+html[data-bold-text='true'] .alpr-mobile-shell input,
+html[data-bold-text='true'] .alpr-mobile-shell button {
+  font-weight: 600;
+}
+
+html[data-bold-text='true'] .alpr-mobile-shell strong,
+html[data-bold-text='true'] .alpr-mobile-shell h1,
+html[data-bold-text='true'] .alpr-mobile-shell h2,
+html[data-bold-text='true'] .alpr-mobile-shell h3,
+html[data-bold-text='true'] .alpr-mobile-shell h4 {
+  font-weight: 800;
 }

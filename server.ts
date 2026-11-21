@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import { DatabaseSync } from "node:sqlite";
-import { registerRbacRoutes } from "./src/server/rbacRoutes";
+import { registerRbacRoutes } from "./src/server/rbacRoutes.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   rbacApi,
   type EnrichedBlockDoc,
@@ -17,12 +17,10 @@ import {
 import type {
   BlockNoticeDoc,
   CaretakerTaskDoc,
-  ResidentMessageDoc,
   ResidentRequestDoc,
   UnitDoc,
 } from '../../server/nosqlStore';
 import { JalaliDateTimePicker } from '../components/JalaliDateTimePicker';
-import { TelegramChatPanel } from '../components/TelegramChatPanel';
 import { BlockResidentQrTab } from '../components/BlockResidentQrTab';
 import { CaretakerManagementTab } from '../components/CaretakerManagementTab';
 import { FinanceBankExcelTab } from '../finance/FinanceBankExcelTab';
@@ -66,6 +64,7 @@ const REQ_STATUS_LABEL: Record<ResidentRequestDoc['status'], { label: string; to
 };
 
 export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChanged }) => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const qTab = (searchParams.get('tab') as BlockTab) || 'overview';
   const [tab, setTab] = useState<BlockTab>(VALID_TABS.includes(qTab) ? qTab : 'overview');
@@ -76,7 +75,6 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
   const [creatableRoles, setCreatableRoles] = useState<UserRoleId[]>([]);
   const [tasks, setTasks] = useState<CaretakerTaskDoc[]>([]);
   const [requests, setRequests] = useState<ResidentRequestDoc[]>([]);
-  const [messages, setMessages] = useState<ResidentMessageDoc[]>([]);
   const [notices, setNotices] = useState<BlockNoticeDoc[]>([]);
 
   const [selectedBlockId, setSelectedBlockId] = useState<string>(currentUser.blockId || 'B');
@@ -145,9 +143,6 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
   const [reqNextStatus, setReqNextStatus] = useState<ResidentRequestDoc['status']>('in_progress');
   const [previewPhoto, setPreviewPhoto] = useState<string | null>(null);
 
-  // Telegram active unit thread
-  const [chatUnitCode, setChatUnitCode] = useState('B-208');
-
   useEffect(() => {
     const paramTab = searchParams.get('tab') as BlockTab | null;
     if (paramTab && VALID_TABS.includes(paramTab) && paramTab !== tab) {
@@ -163,12 +158,11 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
 
   const loadAll = useCallback(async () => {
     try {
-      const [blkRes, usrRes, tskRes, reqRes, msgRes, notRes] = await Promise.all([
+      const [blkRes, usrRes, tskRes, reqRes, notRes] = await Promise.all([
         rbacApi.getBlocks(),
         rbacApi.listUsers(),
         rbacApi.listTasks(),
         rbacApi.listResidentRequests(),
-        rbacApi.listMessages(),
         rbacApi.listNotices(),
       ]);
       setBlocks(blkRes.blocks);
@@ -177,7 +171,6 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
       setCreatableRoles(usrRes.creatableRoles);
       setTasks(tskRes.items);
       setRequests(reqRes.items);
-      setMessages(msgRes.items);
       setNotices(notRes.items);
       if (usrRes.creatableRoles.length > 0 && !usrRes.creatableRoles.includes(newRole)) {
         const preferred: UserRoleId = usrRes.creatableRoles.includes('temp_caretaker')
@@ -270,11 +263,6 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
   const blockRequests = useMemo(
     () => requests.filter((r) => !selectedBlockId || r.blockId === selectedBlockId),
     [requests, selectedBlockId],
-  );
-
-  const blockMessages = useMemo(
-    () => messages.filter((m) => !selectedBlockId || m.blockId === selectedBlockId),
-    [messages, selectedBlockId],
   );
 
   const blockNotices = useMemo(
@@ -522,35 +510,6 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
     }
   };
 
-  const handleSendTelegramReply = async (body: string, unitCode?: string) => {
-    const targetUnit = unitCode || chatUnitCode;
-    setBusy(true);
-    try {
-      await rbacApi.sendMessage({
-        body,
-        unitCode: targetUnit,
-      });
-      await loadAll();
-      onSyncChanged?.();
-    } catch (err) {
-      setFeedback({
-        tone: 'danger',
-        text: err instanceof Error ? err.message : 'ارسال پیام ناموفق بود.',
-      });
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const handleMarkThreadRead = useCallback(
-    (unitCode?: string) => {
-      void rbacApi.markMessagesRead(unitCode).then((r) => {
-        if (r.updatedCount > 0) void loadAll();
-      });
-    },
-    [loadAll],
-  );
-
   const handleShareBlock = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!shareTargetUserId) return;
@@ -686,7 +645,7 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
             : []),
           { id: 'staff', label: 'کادر و پرسنل', icon: 'group_add', badge: blockUsers.length },
           { id: 'tasks', label: 'وظایف سرایدار', icon: 'checklist', badge: pendingReviewCount },
-          { id: 'requests', label: 'ساکنین و مکاتبه', icon: 'forum', badge: openReqCount },
+          { id: 'requests', label: 'درخواست‌ها و خرابی', icon: 'build', badge: openReqCount },
         ]}
       />
 
@@ -1150,10 +1109,27 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
         </div>
       )}
 
-      {/* ==================== TAB 4: RESIDENT REQUESTS & 2-WAY MESSAGING ==================== */}
+      {/* ==================== TAB 4: RESIDENT REQUESTS (WITH CHAT REDIRECT) ==================== */}
       {tab === 'requests' && (
-        <div className="space-y-3.5 m-panel-in lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0 lg:items-start">
-          {/* Resident Maintenance / Damage Reports */}
+        <div className="space-y-3.5 m-panel-in">
+          <SurfaceCard className="flex items-center justify-between gap-3 flex-wrap">
+            <div className="min-w-0">
+              <strong className="text-[13.5px] font-bold text-on-surface block">
+                مکالمات و پیام‌رسان با ساکنین و مدیران به صفحه مجزا منتقل شد
+              </strong>
+              <span className="text-[12px] text-on-surface-variant block mt-0.5">
+                برای گفتگوی مستقیم با ساکنین، سایر مدیران بلوک و گروه‌ها وارد پیام‌رسان شوید.
+              </span>
+            </div>
+            <StitchButton
+              icon="forum"
+              onClick={() => navigate('/m/chat')}
+              className="rounded-[var(--ui-btn-radius)] shrink-0"
+            >
+              ورود به صفحه چت با ساکنین و مدیران
+            </StitchButton>
+          </SurfaceCard>
+
           <SurfaceCard className="space-y-3">
             <SectionHeader title="خرابی‌ها و درخواست‌های ساکنین" icon="build" />
             {blockRequests.length === 0 ? (
@@ -1161,44 +1137,55 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
                 درخواست خرابی ثبت‌شده‌ای وجود ندارد.
               </p>
             ) : (
-              <div className="space-y-2.5">
+              <div className="space-y-2.5 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
                 {blockRequests.map((req) => {
                   const st = REQ_STATUS_LABEL[req.status];
                   return (
                     <div
                       key={req.id}
-                      className="p-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low/80 border border-outline-variant/45 space-y-2"
+                      className="p-3 rounded-[var(--ui-btn-radius)] bg-surface-container-low/80 border border-outline-variant/45 space-y-2 flex flex-col justify-between"
                     >
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="min-w-0">
-                          <span className="text-[11.5px] font-bold text-primary">
-                            واحد {req.unitCode} ({req.residentName}) • {req.category}
-                          </span>
-                          <h4 className="text-[13.5px] font-bold text-on-surface mb-0 mt-0.5">
-                            {req.title}
-                          </h4>
+                      <div className="space-y-2">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0">
+                            <span className="text-[11.5px] font-bold text-primary">
+                              واحد {req.unitCode} ({req.residentName}) • {req.category}
+                            </span>
+                            <h4 className="text-[13.5px] font-bold text-on-surface mb-0 mt-0.5">
+                              {req.title}
+                            </h4>
+                          </div>
+                          <StatusPill label={st.label} tone={st.tone} />
                         </div>
-                        <StatusPill label={st.label} tone={st.tone} />
+                        <p className="text-[12.5px] text-on-surface-variant mb-0 leading-relaxed">
+                          {req.description}
+                        </p>
+                        {req.photoDataUrl && (
+                          <button
+                            type="button"
+                            onClick={() => setPreviewPhoto(req.photoDataUrl!)}
+                            className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-primary underline"
+                          >
+                            <span className="material-symbols-outlined text-[16px]">photo</span>
+                            <span>مشاهده عکس ارسالی ساکن</span>
+                          </button>
+                        )}
+                        {req.managerReply && (
+                          <div className="p-2 rounded-[var(--ui-btn-radius)] bg-surface-container-lowest border border-outline-variant/35 text-[12px]">
+                            <strong>پاسخ مدیریت/تاسیسات:</strong> {req.managerReply}
+                          </div>
+                        )}
                       </div>
-                      <p className="text-[12.5px] text-on-surface-variant mb-0 leading-relaxed">
-                        {req.description}
-                      </p>
-                      {req.photoDataUrl && (
-                        <button
-                          type="button"
-                          onClick={() => setPreviewPhoto(req.photoDataUrl!)}
-                          className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-primary underline"
+                      <div className="pt-2 border-t border-outline-variant/35 flex items-center justify-end gap-2 flex-wrap">
+                        <StitchButton
+                          variant="secondary"
+                          size="sm"
+                          icon="chat"
+                          onClick={() => navigate(`/m/chat?unit=${encodeURIComponent(req.unitCode)}`)}
+                          className="rounded-[var(--ui-btn-radius)]"
                         >
-                          <span className="material-symbols-outlined text-[16px]">photo</span>
-                          <span>مشاهده عکس ارسالی ساکن</span>
-                        </button>
-                      )}
-                      {req.managerReply && (
-                        <div className="p-2 rounded-[var(--ui-btn-radius)] bg-surface-container-lowest border border-outline-variant/35 text-[12px]">
-                          <strong>پاسخ مدیریت/تاسیسات:</strong> {req.managerReply}
-                        </div>
-                      )}
-                      <div className="pt-1.5 border-t border-outline-variant/35 flex justify-end">
+                          پیام در چت
+                        </StitchButton>
                         <StitchButton
                           variant="secondary"
                           size="sm"
@@ -1219,21 +1206,6 @@ export const BlockManagementPage: React.FC<Props> = ({ currentUser, onSyncChange
               </div>
             )}
           </SurfaceCard>
-
-          {/* Telegram-Style Direct Messaging with Residents */}
-          <div className="space-y-2">
-            <TelegramChatPanel
-              currentUser={currentUser}
-              messages={blockMessages}
-              mode="manager"
-              units={blockUnits}
-              selectedUnitCode={chatUnitCode}
-              onSelectUnitCode={setChatUnitCode}
-              onSendMessage={(body, unitCode) => handleSendTelegramReply(body, unitCode)}
-              onMarkRead={handleMarkThreadRead}
-              sending={busy}
-            />
-          </div>
         </div>
       )}
 

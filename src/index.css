@@ -174,10 +174,32 @@ body {
   font-feature-settings: "ss01" 1;
   background-color: var(--color-surface, #f6f8fb);
   color: var(--color-on-surface, #1b2533);
-  font-size: 14px;
+  font-size: var(--ui-root-font-size, 14px);
+  font-weight: var(--ui-body-weight, 400);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+html[data-font-scale='large'] {
+  font-size: 16.52px;
+}
+
+html[data-font-scale='xlarge'] {
+  font-size: 18.48px;
+}
+
+html[data-bold-text='true'] body {
+  font-weight: 600;
+}
+
+html[data-reduce-motion='true'] *,
+html[data-reduce-motion='true'] *::before,
+html[data-reduce-motion='true'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }
 
 .material-symbols-outlined {

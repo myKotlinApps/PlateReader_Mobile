@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { AlertCircle, CheckCircle2, Info, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 import { dismissDockAlarm, isDockAlarmHostMounted, pushDockAlarm } from './dockAlarmBus';
 
 export interface SubMenuTabItem {
@@ -233,11 +234,21 @@ export const NoticeBanner: React.FC<{
       dir="rtl"
       className="fixed bottom-4 inset-x-0 z-[1200] px-3.5 flex justify-center pointer-events-none"
     >
-      <div
-        role="status"
-        aria-live="polite"
-        className="dk-alarm-pill m-panel-in max-w-[420px] w-full pointer-events-auto"
-      >
+      <AnimatePresence>
+        <motion.div
+          key={message}
+          role={tone === 'danger' ? 'alert' : 'status'}
+          aria-live={tone === 'danger' ? 'assertive' : 'polite'}
+          initial={{ opacity: 0, y: 18, scale: 0.94 }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            transition: { type: 'spring', stiffness: 420, damping: 28 },
+          }}
+          exit={{ opacity: 0, y: -8, scale: 0.94, transition: { duration: 0.18 } }}
+          className="dk-alarm-pill max-w-[420px] w-full pointer-events-auto"
+        >
         <div className="dk-alarm-pill__main cursor-default">
           <span
             className={`dk-alarm-pill__avatar ${
@@ -278,7 +289,8 @@ export const NoticeBanner: React.FC<{
             <X size={14} strokeWidth={2.2} />
           </button>
         )}
-      </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 

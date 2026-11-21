@@ -1,4 +1,4 @@
-import type { BlockAccessGrant, RbacUserRecord, UserRoleId } from '../rbac/roles';
+import type { BlockAccessGrant, RbacUserRecord, UserRoleId } from '../rbac/roles.ts';
 
 export type CaretakerRoleId = 'block_caretaker' | 'temp_caretaker';
 

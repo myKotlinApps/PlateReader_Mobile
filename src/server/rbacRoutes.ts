@@ -10,8 +10,12 @@ import {
   type BlockSharePermission,
   type TempDurationPreset,
   type UserRoleId,
-} from '../mobile/rbac/roles';
-import { validateJournalEntry, type JournalEntry } from '../mobile/accounting/accountingEngine';
+} from '../mobile/rbac/roles.ts';
+import {
+  normalizeUserAppearancePrefs,
+  type UserAppearancePrefs,
+} from '../mobile/theme/accessibilityPrefs.ts';
+import { validateJournalEntry, type JournalEntry } from '../mobile/accounting/accountingEngine.ts';
 import {
   hashPassword,
   nosql,
@@ -21,7 +25,7 @@ import {
   verifySessionToken,
   type CaretakerTaskDoc,
   type StoredUserDoc,
-} from './nosqlStore';
+} from './nosqlStore.ts';
 import {
   buildUnitInviteCode,
   normalizeInviteCode,
@@ -29,7 +33,7 @@ import {
   validateResidentOnboarding,
   type ResidentOnboardingPayload,
   type ResidentVehicleEntry,
-} from '../mobile/utils/residentOnboarding';
+} from '../mobile/utils/residentOnboarding.ts';
 import {
   buildCaretakerBlockGrants,
   getCaretakerBlockIds,
@@ -37,7 +41,17 @@ import {
   normalizeCaretakerBlockIds,
   validateCaretakerAccountInput,
   type CaretakerRoleId,
-} from '../mobile/utils/caretakerAccess';
+} from '../mobile/utils/caretakerAccess.ts';
+import {
+  buildDirectConversationId,
+  buildGroupConversationId,
+  canUserAccessGroup,
+  canUserAccessMessage,
+  canUsersDirectChat,
+  CHAT_GROUPS,
+  type ChatContactSummary,
+  type ChatMessageDoc,
+} from '../mobile/utils/chatConversations.ts';
 
 interface AuthedRequest extends Request {
   authUser?: StoredUserDoc;
@@ -254,6 +268,14 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
         (n.targetUnitCode === 'ALL' || n.targetUnitCode === user.unitCode),
     );
 
+    const unreadMessages = nosql.find(
+      'chat_messages',
+      (m) =>
+        canUserAccessMessage(user, m) &&
+        m.senderUserId !== user.id &&
+        !(m.readByUserIds || []).includes(user.id),
+    ).length;
+
     res.json({
       ok: true,
       user: stripUserSecrets(user),
@@ -265,6 +287,7 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
         pendingReceipts,
         pendingPermits,
         noticesCount: notices.length,
+        unreadMessages,
       },
       latestNotice: notices[0] ?? null,
     });
@@ -1144,6 +1167,206 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
     res.json({ ok: true, updatedCount });
   });
 
+  // 8b. Unified Telegram/WhatsApp-style Messenger (Manager <-> Resident, Manager <-> Manager, Groups)
+  app.get('/api/v1/rbac/chat/bootstrap', requireAuth, (req: AuthedRequest, res) => {
+    const viewer = req.authUser!;
+    const allUsers = nosql.list('users');
+
+    const contacts: ChatContactSummary[] = allUsers
+      .filter((u) => canUsersDirectChat(viewer, u))
+      .map((u) => ({
+        userId: u.id,
+        displayName: u.displayName,
+        role: u.role,
+        roleTitle: ROLE_DEFINITIONS[u.role]?.shortTitle || u.role,
+        blockId: u.blockId,
+        unitCode: u.unitCode,
+        avatarDataUrl: u.avatarDataUrl,
+        category: u.role === 'resident' ? 'residents' : 'managers',
+        conversationId: buildDirectConversationId(viewer.id, u.id),
+      }));
+
+    const groups = CHAT_GROUPS.filter((g) => canUserAccessGroup(viewer, g)).map((g) => {
+      const memberCount = allUsers.filter(
+        (u) => u.active && canUserAccessGroup(u, g),
+      ).length;
+      return { ...g, memberCount };
+    });
+
+    const messages = nosql
+      .find('chat_messages', (m) => canUserAccessMessage(viewer, m))
+      .sort((a, b) => a.createdAtMs - b.createdAtMs);
+
+    const unreadCount = messages.filter(
+      (m) => m.senderUserId !== viewer.id && !(m.readByUserIds || []).includes(viewer.id),
+    ).length;
+
+    res.json({
+      ok: true,
+      contacts,
+      groups,
+      messages,
+      unreadCount,
+    });
+  });
+
+  app.post('/api/v1/rbac/chat/messages', requireAuth, (req: AuthedRequest, res) => {
+    const actor = req.authUser!;
+    const body = (req.body || {}) as {
+      conversationId?: string;
+      targetUserId?: string;
+      groupId?: string;
+      body?: string;
+      attachmentDataUrl?: string;
+      replyToId?: string;
+    };
+
+    const text = String(body.body || '').trim();
+    const attachmentDataUrl = sanitizeImageDataUrl(body.attachmentDataUrl);
+    if (!text && !attachmentDataUrl) {
+      res.status(400).json({ error: { message: 'متن پیام یا تصویر پیوست نمی‌تواند خالی باشد.' } });
+      return;
+    }
+
+    let conversationId = String(body.conversationId || '').trim();
+    let kind: 'direct' | 'group' = 'direct';
+    let recipientUserId: string | null = null;
+    let recipientName: string | null = null;
+    let blockId: string | null = actor.blockId || null;
+    let unitCode: string | null = actor.unitCode || null;
+
+    if (body.groupId || conversationId.startsWith('grp:')) {
+      const grpId = String(body.groupId || conversationId.replace(/^grp:/, '')).trim();
+      const group = CHAT_GROUPS.find((g) => g.id === grpId);
+      if (!group || !canUserAccessGroup(actor, group)) {
+        res.status(403).json({ error: { message: 'شما مجاز به ارسال پیام در این گروه نیستید.' } });
+        return;
+      }
+      kind = 'group';
+      conversationId = buildGroupConversationId(group.id);
+      recipientName = group.title;
+      blockId = group.blockId ?? actor.blockId ?? null;
+    } else {
+      let targetId = String(body.targetUserId || '').trim();
+      if (!targetId && conversationId.startsWith('dm:')) {
+        const pair = conversationId.slice(3).split('__');
+        targetId = pair.find((id) => id !== actor.id) || '';
+      }
+      const targetUser = targetId ? nosql.findById('users', targetId) : undefined;
+      if (!targetUser || !canUsersDirectChat(actor, targetUser)) {
+        res.status(403).json({ error: { message: 'امکان گفتگوی مستقیم با این مخاطب وجود ندارد.' } });
+        return;
+      }
+      kind = 'direct';
+      conversationId = buildDirectConversationId(actor.id, targetUser.id);
+      recipientUserId = targetUser.id;
+      recipientName = targetUser.displayName;
+      blockId = targetUser.blockId || actor.blockId || null;
+      unitCode =
+        actor.role === 'resident'
+          ? actor.unitCode || unitCode
+          : targetUser.role === 'resident'
+            ? targetUser.unitCode || unitCode
+            : null;
+    }
+
+    let replyToId: string | undefined;
+    let replyToSender: string | undefined;
+    let replyToSnippet: string | undefined;
+    if (body.replyToId) {
+      const refMsg = nosql.findById('chat_messages', String(body.replyToId));
+      if (refMsg && refMsg.conversationId === conversationId) {
+        replyToId = refMsg.id;
+        replyToSender = refMsg.senderName;
+        replyToSnippet = (refMsg.body || 'تصویر پیوست').slice(0, 80);
+      }
+    }
+
+    const now = Date.now();
+    const created: ChatMessageDoc = {
+      id: `cmsg_${now}_${Math.random().toString(16).slice(2, 6)}`,
+      conversationId,
+      kind,
+      senderUserId: actor.id,
+      senderName: actor.displayName,
+      senderRole: actor.role,
+      senderUnitCode: actor.unitCode ?? null,
+      recipientUserId,
+      recipientName,
+      blockId,
+      unitCode,
+      body: text || (attachmentDataUrl ? 'تصویر پیوست شد' : ''),
+      attachmentDataUrl,
+      replyToId,
+      replyToSender,
+      replyToSnippet,
+      readByUserIds: [actor.id],
+      createdAtMs: now,
+    };
+
+    nosql.insert('chat_messages', created, false);
+
+    // Keep legacy resident_messages mirrored if this is a manager <-> resident DM
+    if (kind === 'direct' && unitCode && (actor.role === 'resident' || recipientUserId)) {
+      const residentUser =
+        actor.role === 'resident'
+          ? actor
+          : recipientUserId
+            ? nosql.findById('users', recipientUserId)
+            : undefined;
+      if (residentUser && residentUser.role === 'resident') {
+        nosql.insert(
+          'resident_messages',
+          {
+            id: `msg_${now}`,
+            blockId: blockId || 'B',
+            unitCode,
+            residentUserId: residentUser.id,
+            residentName: residentUser.displayName,
+            senderUserId: actor.id,
+            senderName: actor.displayName,
+            senderRole: actor.role,
+            recipientName: recipientName || undefined,
+            deliveryStatus: 'delivered',
+            deliveredAtMs: now,
+            body: created.body,
+            createdAtMs: now,
+          },
+          false,
+        );
+      }
+    }
+
+    res.status(201).json({ ok: true, message: created });
+  });
+
+  app.post('/api/v1/rbac/chat/mark-read', requireAuth, (req: AuthedRequest, res) => {
+    const actor = req.authUser!;
+    const body = (req.body || {}) as { conversationId?: string };
+    const convId = String(body.conversationId || '').trim();
+    if (!convId) {
+      res.status(400).json({ error: { message: 'شناسه گفتگو مشخص نشده است.' } });
+      return;
+    }
+
+    let updatedCount = 0;
+    const all = nosql.list('chat_messages');
+    for (const m of all) {
+      if (m.conversationId !== convId) continue;
+      if (!canUserAccessMessage(actor, m)) continue;
+      if (m.senderUserId === actor.id) continue;
+      if ((m.readByUserIds || []).includes(actor.id)) continue;
+
+      nosql.updateById('chat_messages', m.id, (prev) => ({
+        ...prev,
+        readByUserIds: Array.from(new Set([...(prev.readByUserIds || []), actor.id])),
+      }));
+      updatedCount += 1;
+    }
+
+    res.json({ ok: true, updatedCount });
+  });
+
   // 9. Guest Permits (Resident -> Gate Guard Live Verification)
   app.get('/api/v1/rbac/guest-permits', requireAuth, (req: AuthedRequest, res) => {
     const user = req.authUser!;
@@ -1942,46 +2165,20 @@ export function registerRbacRoutes(app: Express, bridge: LegacyBridge): void {
     res.status(201).json({ ok: true, batch, voucher });
   });
 
-  // 15. Per-User Appearance Preferences (Corner Style: sharp/curved + 6 Modern Trend Palettes)
+  // 15. Per-User Appearance & Accessibility Preferences (Corner Style, 6 Palettes, Presbyopia Scale, High Contrast)
   app.patch('/api/v1/rbac/me/preferences', requireAuth, (req: AuthedRequest, res) => {
     const actor = req.authUser!;
-    const body = (req.body || {}) as {
-      cornerStyle?: string;
-      paletteId?: string;
-    };
-    const validPalettes = [
-      'niloofar_default',
-      'emerald_atelier',
-      'terracotta_sand',
-      'nordic_indigo',
-      'velvet_burgundy',
-      'graphite_cobalt',
-    ] as const;
-
-    const nextCorner: 'sharp' | 'curved' =
-      body.cornerStyle === 'sharp'
-        ? 'sharp'
-        : body.cornerStyle === 'curved'
-          ? 'curved'
-          : actor.preferences?.cornerStyle || 'curved';
-
-    const nextPalette =
-      typeof body.paletteId === 'string' &&
-      (validPalettes as readonly string[]).includes(body.paletteId)
-        ? (body.paletteId as (typeof validPalettes)[number])
-        : actor.preferences?.paletteId || 'niloofar_default';
+    const body = (req.body || {}) as Partial<UserAppearancePrefs>;
+    const nextPrefs = normalizeUserAppearancePrefs(body, actor.preferences);
 
     const updated = nosql.updateById('users', actor.id, (prev) => ({
       ...prev,
-      preferences: {
-        cornerStyle: nextCorner,
-        paletteId: nextPalette,
-      },
+      preferences: nextPrefs,
     }));
 
     res.json({
       ok: true,
-      preferences: updated?.preferences ?? { cornerStyle: nextCorner, paletteId: nextPalette },
+      preferences: updated?.preferences ?? nextPrefs,
       user: updated ? stripUserSecrets(updated) : stripUserSecrets(actor),
     });
   });

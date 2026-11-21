@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   AlertCircle,
+  ArrowRight,
   Bell,
   Building2,
   Car,
@@ -12,6 +13,7 @@ import {
   Lock,
   LogOut,
   Mail,
+  MessageCircle,
   Moon,
   Plus,
   Receipt,
@@ -39,6 +41,7 @@ import { RolePortalPage } from './pages/RolePortalPage';
 import { BlockManagementPage } from './pages/BlockManagementPage';
 import { CaretakerPanelPage } from './pages/CaretakerPanelPage';
 import { ResidentPanelPage } from './pages/ResidentPanelPage';
+import { ChatPage } from './pages/ChatPage';
 import {
   clearRbacToken,
   rbacApi,
@@ -106,6 +109,8 @@ function renderDockIcon(icon: RoleDockTabSpec['icon'], isActive: boolean) {
       return <Car size={21} strokeWidth={sw} />;
     case 'users':
       return <Users size={21} strokeWidth={sw} />;
+    case 'chat':
+      return <MessageCircle size={21} strokeWidth={sw} />;
     default:
       return <Home size={22} strokeWidth={sw} />;
   }
@@ -158,6 +163,12 @@ export const MobileShell: React.FC = () => {
   }, []);
 
   const section = pathname.replace(/^\/m\/?/, '').split('/')[0] || 'dashboard';
+  const lastNonChatRouteRef = useRef<string>('/m/dashboard');
+  useEffect(() => {
+    if (section !== 'chat') {
+      lastNonChatRouteRef.current = `${pathname}${search}`;
+    }
+  }, [section, pathname, search]);
   const activeFetchCount = useGlobalFetchCount();
   const slowFetchVisible = useDelayedLoading(activeFetchCount > 0, 180, 360);
 
@@ -250,7 +261,7 @@ export const MobileShell: React.FC = () => {
   const prePendingTasks = rbacCounters?.pendingTasks ?? 0;
   const preActiveUser = rbacSession?.user ?? null;
   const preRoleDef = preActiveUser ? ROLE_DEFINITIONS[preActiveUser.role] : null;
-  const rawContextAlarmId: string | null = !preActiveUser || !preRoleDef
+  const rawContextAlarmId: string | null = !preActiveUser || !preRoleDef || section === 'chat'
     ? null
     : preActiveUser.role === 'temp_caretaker' && typeof rbacSession?.remainingMs === 'number'
       ? `ctx-temp-caretaker-${preActiveUser.id}`
@@ -448,6 +459,7 @@ export const MobileShell: React.FC = () => {
     letters: 'دبیرخانه',
     forms: 'مصوبات و فرم‌ها',
     guard: 'نگهبانی و گیت',
+    chat: 'گفتگوها',
     notifications: 'اعلان‌ها و تنظیمات',
     stitch: 'آرشیو طرح‌ها',
   };
@@ -463,6 +475,7 @@ export const MobileShell: React.FC = () => {
     letters: 'در حال واکشی نامه‌ها و کارتابل دبیرخانه...',
     forms: 'در حال بارگذاری مصوبات و فرم‌های اجرایی...',
     guard: 'در حال اتصال به پلاک‌خوان و مجوزهای مهمان...',
+    chat: 'در حال دریافت گفتگوها و پیام‌های شهرک...',
     notifications: 'در حال دریافت اعلان‌های مجتمع...',
   };
 
@@ -471,6 +484,7 @@ export const MobileShell: React.FC = () => {
   const pendingReceipts = rbacCounters?.pendingReceipts ?? 0;
   const pendingPermits = rbacCounters?.pendingPermits ?? 0;
   const pendingTasks = rbacCounters?.pendingTasks ?? 0;
+  const unreadMessages = rbacCounters?.unreadMessages ?? 0;
 
   // Match active Digikala dock item precisely (supporting section?tab=... routes)
   const currentFullId = search ? `${section}${search}` : section;
@@ -489,6 +503,7 @@ export const MobileShell: React.FC = () => {
     else if (spec.id.startsWith('guard?tab=permits') || spec.id === 'guard') badge = pendingPermits + unreadGuardCount;
     else if (spec.id.startsWith('caretaker?tab=tasks') || spec.id.startsWith('block?tab=tasks')) badge = pendingTasks;
     else if (spec.id.startsWith('finance?tab=accountant')) badge = pendingReceipts;
+    else if (spec.id === 'chat') badge = unreadMessages;
     return {
       id: spec.id,
       label: spec.label,
@@ -510,9 +525,11 @@ export const MobileShell: React.FC = () => {
     ),
   };
 
-  // Compute optional contextual role alarm (independent 5-second auto-dismiss per alarm key)
+  // Compute optional contextual role alarm (suppressed on full-screen Chat so thread header stays clean)
   const rawContextAlarm: MDockAlarm | null =
-    activeUser.role === 'temp_caretaker' && typeof rbacSession.remainingMs === 'number'
+    section === 'chat'
+      ? null
+      : activeUser.role === 'temp_caretaker' && typeof rbacSession.remainingMs === 'number'
       ? {
           id: `ctx-temp-caretaker-${activeUser.id}`,
           title: `شیفت موقت فعال • ${formatRemainingDurationFa(rbacSession.remainingMs)} باقی‌مانده`,
@@ -605,7 +622,11 @@ export const MobileShell: React.FC = () => {
                   }
                 : null;
 
-  const contextAlarm = activeContextId ? rawContextAlarm : null;
+  const contextAlarm = activeContextId
+    ? rawContextAlarm
+      ? { ...rawContextAlarm, durationMs: DEFAULT_ALARM_DURATION_MS }
+      : null
+    : null;
 
   // Stack newest toast alarms ABOVE earlier/contextual alarms (no "بررسی >" CTA; tap alarm directly)
   const stackedDockAlarms: MDockAlarm[] = [
@@ -619,6 +640,7 @@ export const MobileShell: React.FC = () => {
             ? 'نیاز به بررسی و اصلاح'
             : 'اعلان سامانه'),
       subtitle: toast.message,
+      durationMs: toast.durationMs,
       tone:
         toast.tone === 'danger'
           ? 'danger'
@@ -647,19 +669,40 @@ export const MobileShell: React.FC = () => {
   const showComplexLoader = slowFetchVisible;
 
   return (
-    <div className={`alpr-mobile-shell ${stackedDockAlarms.length > 0 ? 'has-alarm-pill' : ''}`} dir="rtl">
+    <div
+      className={`alpr-mobile-shell ${section === 'chat' ? 'alpr-mobile-shell--chat' : ''} ${
+        stackedDockAlarms.length > 0 ? 'has-alarm-pill' : ''
+      }`}
+      dir="rtl"
+    >
       <a href="#mobile-main" className="m-skip-link">
         رفتن به محتوای اصلی
       </a>
       <MAppBar
         title={currentTitle}
+        leading={
+          section === 'chat' ? (
+            <button
+              type="button"
+              onClick={() => navigate(lastNonChatRouteRef.current || roleDef.defaultRoute)}
+              aria-label="بازگشت"
+              title="بازگشت از صفحه گفتگو"
+              className="h-9 px-2.5 rounded-[var(--ui-btn-radius)] border border-outline-variant/65 bg-surface-container-low hover:bg-primary-container/55 text-on-surface text-[12.5px] font-bold inline-flex items-center gap-1 transition-colors shrink-0"
+            >
+              <ArrowRight size={17} strokeWidth={2.3} />
+              <span>بازگشت</span>
+            </button>
+          ) : undefined
+        }
         trailing={
           <>
             {/* Quick Role Switcher Button */}
             <button
               type="button"
               onClick={() => setSwitcherOpen(true)}
-              className="h-9 px-2.5 rounded-[var(--ui-btn-radius)] border border-outline-variant/60 bg-surface-container-low hover:bg-primary-container/50 text-on-surface text-[11.5px] font-bold inline-flex items-center gap-1.5 transition-colors shrink-0"
+              className={`h-9 px-2.5 rounded-[var(--ui-btn-radius)] border border-outline-variant/60 bg-surface-container-low hover:bg-primary-container/50 text-on-surface text-[11.5px] font-bold items-center gap-1.5 transition-colors shrink-0 ${
+                section === 'chat' ? 'hidden sm:inline-flex' : 'inline-flex'
+              }`}
               aria-label="تغییر نقش کاربری"
               title={`${roleDef.title} (@${activeUser.username})`}
             >
@@ -695,10 +738,28 @@ export const MobileShell: React.FC = () => {
                 <User size={19} strokeWidth={1.9} />
               )}
             </button>
+            {section !== 'chat' && (
+              <button
+                type="button"
+                onClick={() => goTab('chat')}
+                className="m-icon-btn relative"
+                aria-label="پیام‌رسان و گفتگوها"
+                title="صفحه گفتگو با ساکنین، مدیران و گروه‌ها"
+              >
+                <MessageCircle size={19} strokeWidth={1.9} />
+                {unreadMessages > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] px-1 rounded-full bg-error text-white text-[9.5px] font-bold font-numeric-stat flex items-center justify-center">
+                    {unreadMessages > 99 ? '۹۹+' : unreadMessages.toLocaleString('fa-IR')}
+                  </span>
+                )}
+              </button>
+            )}
             <button
               type="button"
               onClick={() => goTab('notifications')}
-              className={`m-icon-btn ${section === 'notifications' ? 'm-icon-btn--active' : ''}`}
+              className={`m-icon-btn ${section === 'notifications' ? 'm-icon-btn--active' : ''} ${
+                section === 'chat' ? 'hidden sm:inline-flex' : ''
+              }`}
               aria-label="اعلان‌ها"
             >
               <Bell size={19} strokeWidth={1.9} />
@@ -714,7 +775,7 @@ export const MobileShell: React.FC = () => {
             <button
               type="button"
               onClick={handleLogout}
-              className="m-icon-btn"
+              className={`m-icon-btn ${section === 'chat' ? 'hidden sm:inline-flex' : ''}`}
               aria-label="خروج به درگاه نقش‌ها"
               title="بازگشت به درگاه نقش‌ها و ورود"
             >
@@ -726,10 +787,14 @@ export const MobileShell: React.FC = () => {
 
       <main
         id="mobile-main"
-        className="w-full mx-auto py-3.5 px-3.5 flex-grow-1 max-w-[680px] lg:max-w-[960px]"
+        className={
+          section === 'chat'
+            ? 'w-full max-w-none p-0 flex-1 min-h-0 flex flex-col overflow-hidden'
+            : 'w-full mx-auto py-3.5 px-3.5 flex-grow-1 max-w-[680px] lg:max-w-[960px]'
+        }
       >
         {bootError && (
-          <div className="mb-3">
+          <div className={section === 'chat' ? 'px-3 pt-2 shrink-0' : 'mb-3'}>
             <NoticeBanner message={bootError} tone="danger" onClose={() => setBootError('')} />
           </div>
         )}
@@ -747,7 +812,10 @@ export const MobileShell: React.FC = () => {
             </div>
           </div>
         )}
-        <div key={`${activeUser.id}-${section}`} className="m-panel-in">
+        <div
+          key={`${activeUser.id}-${section}`}
+          className={section === 'chat' ? 'm-panel-in flex-1 min-h-0 flex flex-col' : 'm-panel-in'}
+        >
           {section === 'block' ? (
             <BlockManagementPage
               currentUser={activeUser}
@@ -761,6 +829,11 @@ export const MobileShell: React.FC = () => {
             />
           ) : section === 'resident' ? (
             <ResidentPanelPage
+              currentUser={activeUser}
+              onSyncChanged={handleSyncChanged}
+            />
+          ) : section === 'chat' ? (
+            <ChatPage
               currentUser={activeUser}
               onSyncChanged={handleSyncChanged}
             />
@@ -829,6 +902,9 @@ export const MobileShell: React.FC = () => {
         }}
         fabItem={quickActionFabItem}
         alarms={stackedDockAlarms}
+        reduceMotion={Boolean(activeUser.preferences?.reduceMotion)}
+        isChatRoute={section === 'chat'}
+        hideDock={section === 'chat'}
       />
 
       {/* Role-Aware Quick Actions Modal */}

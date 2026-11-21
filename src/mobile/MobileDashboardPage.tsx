@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { MobileBootstrap } from './mobileApi';
+import { rbacApi } from './rbac/rbacApi';
+import type { UnitDoc } from '../server/nosqlStore';
+import { getTopDebtorUnits } from './utils/topDebtors';
+import { formatAmountFa } from './utils/persianMoney';
 import {
   HeroSummaryCard,
   NoticeBanner,
@@ -44,6 +48,8 @@ export const MobileDashboardPage: React.FC<Props> = ({ bootstrap, outboxCount, o
     ex3: 'pending',
   });
   const [toast, setToast] = useState('');
+  const [units, setUnits] = useState<UnitDoc[]>([]);
+  const [unitsLoading, setUnitsLoading] = useState(true);
 
   useEffect(() => {
     const qView = searchParams.get('view') as DashView | null;
@@ -51,6 +57,27 @@ export const MobileDashboardPage: React.FC<Props> = ({ bootstrap, outboxCount, o
       setView(qView);
     }
   }, [searchParams, view]);
+
+  useEffect(() => {
+    let active = true;
+    setUnitsLoading(true);
+    void rbacApi
+      .getBlocks()
+      .then((res) => {
+        if (active) setUnits(res.units || []);
+      })
+      .catch(() => {
+        /* ignore if session lacks unit scope */
+      })
+      .finally(() => {
+        if (active) setUnitsLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [bootstrap.user.id]);
+
+  const topDebtors = useMemo(() => getTopDebtorUnits(units, 5), [units]);
 
   const switchView = (next: DashView) => {
     setView(next);
@@ -217,6 +244,85 @@ export const MobileDashboardPage: React.FC<Props> = ({ bootstrap, outboxCount, o
               </button>
             </SurfaceCard>
           </div>
+
+          {/* Top 5 Highest Charge Debt Units — Simple Compact Table */}
+          <SurfaceCard className="space-y-2.5">
+            <div className="flex items-center justify-between gap-2 px-0.5 min-w-0">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <span className="w-7 h-7 rounded-[var(--ui-btn-radius)] bg-primary-container/80 text-primary flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[17px]">receipt_long</span>
+                </span>
+                <h2 className="text-[14px] sm:text-[14.5px] font-bold text-on-surface mb-0 truncate min-w-0">
+                  ۵ واحد با بیشترین بدهی شارژ
+                </h2>
+              </div>
+              <StitchButton
+                variant="ghost"
+                size="sm"
+                className="shrink-0 whitespace-nowrap"
+                onClick={() => onNavigate('finance?tab=units')}
+              >
+                مشاهده همه
+              </StitchButton>
+            </div>
+            {unitsLoading ? (
+              <p className="text-[12.5px] text-on-surface-variant py-3 text-center mb-0">
+                در حال دریافت اطلاعات بدهی واحدها...
+              </p>
+            ) : topDebtors.length === 0 ? (
+              <p className="text-[12.5px] text-on-surface-variant py-3 text-center mb-0">
+                هیچ واحد بدهکاری ثبت نشده است.
+              </p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table
+                  aria-label="جدول ۵ واحد با بیشترین بدهی شارژ"
+                  className="w-full text-right border-collapse text-[13px]"
+                >
+                  <thead>
+                    <tr className="border-b border-outline-variant/60 text-[11.5px] text-on-surface-variant font-semibold">
+                      <th scope="col" className="py-2 pl-2 font-semibold whitespace-nowrap">
+                        ردیف
+                      </th>
+                      <th scope="col" className="py-2 px-2 font-semibold whitespace-nowrap">
+                        واحد
+                      </th>
+                      <th scope="col" className="py-2 px-2 font-semibold whitespace-nowrap">
+                        بلوک
+                      </th>
+                      <th scope="col" className="py-2 px-2 font-semibold">
+                        ساکن
+                      </th>
+                      <th scope="col" className="py-2 pr-2 font-semibold text-left whitespace-nowrap">
+                        بدهی (تومان)
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-outline-variant/35">
+                    {topDebtors.map((unit, idx) => (
+                      <tr key={unit.id} className="hover:bg-surface-container-low/60 transition-colors">
+                        <td className="py-2 pl-2 font-numeric-stat text-on-surface-variant whitespace-nowrap">
+                          {fa(idx + 1)}
+                        </td>
+                        <td className="py-2 px-2 font-bold text-on-surface font-numeric-stat whitespace-nowrap">
+                          {unit.unitCode}
+                        </td>
+                        <td className="py-2 px-2 text-on-surface-variant whitespace-nowrap">
+                          {unit.blockId}
+                        </td>
+                        <td className="py-2 px-2 text-on-surface max-w-[140px] truncate">
+                          {unit.residentName}
+                        </td>
+                        <td className="py-2 pr-2 text-left font-bold font-numeric-stat text-error whitespace-nowrap">
+                          {formatAmountFa(unit.debtTomans)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </SurfaceCard>
         </div>
       )}
 

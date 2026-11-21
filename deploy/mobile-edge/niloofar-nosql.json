@@ -15,7 +15,15 @@
       "validFromMs": null,
       "validUntilMs": null,
       "active": true,
-      "createdAtMs": 1792662714783
+      "createdAtMs": 1792662714783,
+      "preferences": {
+        "cornerStyle": "curved",
+        "paletteId": "niloofar_default",
+        "fontScale": "normal",
+        "highContrast": false,
+        "boldText": false,
+        "reduceMotion": false
+      }
     },
     {
       "id": "u_acc_complex",
@@ -1391,6 +1399,201 @@
       "gateAccessEnabled": true,
       "approvedByName": "مهندس شریفی (مدیر کل شهرک)",
       "approvedAtMs": 1794048822182
+    }
+  ],
+  "chat_messages": [
+    {
+      "id": "cmsg_101",
+      "conversationId": "grp:grp_managers",
+      "kind": "group",
+      "senderUserId": "u_admin",
+      "senderName": "مهندس شریفی (مدیر کل شهرک)",
+      "senderRole": "complex_manager",
+      "body": "سلام همکاران گرامی، صورت‌جلسه بررسی شارژ آذرماه و سرویس دوره‌ای پمپ‌های بلوک A و B در سامانه بارگذاری شد. لطفاً نظرات خود را اعلام بفرمایید.",
+      "readByUserIds": [
+        "u_admin",
+        "u_block_b_mgr",
+        "u_acc_complex",
+        "u_fac_chief"
+      ],
+      "createdAtMs": 1795239626692
+    },
+    {
+      "id": "cmsg_102",
+      "conversationId": "grp:grp_managers",
+      "kind": "group",
+      "senderUserId": "u_block_b_mgr",
+      "senderName": "دکتر فراهانی (مدیر بلوک B)",
+      "senderRole": "block_manager",
+      "blockId": "B",
+      "body": "سلام جناب مهندس، گزارش هزینه‌های بوسترپمپ بلوک B با کد VCH-402-882 تایید شد. جدول معوقات بلوک هم آماده بررسی خانم طاهری است.",
+      "replyToId": "cmsg_101",
+      "replyToSender": "مهندس شریفی",
+      "replyToSnippet": "صورت‌جلسه بررسی شارژ آذرماه و سرویس دوره‌ای پمپ‌ها...",
+      "readByUserIds": [
+        "u_block_b_mgr",
+        "u_admin",
+        "u_acc_complex"
+      ],
+      "createdAtMs": 1795250426692
+    },
+    {
+      "id": "cmsg_103",
+      "conversationId": "grp:grp_managers",
+      "kind": "group",
+      "senderUserId": "u_acc_complex",
+      "senderName": "خانم طاهری (مدیر حسابداری شهرک)",
+      "senderRole": "complex_accountant",
+      "body": "ممنون دکتر فراهانی؛ اکسل واریزی‌های بلوک B تطبیق خورد و ترازنامه دوره بسته شد.",
+      "readByUserIds": [
+        "u_acc_complex",
+        "u_admin",
+        "u_block_b_mgr"
+      ],
+      "createdAtMs": 1795268426692
+    },
+    {
+      "id": "cmsg_201",
+      "conversationId": "dm:u_admin__u_block_b_mgr",
+      "kind": "direct",
+      "senderUserId": "u_admin",
+      "senderName": "مهندس شریفی (مدیر کل شهرک)",
+      "senderRole": "complex_manager",
+      "recipientUserId": "u_block_b_mgr",
+      "recipientName": "دکتر فراهانی (مدیر بلوک B)",
+      "blockId": "B",
+      "body": "دکتر جان وضعیت نشتی واحد ۳۰۲ به کجا رسید؟ اگر نیاز به پیمانکار بیرونی است بفرمایید دستور بدهم.",
+      "readByUserIds": [
+        "u_admin",
+        "u_block_b_mgr"
+      ],
+      "createdAtMs": 1795257626692
+    },
+    {
+      "id": "cmsg_202",
+      "conversationId": "dm:u_admin__u_block_b_mgr",
+      "kind": "direct",
+      "senderUserId": "u_block_b_mgr",
+      "senderName": "دکتر فراهانی (مدیر بلوک B)",
+      "senderRole": "block_manager",
+      "recipientUserId": "u_admin",
+      "recipientName": "مهندس شریفی (مدیر کل شهرک)",
+      "blockId": "B",
+      "body": "مهندس صابری الان در محل هستند، شیر فلکه موضعی بسته شده و تست فشار در حال انجام است. نتیجه را همین‌جا گزارش می‌کنم.",
+      "readByUserIds": [
+        "u_block_b_mgr",
+        "u_admin"
+      ],
+      "createdAtMs": 1795270226692
+    },
+    {
+      "id": "cmsg_301",
+      "conversationId": "grp:grp_operations",
+      "kind": "group",
+      "senderUserId": "u_fac_chief",
+      "senderName": "مهندس صابری (سرپرست کل تاسیسات)",
+      "senderRole": "facilities_chief",
+      "body": "تیم گیت و سرایداری لطفاً هنگام ورود خودروهای خدماتی تاسیسات، کارت تردد و پلاک را در بخش انتظامات ثبت کنید.",
+      "readByUserIds": [
+        "u_fac_chief",
+        "u_guard_gate1",
+        "u_block_b_mgr",
+        "u_admin"
+      ],
+      "createdAtMs": 1795261226692
+    },
+    {
+      "id": "cmsg_401",
+      "conversationId": "dm:u_block_b_mgr__u_res_b208",
+      "kind": "direct",
+      "senderUserId": "u_res_b208",
+      "senderName": "آقای حسینی (ساکن واحد B-208)",
+      "senderRole": "resident",
+      "senderUnitCode": "B-208",
+      "recipientUserId": "u_block_b_mgr",
+      "recipientName": "دکتر فراهانی (مدیر بلوک B)",
+      "blockId": "B",
+      "unitCode": "B-208",
+      "body": "سلام جناب دکتر فراهانی، برای اسباب‌کشی یک دست مبل جدید پنجشنبه ساعت ۱۱ نیاز به هماهنگی آسانسور باربر داریم.",
+      "readByUserIds": [
+        "u_res_b208",
+        "u_block_b_mgr"
+      ],
+      "createdAtMs": 1795246826692
+    },
+    {
+      "id": "cmsg_402",
+      "conversationId": "dm:u_block_b_mgr__u_res_b208",
+      "kind": "direct",
+      "senderUserId": "u_block_b_mgr",
+      "senderName": "دکتر فراهانی (مدیر بلوک B)",
+      "senderRole": "block_manager",
+      "recipientUserId": "u_res_b208",
+      "recipientName": "آقای حسینی (ساکن واحد B-208)",
+      "blockId": "B",
+      "unitCode": "B-208",
+      "body": "سلام آقای حسینی، با سرایدار بلوک هماهنگ شد؛ پنجشنبه از ساعت ۱۱ تا ۱۳ آسانسور باربر با ضربه‌گیر آماده خواهد بود. لطفاً پلاک وانت را در بخش ثبت مهمان وارد کنید.",
+      "readByUserIds": [
+        "u_block_b_mgr",
+        "u_res_b208"
+      ],
+      "createdAtMs": 1795254026692
+    },
+    {
+      "id": "cmsg_501",
+      "conversationId": "grp:grp_block_B",
+      "kind": "group",
+      "senderUserId": "u_block_b_mgr",
+      "senderName": "دکتر فراهانی (مدیر بلوک B)",
+      "senderRole": "block_manager",
+      "blockId": "B",
+      "body": "همسایگان گرامی بلوک B، شست‌وشوی رمپ پارکینگ فردا صبح ساعت ۹ انجام می‌شود. لطفاً خودروها را با هماهنگی سرایدار جابه‌جا بفرمایید.",
+      "readByUserIds": [
+        "u_block_b_mgr",
+        "u_admin"
+      ],
+      "createdAtMs": 1795264826692
+    },
+    {
+      "id": "cmsg_1795275704991_675a",
+      "conversationId": "grp:grp_managers",
+      "kind": "group",
+      "senderUserId": "u_admin",
+      "senderName": "مهندس شریفی (مدیر کل شهرک)",
+      "senderRole": "complex_manager",
+      "senderUnitCode": null,
+      "recipientUserId": null,
+      "recipientName": "گروه هماهنگی مدیران شهرک",
+      "blockId": null,
+      "unitCode": null,
+      "body": "تست پیام مستقیم از صفحه چت جدید",
+      "replyToId": "cmsg_101",
+      "replyToSender": "مهندس شریفی (مدیر کل شهرک)",
+      "replyToSnippet": "سلام همکاران گرامی، صورت‌جلسه بررسی شارژ آذرماه و سرویس دوره‌ای پمپ‌های بلوک A و",
+      "readByUserIds": [
+        "u_admin",
+        "u_block_b_mgr"
+      ],
+      "createdAtMs": 1795275704991
+    },
+    {
+      "id": "cmsg_1795279140841_2335",
+      "conversationId": "grp:grp_operations",
+      "kind": "group",
+      "senderUserId": "u_block_b_mgr",
+      "senderName": "دکتر فراهانی (مدیر بلوک B)",
+      "senderRole": "block_manager",
+      "senderUnitCode": "B-101",
+      "recipientUserId": null,
+      "recipientName": "گروه عملیات، تاسیسات و انتظامات",
+      "blockId": "B",
+      "unitCode": "B-101",
+      "body": "تیم تاسیسات برای بررسی اعزام شد.",
+      "readByUserIds": [
+        "u_block_b_mgr",
+        "u_admin"
+      ],
+      "createdAtMs": 1795279140841
     }
   ]
 }

@@ -2,15 +2,20 @@ import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import type { RbacUserRecord, UserRoleId } from '../mobile/rbac/roles';
-import { INITIAL_JOURNAL_ENTRIES, INITIAL_SAYADI_CHECKS } from '../mobile/accounting/accountingEngine';
-import type { JournalEntry, SayadiCheck } from '../mobile/accounting/accountingEngine';
+import type { RbacUserRecord, UserRoleId } from '../mobile/rbac/roles.ts';
+import { INITIAL_JOURNAL_ENTRIES, INITIAL_SAYADI_CHECKS } from '../mobile/accounting/accountingEngine.ts';
+import type { JournalEntry, SayadiCheck } from '../mobile/accounting/accountingEngine.ts';
 import type {
   ApprovedVehicleDoc,
   ResidentSubmissionDoc,
   ResidentVehicleEntry,
   UnitInviteCodeDoc,
-} from '../mobile/utils/residentOnboarding';
+} from '../mobile/utils/residentOnboarding.ts';
+import {
+  buildDirectConversationId,
+  buildGroupConversationId,
+  type ChatMessageDoc,
+} from '../mobile/utils/chatConversations.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -236,6 +241,7 @@ export interface NoSqlCollections {
   unit_invite_codes: UnitInviteCodeDoc[];
   resident_submissions: ResidentSubmissionDoc[];
   approved_vehicles: ApprovedVehicleDoc[];
+  chat_messages: ChatMessageDoc[];
 }
 
 export type CollectionName = keyof NoSqlCollections;
@@ -1150,6 +1156,128 @@ function buildInitialSeed(): NoSqlCollections {
     },
   ];
 
+  const chat_messages: ChatMessageDoc[] = [
+    {
+      id: 'cmsg_101',
+      conversationId: buildGroupConversationId('grp_managers'),
+      kind: 'group',
+      senderUserId: 'u_admin',
+      senderName: 'مهندس شریفی (مدیر کل شهرک)',
+      senderRole: 'complex_manager',
+      body: 'سلام همکاران گرامی، صورت‌جلسه بررسی شارژ آذرماه و سرویس دوره‌ای پمپ‌های بلوک A و B در سامانه بارگذاری شد. لطفاً نظرات خود را اعلام بفرمایید.',
+      readByUserIds: ['u_admin', 'u_block_b_mgr', 'u_acc_complex', 'u_fac_chief'],
+      createdAtMs: now - 10 * 3600_000,
+    },
+    {
+      id: 'cmsg_102',
+      conversationId: buildGroupConversationId('grp_managers'),
+      kind: 'group',
+      senderUserId: 'u_block_b_mgr',
+      senderName: 'دکتر فراهانی (مدیر بلوک B)',
+      senderRole: 'block_manager',
+      blockId: 'B',
+      body: 'سلام جناب مهندس، گزارش هزینه‌های بوسترپمپ بلوک B با کد VCH-402-882 تایید شد. جدول معوقات بلوک هم آماده بررسی خانم طاهری است.',
+      replyToId: 'cmsg_101',
+      replyToSender: 'مهندس شریفی',
+      replyToSnippet: 'صورت‌جلسه بررسی شارژ آذرماه و سرویس دوره‌ای پمپ‌ها...',
+      readByUserIds: ['u_block_b_mgr', 'u_admin', 'u_acc_complex'],
+      createdAtMs: now - 7 * 3600_000,
+    },
+    {
+      id: 'cmsg_103',
+      conversationId: buildGroupConversationId('grp_managers'),
+      kind: 'group',
+      senderUserId: 'u_acc_complex',
+      senderName: 'خانم طاهری (مدیر حسابداری شهرک)',
+      senderRole: 'complex_accountant',
+      body: 'ممنون دکتر فراهانی؛ اکسل واریزی‌های بلوک B تطبیق خورد و ترازنامه دوره بسته شد.',
+      readByUserIds: ['u_acc_complex'],
+      createdAtMs: now - 2 * 3600_000,
+    },
+    {
+      id: 'cmsg_201',
+      conversationId: buildDirectConversationId('u_admin', 'u_block_b_mgr'),
+      kind: 'direct',
+      senderUserId: 'u_admin',
+      senderName: 'مهندس شریفی (مدیر کل شهرک)',
+      senderRole: 'complex_manager',
+      recipientUserId: 'u_block_b_mgr',
+      recipientName: 'دکتر فراهانی (مدیر بلوک B)',
+      blockId: 'B',
+      body: 'دکتر جان وضعیت نشتی واحد ۳۰۲ به کجا رسید؟ اگر نیاز به پیمانکار بیرونی است بفرمایید دستور بدهم.',
+      readByUserIds: ['u_admin', 'u_block_b_mgr'],
+      createdAtMs: now - 5 * 3600_000,
+    },
+    {
+      id: 'cmsg_202',
+      conversationId: buildDirectConversationId('u_admin', 'u_block_b_mgr'),
+      kind: 'direct',
+      senderUserId: 'u_block_b_mgr',
+      senderName: 'دکتر فراهانی (مدیر بلوک B)',
+      senderRole: 'block_manager',
+      recipientUserId: 'u_admin',
+      recipientName: 'مهندس شریفی (مدیر کل شهرک)',
+      blockId: 'B',
+      body: 'مهندس صابری الان در محل هستند، شیر فلکه موضعی بسته شده و تست فشار در حال انجام است. نتیجه را همین‌جا گزارش می‌کنم.',
+      readByUserIds: ['u_block_b_mgr'],
+      createdAtMs: now - 90 * 60_000,
+    },
+    {
+      id: 'cmsg_301',
+      conversationId: buildGroupConversationId('grp_operations'),
+      kind: 'group',
+      senderUserId: 'u_fac_chief',
+      senderName: 'مهندس صابری (سرپرست کل تاسیسات)',
+      senderRole: 'facilities_chief',
+      body: 'تیم گیت و سرایداری لطفاً هنگام ورود خودروهای خدماتی تاسیسات، کارت تردد و پلاک را در بخش انتظامات ثبت کنید.',
+      readByUserIds: ['u_fac_chief', 'u_guard_gate1'],
+      createdAtMs: now - 4 * 3600_000,
+    },
+    {
+      id: 'cmsg_401',
+      conversationId: buildDirectConversationId('u_block_b_mgr', 'u_res_b208'),
+      kind: 'direct',
+      senderUserId: 'u_res_b208',
+      senderName: 'آقای حسینی (ساکن واحد B-208)',
+      senderRole: 'resident',
+      senderUnitCode: 'B-208',
+      recipientUserId: 'u_block_b_mgr',
+      recipientName: 'دکتر فراهانی (مدیر بلوک B)',
+      blockId: 'B',
+      unitCode: 'B-208',
+      body: 'سلام جناب دکتر فراهانی، برای اسباب‌کشی یک دست مبل جدید پنجشنبه ساعت ۱۱ نیاز به هماهنگی آسانسور باربر داریم.',
+      readByUserIds: ['u_res_b208', 'u_block_b_mgr'],
+      createdAtMs: now - 8 * 3600_000,
+    },
+    {
+      id: 'cmsg_402',
+      conversationId: buildDirectConversationId('u_block_b_mgr', 'u_res_b208'),
+      kind: 'direct',
+      senderUserId: 'u_block_b_mgr',
+      senderName: 'دکتر فراهانی (مدیر بلوک B)',
+      senderRole: 'block_manager',
+      recipientUserId: 'u_res_b208',
+      recipientName: 'آقای حسینی (ساکن واحد B-208)',
+      blockId: 'B',
+      unitCode: 'B-208',
+      body: 'سلام آقای حسینی، با سرایدار بلوک هماهنگ شد؛ پنجشنبه از ساعت ۱۱ تا ۱۳ آسانسور باربر با ضربه‌گیر آماده خواهد بود. لطفاً پلاک وانت را در بخش ثبت مهمان وارد کنید.',
+      readByUserIds: ['u_block_b_mgr'],
+      createdAtMs: now - 6 * 3600_000,
+    },
+    {
+      id: 'cmsg_501',
+      conversationId: buildGroupConversationId('grp_block_B'),
+      kind: 'group',
+      senderUserId: 'u_block_b_mgr',
+      senderName: 'دکتر فراهانی (مدیر بلوک B)',
+      senderRole: 'block_manager',
+      blockId: 'B',
+      body: 'همسایگان گرامی بلوک B، شست‌وشوی رمپ پارکینگ فردا صبح ساعت ۹ انجام می‌شود. لطفاً خودروها را با هماهنگی سرایدار جابه‌جا بفرمایید.',
+      readByUserIds: ['u_block_b_mgr'],
+      createdAtMs: now - 3 * 3600_000,
+    },
+  ];
+
   return {
     users,
     blocks,
@@ -1167,6 +1295,7 @@ function buildInitialSeed(): NoSqlCollections {
     unit_invite_codes,
     resident_submissions,
     approved_vehicles,
+    chat_messages,
   };
 }
 
@@ -1242,6 +1371,10 @@ class EmbeddedNoSqlStore {
             Array.isArray(parsed.approved_vehicles) && parsed.approved_vehicles.length > 0
               ? parsed.approved_vehicles
               : seed.approved_vehicles,
+          chat_messages:
+            Array.isArray(parsed.chat_messages) && parsed.chat_messages.length > 0
+              ? parsed.chat_messages
+              : seed.chat_messages,
         };
         return merged;
       }

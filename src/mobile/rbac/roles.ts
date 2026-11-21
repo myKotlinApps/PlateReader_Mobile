@@ -1,3 +1,5 @@
+import type { UserAppearancePrefs } from '../theme/accessibilityPrefs.ts';
+
 export type UserRoleId =
   | 'complex_manager'
   | 'complex_accountant'
@@ -17,7 +19,7 @@ export type TempDurationPreset = 'half_day' | 'one_day' | 'two_days' | 'custom';
 export interface RoleDockTabSpec {
   id: string;
   label: string;
-  icon: 'home' | 'building' | 'wrench' | 'wallet' | 'mail' | 'shield' | 'clipboard' | 'user_home' | 'receipt' | 'car' | 'users';
+  icon: 'home' | 'building' | 'wrench' | 'wallet' | 'mail' | 'shield' | 'clipboard' | 'user_home' | 'receipt' | 'car' | 'users' | 'chat';
 }
 
 export interface RoleQuickActionSpec {
@@ -79,16 +81,7 @@ export interface RbacUserRecord {
   validUntilMs: number | null;
   active: boolean;
   createdAtMs: number;
-  preferences?: {
-    cornerStyle: 'sharp' | 'curved';
-    paletteId:
-      | 'niloofar_default'
-      | 'emerald_atelier'
-      | 'terracotta_sand'
-      | 'nordic_indigo'
-      | 'velvet_burgundy'
-      | 'graphite_cobalt';
-  };
+  preferences?: UserAppearancePrefs;
 }
 
 export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
@@ -101,15 +94,16 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
     description: 'دسترسی کامل به همه بلوک‌ها، تعریف مدیران بلوک و کادر، مالی، تاسیسات و انتظامات',
     icon: 'corporate_fare',
     defaultRoute: '/m/dashboard',
-    allowedSections: ['dashboard', 'block', 'facilities', 'finance', 'letters', 'guard', 'forms', 'notifications', 'users'],
+    allowedSections: ['dashboard', 'block', 'facilities', 'finance', 'letters', 'guard', 'forms', 'chat', 'notifications', 'users'],
     dockTabs: [
       { id: 'dashboard', label: 'خانه', icon: 'home' },
       { id: 'block', label: 'بلوک‌ها و کادر', icon: 'building' },
       { id: 'finance', label: 'مالی و حسابداری', icon: 'wallet' },
       { id: 'facilities', label: 'تاسیسات', icon: 'wrench' },
-      { id: 'guard', label: 'نگهبانی و گیت', icon: 'shield' },
+      { id: 'chat', label: 'گفتگوها', icon: 'chat' },
     ],
     quickActions: [
+      { title: 'پیام‌رسان شهرک', sub: 'چت مدیران، ساکنین و گروه‌های بلوک', icon: 'forum', tone: 'bg-primary-container/60 text-on-primary-container', route: 'chat' },
       { title: 'مدیریت اکسل بانکی', sub: 'پترن واریزی، نگاشت ستون‌ها و تطبیق شارژ', icon: 'table_view', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'finance?tab=excel' },
       { title: 'مدیریت اکانت سرایداران', sub: 'تعریف نام کاربری، رمز عبور و دسترسی بلوک‌ها', icon: 'cleaning_services', tone: 'bg-primary-container/60 text-on-primary-container', route: 'block?tab=caretakers' },
       { title: 'تعریف مدیر / پرسنل', sub: 'ساخت مدیر بلوک، حسابدار یا سرایدار', icon: 'person_add', tone: 'bg-primary-container/60 text-on-primary-container', route: 'block?tab=staff' },
@@ -142,15 +136,16 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
     description: 'حسابداری دوطرفه تجمیعی، تراز آزمایشی، صورت‌های مالی، تنخواه، اسناد پایا و تایید فیش‌ها',
     icon: 'account_balance',
     defaultRoute: '/m/finance?tab=accountant',
-    allowedSections: ['finance', 'dashboard', 'letters', 'notifications'],
+    allowedSections: ['finance', 'dashboard', 'letters', 'chat', 'notifications'],
     dockTabs: [
       { id: 'finance?tab=accountant', label: 'میز حسابدار', icon: 'wallet' },
       { id: 'finance?tab=units', label: 'واحدها و شارژ', icon: 'building' },
       { id: 'finance?tab=petty', label: 'تنخواه و بودجه', icon: 'receipt' },
       { id: 'finance?tab=reconcile', label: 'تطبیق بانکی', icon: 'clipboard' },
-      { id: 'letters', label: 'دبیرخانه', icon: 'mail' },
+      { id: 'chat', label: 'گفتگوها', icon: 'chat' },
     ],
     quickActions: [
+      { title: 'گفتگو با مدیران', sub: 'چت با مدیر کل، مدیران بلوک و گروه‌ها', icon: 'forum', tone: 'bg-primary-container/60 text-on-primary-container', route: 'chat' },
       { title: 'مدیریت اکسل بانکی', sub: 'پترن واریزی و تطبیق خودکار با شارژ', icon: 'table_view', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'finance?tab=excel' },
       { title: 'ثبت سند دوطرفه', sub: 'صدور سند جدید در دفتر روزنامه', icon: 'menu_book', tone: 'bg-primary-container/60 text-on-primary-container', route: 'finance?tab=accountant' },
       { title: 'تایید فیش‌های ساکنین', sub: 'صف فیش‌های واریزی در انتظار سند', icon: 'payments', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'finance?tab=accountant' },
@@ -170,15 +165,16 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
     description: 'مدیریت بحران نشتی‌ها، نقشه‌های شیرآلات کل شهرک، نظارت بر مسئولین تاسیسات بلوک‌ها',
     icon: 'engineering',
     defaultRoute: '/m/facilities?tab=leaks',
-    allowedSections: ['facilities', 'block', 'guard', 'letters', 'notifications'],
+    allowedSections: ['facilities', 'block', 'guard', 'letters', 'chat', 'notifications'],
     dockTabs: [
       { id: 'facilities?tab=leaks', label: 'نشتی و حوادث', icon: 'wrench' },
       { id: 'facilities?tab=blueprints', label: 'نقشه‌ها و شیرآلات', icon: 'building' },
       { id: 'block?tab=requests', label: 'خرابی واحدها', icon: 'clipboard' },
-      { id: 'block?tab=staff', label: 'تیم تاسیسات', icon: 'users' },
       { id: 'guard?tab=directives', label: 'هماهنگی گیت', icon: 'shield' },
+      { id: 'chat', label: 'گفتگوها', icon: 'chat' },
     ],
     quickActions: [
+      { title: 'چت تیم تاسیسات و مدیران', sub: 'گفتگوی سریع با مدیران بلوک و انتظامات', icon: 'forum', tone: 'bg-primary-container/60 text-on-primary-container', route: 'chat' },
       { title: 'ثبت گزارش نشتی', sub: 'اعلام حادثه جدید و قطع شیر فلکه', icon: 'water_damage', tone: 'bg-error-container/75 text-on-error-container', route: 'facilities?tab=leaks' },
       { title: 'تعریف مسئول تاسیسات بلوک', sub: 'اختصاص تکنسین به هر بلوک', icon: 'person_add', tone: 'bg-primary-container/60 text-on-primary-container', route: 'block?tab=staff' },
       { title: 'خرابی‌های ثبت‌شده ساکنین', sub: 'بررسی تصاویر و ارجاع تعمیرکار', icon: 'build', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'block?tab=requests' },
@@ -197,21 +193,22 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
     description: 'پنل اختصاصی مدیریت بلوک، تعریف سرایدار دائم و موقت، حسابدار و تاسیسات بلوک، ابلاغ تسک و پاسخ به ساکنین',
     icon: 'apartment',
     defaultRoute: '/m/block?tab=overview',
-    allowedSections: ['block', 'finance', 'facilities', 'letters', 'guard', 'notifications'],
+    allowedSections: ['block', 'finance', 'facilities', 'letters', 'guard', 'chat', 'notifications'],
     dockTabs: [
       { id: 'block?tab=overview', label: 'پنل بلوک', icon: 'building' },
       { id: 'block?tab=staff', label: 'کادر و موقت', icon: 'users' },
       { id: 'block?tab=tasks', label: 'وظایف سرایدار', icon: 'clipboard' },
-      { id: 'block?tab=requests', label: 'ساکنین بلوک', icon: 'mail' },
-      { id: 'finance?tab=units', label: 'مالی بلوک', icon: 'wallet' },
+      { id: 'block?tab=requests', label: 'خرابی واحدها', icon: 'wrench' },
+      { id: 'chat', label: 'گفتگوها', icon: 'chat' },
     ],
     quickActions: [
+      { title: 'صفحه چت و پیام‌رسان', sub: 'گفتگو با ساکنین، سایر مدیران و کادر بلوک', icon: 'forum', tone: 'bg-primary-container/60 text-on-primary-container', route: 'chat' },
       { title: 'مدیریت اکسل بانکی', sub: 'پترن واریزی، نگاشت ستون‌ها و تسویه شارژ', icon: 'table_view', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'block?tab=excel' },
       { title: 'مدیریت اکانت سرایداران', sub: 'نام کاربری، رمز عبور و دسترسی بلوک', icon: 'cleaning_services', tone: 'bg-primary-container/60 text-on-primary-container', route: 'block?tab=caretakers' },
       { title: 'تعریف سرایدار موقت', sub: 'دسترسی ۱۲ ساعته، ۱ روزه، ۲ روزه یا دلخواه', icon: 'schedule_send', tone: 'bg-primary-container/60 text-on-primary-container', route: 'block?tab=staff' },
       { title: 'ابلاغ تسک به سرایدار', sub: 'تعریف کار جدید و بررسی انجام کار', icon: 'assignment_add', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'block?tab=tasks' },
       { title: 'اعلان به ساکنین بلوک', sub: 'ارسال اطلاعیه به همه یا یک واحد', icon: 'campaign', tone: 'bg-primary-container/50 text-on-primary-container', route: 'block?tab=overview' },
-      { title: 'پیام‌ها و خرابی ساکنین', sub: 'مشاهده عکس خرابی و پاسخ به مکاتبه', icon: 'forum', tone: 'bg-error-container/75 text-on-error-container', route: 'block?tab=requests' },
+      { title: 'گزارش خرابی ساکنین', sub: 'مشاهده عکس خرابی و ارجاع به تاسیسات', icon: 'build', tone: 'bg-error-container/75 text-on-error-container', route: 'block?tab=requests' },
     ],
     canCreateRoles: [
       'block_accountant',
@@ -233,14 +230,15 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
     description: 'مدیریت شارژ و بدهی واحدهای بلوک، تایید فیش‌های واریزی ساکنین و ثبت سند در دفتر روزنامه',
     icon: 'calculate',
     defaultRoute: '/m/finance?tab=accountant',
-    allowedSections: ['finance', 'block', 'notifications'],
+    allowedSections: ['finance', 'block', 'chat', 'notifications'],
     dockTabs: [
       { id: 'finance?tab=accountant', label: 'دفاتر بلوک', icon: 'wallet' },
       { id: 'finance?tab=units', label: 'واحدهای بلوک', icon: 'building' },
       { id: 'finance?tab=charge', label: 'شارژ و قبض', icon: 'receipt' },
-      { id: 'finance?tab=reconcile', label: 'تطبیق فیش', icon: 'clipboard' },
+      { id: 'chat', label: 'گفتگوها', icon: 'chat' },
     ],
     quickActions: [
+      { title: 'چت با مدیر و ساکنین', sub: 'هماهنگی مالی و فیش‌های واریزی', icon: 'forum', tone: 'bg-primary-container/60 text-on-primary-container', route: 'chat' },
       { title: 'مدیریت اکسل بانکی', sub: 'تطبیق اکسل بانک با شارژ واحدهای بلوک', icon: 'table_view', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'finance?tab=excel' },
       { title: 'تایید فیش‌های ساکنین', sub: 'ثبت خودکار سند در دفاتر بلوک', icon: 'payments', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'finance?tab=accountant' },
       { title: 'ثبت سند جدید', sub: 'ثبت سند دوطرفه هزینه‌های بلوک', icon: 'menu_book', tone: 'bg-primary-container/60 text-on-primary-container', route: 'finance?tab=accountant' },
@@ -260,13 +258,15 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
     description: 'رسیدگی به خرابی‌های ثبت‌شده ساکنین بلوک، پرونده‌های نشتی آب و نقشه‌های شیرآلات بلوک',
     icon: 'handyman',
     defaultRoute: '/m/facilities?tab=leaks',
-    allowedSections: ['facilities', 'block', 'notifications'],
+    allowedSections: ['facilities', 'block', 'chat', 'notifications'],
     dockTabs: [
       { id: 'facilities?tab=leaks', label: 'نشتی بلوک', icon: 'wrench' },
       { id: 'block?tab=requests', label: 'خرابی واحدها', icon: 'clipboard' },
       { id: 'facilities?tab=blueprints', label: 'نقشه بلوک', icon: 'building' },
+      { id: 'chat', label: 'گفتگوها', icon: 'chat' },
     ],
     quickActions: [
+      { title: 'چت با مدیر و تاسیسات', sub: 'هماهنگی تعمیرات و اعزام به واحدها', icon: 'forum', tone: 'bg-primary-container/60 text-on-primary-container', route: 'chat' },
       { title: 'خرابی‌های واحدها', sub: 'بررسی عکس‌های ارسالی ساکنین بلوک', icon: 'build', tone: 'bg-primary-container/60 text-on-primary-container', route: 'block?tab=requests' },
       { title: 'ثبت گزارش نشتی', sub: 'اعلام فوری نشتی و درخواست بستن شیر', icon: 'water_damage', tone: 'bg-error-container/75 text-on-error-container', route: 'facilities?tab=leaks' },
       { title: 'نقشه شیرآلات بلوک', sub: 'یافتن سریع رایزر و شیر فلکه واحد', icon: 'architecture', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'facilities?tab=blueprints' },
@@ -284,13 +284,15 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
     description: 'دریافت وظایف و چک‌لیست از مدیر بلوک، ثبت گزارش و عکس انجام کار، اعلام اشکالات مشاعات',
     icon: 'cleaning_services',
     defaultRoute: '/m/caretaker?tab=tasks',
-    allowedSections: ['caretaker', 'notifications'],
+    allowedSections: ['caretaker', 'chat', 'notifications'],
     dockTabs: [
       { id: 'caretaker?tab=tasks', label: 'وظایف من', icon: 'clipboard' },
       { id: 'caretaker?tab=done', label: 'تاییدشده‌ها', icon: 'building' },
       { id: 'caretaker?tab=report', label: 'گزارش مشاعات', icon: 'wrench' },
+      { id: 'chat', label: 'گفتگوها', icon: 'chat' },
     ],
     quickActions: [
+      { title: 'چت با مدیر بلوک و گیت', sub: 'پیام‌رسان هماهنگی شیفت و مشاعات', icon: 'forum', tone: 'bg-primary-container/60 text-on-primary-container', route: 'chat' },
       { title: 'وظایف در انتظار انجام', sub: 'مشاهده تسک‌های ابلاغی مدیر بلوک', icon: 'checklist', tone: 'bg-primary-container/60 text-on-primary-container', route: 'caretaker?tab=tasks' },
       { title: 'گزارش مشکل مشاعات', sub: 'اعلام خرابی لامپ، آسانسور یا نظافت', icon: 'report_problem', tone: 'bg-error-container/75 text-on-error-container', route: 'caretaker?tab=report' },
     ],
@@ -307,13 +309,15 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
     description: 'دسترسی زمان‌دار (نصف روز / ۱ روز / ۲ روز / بازه دلخواه) برای انجام وظایف ابلاغی مدیر بلوک',
     icon: 'schedule',
     defaultRoute: '/m/caretaker?tab=tasks',
-    allowedSections: ['caretaker', 'notifications'],
+    allowedSections: ['caretaker', 'chat', 'notifications'],
     dockTabs: [
       { id: 'caretaker?tab=tasks', label: 'وظایف شیفت', icon: 'clipboard' },
       { id: 'caretaker?tab=done', label: 'انجام‌شده', icon: 'building' },
       { id: 'caretaker?tab=report', label: 'اعلام مشکل', icon: 'wrench' },
+      { id: 'chat', label: 'گفتگوها', icon: 'chat' },
     ],
     quickActions: [
+      { title: 'چت با مدیر بلوک', sub: 'هماهنگی سریع وظایف شیفت موقت', icon: 'forum', tone: 'bg-primary-container/60 text-on-primary-container', route: 'chat' },
       { title: 'تسک‌های شیفت موقت', sub: 'انجام وظایف ابلاغ‌شده قبل از پایان مهلت', icon: 'checklist', tone: 'bg-primary-container/60 text-on-primary-container', route: 'caretaker?tab=tasks' },
       { title: 'گزارش فوری به مدیر بلوک', sub: 'ثبت مورد اضطراری در مشاعات', icon: 'report_problem', tone: 'bg-error-container/75 text-on-error-container', route: 'caretaker?tab=report' },
     ],
@@ -330,14 +334,15 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
     description: 'ثبت تردد با پلاک واقعی ایران، کنترل مجوزهای مهمان ثبت‌شده توسط ساکنین، اجرای دستورات مدیریت',
     icon: 'shield',
     defaultRoute: '/m/guard?tab=gate',
-    allowedSections: ['guard', 'notifications'],
+    allowedSections: ['guard', 'chat', 'notifications'],
     dockTabs: [
       { id: 'guard?tab=gate', label: 'تردد و پلاک', icon: 'car' },
       { id: 'guard?tab=permits', label: 'مجوز مهمان', icon: 'clipboard' },
       { id: 'guard?tab=directives', label: 'دستورات', icon: 'shield' },
-      { id: 'guard?tab=incident', label: 'گزارش حادثه', icon: 'wrench' },
+      { id: 'chat', label: 'گفتگوها', icon: 'chat' },
     ],
     quickActions: [
+      { title: 'چت انتظامات و مدیران', sub: 'ارتباط مستقیم با مدیران بلوک و ساکنین', icon: 'forum', tone: 'bg-primary-container/60 text-on-primary-container', route: 'chat' },
       { title: 'ثبت ورود/خروج خودرو', sub: 'ورودی پلاک واقعی ۱۴گانه ایران', icon: 'directions_car', tone: 'bg-primary-container/60 text-on-primary-container', route: 'guard?tab=gate' },
       { title: 'مجوزهای مهمان ساکنین', sub: 'تایید ورود مهمان‌های ثبت‌شده', icon: 'badge', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'guard?tab=permits' },
       { title: 'دستورات فوری مدیران', sub: 'بستن شیر فلکه و کنترل باربری', icon: 'assignment_late', tone: 'bg-error-container/75 text-on-error-container', route: 'guard?tab=directives' },
@@ -355,19 +360,19 @@ export const ROLE_DEFINITIONS: Record<UserRoleId, RoleDefinition> = {
     description: 'مکاتبه با مدیر بلوک، ثبت مهمان در انتظامات، اعلام خرابی واحد با عکس، ارسال فیش شارژ و اعلان‌ها',
     icon: 'home',
     defaultRoute: '/m/resident?tab=home',
-    allowedSections: ['resident', 'notifications'],
+    allowedSections: ['resident', 'chat', 'notifications'],
     dockTabs: [
       { id: 'resident?tab=home', label: 'واحد من', icon: 'user_home' },
       { id: 'resident?tab=charge', label: 'شارژ و فیش', icon: 'receipt' },
       { id: 'resident?tab=guest', label: 'مهمان گیت', icon: 'car' },
       { id: 'resident?tab=repair', label: 'خرابی واحد', icon: 'wrench' },
-      { id: 'resident?tab=messages', label: 'مدیر بلوک', icon: 'mail' },
+      { id: 'chat', label: 'گفتگوها', icon: 'chat' },
     ],
     quickActions: [
       { title: 'ارسال فیش شارژ', sub: 'آپلود تصویر فیش و تایید خودکار حسابدار', icon: 'receipt_long', tone: 'bg-secondary-container/60 text-on-secondary-container', route: 'resident?tab=charge' },
       { title: 'ثبت مهمان در انتظامات', sub: 'ثبت پلاک مهمان برای ورود سریع از گیت', icon: 'directions_car', tone: 'bg-primary-container/60 text-on-primary-container', route: 'resident?tab=guest' },
       { title: 'اعلام خرابی با تصویر', sub: 'ارسال عکس خرابی واحد به مدیر و تاسیسات', icon: 'add_a_photo', tone: 'bg-error-container/75 text-on-error-container', route: 'resident?tab=repair' },
-      { title: 'مکاتبه با مدیر بلوک', sub: 'ارسال پیام مستقیم و دریافت پاسخ', icon: 'chat', tone: 'bg-primary-container/50 text-on-primary-container', route: 'resident?tab=messages' },
+      { title: 'صفحه چت و پیام‌رسان', sub: 'گفتگو با مدیر بلوک، گیت و گروه بلوک', icon: 'forum', tone: 'bg-primary-container/50 text-on-primary-container', route: 'chat' },
     ],
     canCreateRoles: [],
     scopeLevel: 'unit',
